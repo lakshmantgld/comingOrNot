@@ -1,0 +1,30 @@
+{
+  "mongodb": {
+    "protocol": "mongodb",
+    "hostname": "localhost",
+    "port": "27017",
+    "path": "test"
+  },
+
+  "node": {
+    "url": "http://localhost:3000",
+    "path": "/"
+  },
+
+  "oauth": {
+      "protocol": "https",
+      "port": "443",
+      "hostname": "sd1.dcpfs.net",
+      "authorizeURL": "/oauth/authorize",
+      "tokenURL": "/oauth/access_token",
+      "profileURL": "/v1/users/me",
+      "clientID": "c790de86-e78c-4ada-aa0c-265ff6065982",
+      "clientSecret": "7659cca5-0968-4233-a8ee-397217698fb8",
+      "callbackURL": "http://localhost:3000/auth"
+  },
+
+  "ansible": {
+    "keyPairStore": "/Users/lakshman/fxreact/keypair",
+    "store": "/Users/lakshman/fxreact/playbook"
+  }
+}
