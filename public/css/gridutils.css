@@ -1,0 +1,93 @@
+/* for xs */
+.hidden-sm,
+.hidden-md,
+.hidden-lg {
+  visibility: visible;
+  display: block;
+}
+.visible-sm,
+.visible-md,
+.visible-lg {
+  visibility: hidden;
+  display: none;
+}
+.hidden-xs {
+  visibility: hidden;
+  display: none;
+}
+.visible-xs {
+  visibility: visible;
+  display: block;
+}
+
+/* for sm */
+@media only screen and (min-width: 48em) {
+  .hidden-xs,
+  .hidden-md,
+  .hidden-lg {
+    visibility: visible;
+    display: block;
+  }
+  .visible-xs,
+  .visible-md,
+  .visible-lg {
+    visibility: hidden;
+    display: none;
+  }
+  .hidden-sm {
+    visibility: hidden;
+    display: none;
+  }
+  .visible-sm {
+    visibility: visible;
+    display: block;
+  }
+}
+
+/* for md */
+@media only screen and (min-width: 64em) {
+  .hidden-xs,
+  .hidden-sm,
+  .hidden-lg {
+    visibility: visible;
+    display: block;
+  }
+  .visible-xs,
+  .visible-sm,
+  .visible-lg {
+    visibility: hidden;
+    display: none;
+  }
+  .hidden-md {
+    visibility: hidden;
+    display: none;
+  }
+  .visible-md {
+    visibility: visible;
+    display: block;
+  }
+}
+
+/* for lg */
+@media only screen and (min-width: 75em) {
+  .hidden-xs,
+  .hidden-sm,
+  .hidden-md {
+    visibility: visible;
+    display: block;
+  }
+  .visible-xs,
+  .visible-sm,
+  .visible-md {
+    visibility: hidden;
+    display: none;
+  }
+  .hidden-lg {
+    visibility: hidden;
+    display: none;
+  }
+  .visible-lg {
+    visibility: visible;
+    display: block;
+  }
+}

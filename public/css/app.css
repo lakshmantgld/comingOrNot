@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+}
+
+.headerBar a,
+.headerBar a:link,
+.headerBar a:visited,
+.headerBar a:hover {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.headerMenu {
+  margin-top: 0;
+}
+
+@media only screen and (min-width: 48em) {
+  .headerMenu {
+    margin-top: 8px;
+  }
+}
+
+.headerMenu span {
+  color: #FFFFFF;
+}
+
+a.accountListItem, a.playbookListItem {
+  text-decoration: none;
+}
+
+.accountValue {
+  padding-left: 24px;
+}
+
+.row {
+  width: 100%;
+  margin: 0;
+}
