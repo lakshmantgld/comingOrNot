@@ -1,0 +1,50 @@
+doctype html
+html
+  //
+    purpose of the file:
+    1. Page for inputting the worker instances
+    2. submits the details to modsession.hjs
+    3. redirects to playbook execution page or modexection.
+    author: Lakshman Diwaakar (fx30540)
+    mail-id: Lakshman.Diwaakar@fujixerox.co.jp
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    script(type='text/javascript').
+      function postToModsession() {
+      var count = document.getElementById("count").value;
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+      window.location = !{url} + "/modstatusshow"
+      }
+      }
+      var url = !{url} + "/modsession?workerno=" + count;
+      xhr.open("POST", url, true);
+      xhr.send();
+      }
+    link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.css')
+    // <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  body
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='javascripts/bootstrap.js')
+    // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    .container
+      center
+        h1  Input the no. of Worker instances 
+      br
+      br
+      .row
+        center
+          .col-sm-3
+            label.control-label(for='worker')  No.of Worker Instances: 
+          .col-sm-2
+            input#count.form-control(type='textbox', placeholder='Worker')
+      br
+      br
+      center
+        button#stop.btn.btn-success(onclick='postToModsession()', type='button') Add Worker
+      br
+      br
+      br

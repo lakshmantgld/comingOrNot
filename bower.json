@@ -1,0 +1,22 @@
+{
+  "name": "ansible-web",
+  "version": "0.0.1",
+  "main": "bin/www",
+  "keywords": [
+    "ansible"
+  ],
+  "license": "Xerox",
+  "homepage": "https://sd9.dcpfs.net/gitlab/applications/ansible-web",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "flexboxgrid": "^6.3.0",
+    "material-design-icons": "^2.2.3",
+    "react-copy-to-clipboard": "https://npmcdn.com/react-copy-to-clipboard/bower.zip"
+  }
+}

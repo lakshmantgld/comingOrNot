@@ -1,0 +1,70 @@
+doctype html
+html
+  //
+    purpose of the file:
+    1. signup for entering the credentials.
+    2. submits the details to credentials.js
+    3. redirects to list.hjs
+    author: Lakshman Diwaakar (fx30540)
+    mail-id: Lakshman.Diwaakar@fujixerox.co.jp
+  head
+    meta(charset='UTF-8')
+    // <link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
+    link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.css')
+  body
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='javascripts/bootstrap.js')
+    .container
+      center
+        h1  Dashboard 
+      br
+      center
+        h3  The Deployment Details 
+        p
+          b   VPC :
+          |  #{vpcName}
+        p
+          b   Public security group: 
+          | #{publicSecurityGroup}
+        p
+          b   Private security group: 
+          | #{privateSecurityGroup}
+        br
+        h4  Reverse Proxy Details: 
+        p
+          b  size: 
+          | #{rpDetails.size}
+        p
+          b  Ip: 
+          | #{rpDetails.rpIp}
+        p
+          b  Security Group: 
+          | #{rpDetails.securityGroup}
+        br
+        h4  Master  Details: 
+        p
+          b  size: 
+          | #{masterDetails.size}
+        p
+          b  Ip: 
+          | #{masterDetails.masterIp}
+        p  
+          b Security Group: 
+          | #{masterDetails.securityGroup}
+        br
+        br
+        h4  Worker Details: 
+        for worker in workerDetails
+          p
+            b  size: 
+            | #{worker.size}
+          p
+            b  Ip: 
+            | #{worker.workerIp}
+          p
+            b  Security Group: 
+            | #{worker.securityGroup}
+          p
+            b  Instance Id: 
+            | #{worker.instanceId}
+        
