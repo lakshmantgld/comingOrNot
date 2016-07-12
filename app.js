@@ -11,8 +11,22 @@ import http from 'http';
 
 import config from './config/config.json';
 
-// connect to DB
-mongoose.connect(process.env.MONGOLAB_URI);
+let uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/HelloMongoose';
+
+mongoose.connect(uristring, function (err, res) {
+  if (err) {
+  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+  console.log ('Succeeded connected to: ' + uristring);
+  }
+});// connect to DB
+// mongoose.connect(url.format({
+//   protocol: config.mongodb.protocol,
+//   slashes: true,
+//   hostname: config.mongodb.hostname,
+//   port: config.mongodb.port,
+//   pathname: config.mongodb.path
+// }));
 
 let app = express();
 
