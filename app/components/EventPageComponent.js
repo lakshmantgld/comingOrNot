@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { grey100, grey600, red500 } from 'material-ui/styles/colors';
+import { grey100, grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import TimePicker from 'material-ui/TimePicker';
@@ -21,6 +21,8 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent  } from './../actions/registerActions';
 
+let dateStatus;
+
 let styles = {
   formTab: {
     paddingBottom: '16px'
@@ -35,6 +37,16 @@ let styles = {
   formLabel: {
     text: 'bold',
     fontSize: '25px',
+    color: grey600
+  },
+  formLabel2: {
+    text: 'bold',
+    fontSize: '25px',
+    color: blue500
+  },
+  formLabel3: {
+    text: 'bold',
+    fontSize: '21.5px',
     color: grey600
   },
   dateLabel: {
@@ -63,8 +75,16 @@ let styles = {
   icon: {
     marginRight: 24
   },
+  icon2: {
+    marginRight: 10
+  },
   block: {
-    maxWidth: 250,
+    maxWidth: 100,
+    marginBottom: 16
+  },
+  block1: {
+    maxWidth: 115,
+    marginBottom: 16
   },
   radioButton: {
     marginBottom: 16,
@@ -133,20 +153,107 @@ class EventPageComponent extends Component {
     }
   }
 
+  fillFreeStatus() {
+    let dateStatusArray = this.props.eventObj.dateArray;
+    dateStatus = {};
+    dateStatus['free'] = {};
+    dateStatus['maybe'] = {};
+    dateStatus['busy'] = {};
+    for (let i=0; i<dateStatusArray.length; i++) {
+      dateStatus['free'][dateStatusArray[i]] = 0;
+      dateStatus['maybe'][dateStatusArray[i]] = 0;
+      dateStatus['busy'][dateStatusArray[i]] = 0;
+    }
+
+    for (let j=0; j<this.props.eventObj.attendees.length; j++) {
+      let attendeesDateSelection = this.props.eventObj.attendees[j].personalizedDateSelection;
+      for (let key in attendeesDateSelection) {
+        if (attendeesDateSelection.hasOwnProperty(key)) {
+          for (let dateStatuskey in dateStatus['free']) {
+            if (dateStatus['free'].hasOwnProperty(dateStatuskey)) {
+              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'free')) {
+                dateStatus['free'][dateStatuskey] = dateStatus['free'][dateStatuskey] + 1;
+              }
+              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'maybe')) {
+                dateStatus['maybe'][dateStatuskey] = dateStatus['maybe'][dateStatuskey] + 1;
+              }
+              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'busy')) {
+                dateStatus['busy'][dateStatuskey] = dateStatus['busy'][dateStatuskey] + 1;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let arrFree = Object.keys(dateStatus['free']).map(function (key) {return dateStatus['free'][key]});
+
+    return (
+      <Column
+        header={<Cell>Free</Cell>}
+        cell={props => (
+          <Cell {...props}>
+            {arrFree[props.rowIndex]}
+          </Cell>
+        )}
+        width={100}
+      />
+    );
+  }
+
+  fillMaybeStatus() {
+    let arrMaybe = Object.keys(dateStatus['maybe']).map(function (key) {return dateStatus['maybe'][key]});
+
+    return (
+      <Column
+        header={<Cell>May be</Cell>}
+        cell={props => (
+          <Cell {...props}>
+            {arrMaybe[props.rowIndex]}
+          </Cell>
+        )}
+        width={100}
+      />
+    );
+
+  }
+
+  fillBusyStatus() {
+    let arrBusy = Object.keys(dateStatus['busy']).map(function (key) {return dateStatus['busy'][key]});
+
+    return (
+      <Column
+        header={<Cell>Busy</Cell>}
+        cell={props => (
+          <Cell {...props}>
+            {arrBusy[props.rowIndex]}
+          </Cell>
+        )}
+        width={100}
+      />
+    );
+
+  }
 
   fillAttendeeDetails() {
-    console.log('in fillAttendeeDetails');
     let attendees = this.props.eventObj.attendees;
     let dateArray = this.props.eventObj.dateArray;
     if (attendees.length !== 0) {
       let attendeesColumn = attendees.map((attendee, i) => {
-        console.log('in attendee map');
         let orderedDateStausArray = [];
         dateArray.map((date, i) => {
           for (let key in attendee.personalizedDateSelection) {
             if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
               if (date === key) {
-                orderedDateStausArray.push(attendee.personalizedDateSelection[key]);
+                if (attendee.personalizedDateSelection[key] === 'free') {
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_available</FontIcon>);
+                }
+                if (attendee.personalizedDateSelection[key] === 'maybe') {
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>warning</FontIcon>);
+                }
+                if (attendee.personalizedDateSelection[key] === 'busy') {
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_busy</FontIcon>);
+                }
               }
             }
           }
@@ -159,7 +266,7 @@ class EventPageComponent extends Component {
                 {orderedDateStausArray[props.rowIndex]}
               </Cell>
             )}
-            width={200}
+            width={100}
           />
         );
       });
@@ -174,34 +281,35 @@ class EventPageComponent extends Component {
     return dateArray.map((date, i) =>{
       return (
         <div className='row'>
-          <div className='col-xs-offset-4 col-xs-2'>
+          <div className='col-xs-3'>
+          </div>
+          <div className='col-xs-offset-1 col-xs-2'>
             <label style={styles.dateLabel}> {date} </label>
           </div>
           <div className='col-xs'>
-            <br />
-            <RadioButtonGroup name="shipSpeed" onChange={this.handleDateToogle.bind(this, date)} defaultSelected="busy">
-                <RadioButton
-                  value="free"
-                  label=""
-                  checkedIcon={<FontIcon className="material-icons" color={red500} style={styles.icon}>event_available</FontIcon>}
-                  uncheckedIcon={<FontIcon className="material-icons" style={styles.icon}>event_available</FontIcon>}
-                  style={styles.radioButton}
-                />
-                <RadioButton
-                  value="maybe"
-                  label=""
-                  checkedIcon={<FontIcon className="material-icons" color={red500} style={styles.icon}>warning</FontIcon>}
-                  uncheckedIcon={<FontIcon className="material-icons" style={styles.icon}>warning</FontIcon>}
-                  style={styles.radioButton}
-                />
-                <RadioButton
-                  value="busy"
-                  label=""
-                  checkedIcon={<FontIcon className="material-icons" color={red500} style={styles.icon}>event_busy</FontIcon>}
-                  uncheckedIcon={<FontIcon className="material-icons" style={styles.icon}>event_busy</FontIcon>}
-                  style={styles.radioButton}
-                />
-            </RadioButtonGroup>
+              <RadioButtonGroup name='shipSpeed' style={{ display: 'flex' }} onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                  <RadioButton
+                    value='free'
+                    label='Free'
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_available</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_available</FontIcon>}
+                    style={styles.block}
+                  />
+                  <RadioButton
+                    value='maybe'
+                    label='MayBe'
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>warning</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>warning</FontIcon>}
+                    style={styles.block1}
+                  />
+                  <RadioButton
+                    value='busy'
+                    label='Busy'
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_busy</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_busy</FontIcon>}
+                    style={styles.block}
+                  />
+              </RadioButtonGroup>
           </div>
         </div>
       );
@@ -215,7 +323,6 @@ class EventPageComponent extends Component {
     if (Object.keys(this.props.eventObj).length === 0 && this.props.eventObj.constructor === Object) {
       result = (
         <div>
-          <h1> Object empty </h1>
         </div>
       );
     } else {
@@ -223,8 +330,18 @@ class EventPageComponent extends Component {
 
       result = (
         <div>
+          <br />
           <div className='row center-xs'>
             <label style={styles.formLabel}> The Event Table </label>
+          </div>
+          <br />
+          <div className='row'>
+            <div className='col-xs-offset-2 col-xs-4'>
+              <label style={styles.formLabel3}> No of people who entered the available dates: </label>
+            </div>
+            <div className='col-xs'>
+              <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
+            </div>
           </div>
           <br />
           <div className='row center-xs'>
@@ -243,23 +360,11 @@ class EventPageComponent extends Component {
                   </Cell>
                 )}
                 fixed={true}
-                width={200}
+                width={180}
               />
-              <Column
-                header={<Cell>Free</Cell>}
-                cell={<cell>Free</cell>}
-                width={200}
-              />
-              <Column
-                header={<Cell>May be</Cell>}
-                cell={<cell>May be</cell>}
-                width={200}
-              />
-              <Column
-                header={<Cell>Busy</Cell>}
-                cell={<cell>Busy</cell>}
-                width={200}
-              />
+              {this.fillFreeStatus()}
+              {this.fillMaybeStatus()}
+              {this.fillBusyStatus()}
               {this.fillAttendeeDetails()}
             </Table>
           </div>

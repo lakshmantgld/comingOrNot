@@ -346,6 +346,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var dateStatus = void 0;
+
 var styles = {
   formTab: {
     paddingBottom: '16px'
@@ -360,6 +362,16 @@ var styles = {
   formLabel: {
     text: 'bold',
     fontSize: '25px',
+    color: _colors.grey600
+  },
+  formLabel2: {
+    text: 'bold',
+    fontSize: '25px',
+    color: _colors.blue500
+  },
+  formLabel3: {
+    text: 'bold',
+    fontSize: '21.5px',
     color: _colors.grey600
   },
   dateLabel: {
@@ -388,8 +400,16 @@ var styles = {
   icon: {
     marginRight: 24
   },
+  icon2: {
+    marginRight: 10
+  },
   block: {
-    maxWidth: 250
+    maxWidth: 100,
+    marginBottom: 16
+  },
+  block1: {
+    maxWidth: 115,
+    marginBottom: 16
   },
   radioButton: {
     marginBottom: 16
@@ -473,20 +493,139 @@ var EventPageComponent = function (_Component) {
       }
     }
   }, {
+    key: 'fillFreeStatus',
+    value: function fillFreeStatus() {
+      var dateStatusArray = this.props.eventObj.dateArray;
+      dateStatus = {};
+      dateStatus['free'] = {};
+      dateStatus['maybe'] = {};
+      dateStatus['busy'] = {};
+      for (var i = 0; i < dateStatusArray.length; i++) {
+        dateStatus['free'][dateStatusArray[i]] = 0;
+        dateStatus['maybe'][dateStatusArray[i]] = 0;
+        dateStatus['busy'][dateStatusArray[i]] = 0;
+      }
+
+      for (var j = 0; j < this.props.eventObj.attendees.length; j++) {
+        var attendeesDateSelection = this.props.eventObj.attendees[j].personalizedDateSelection;
+        for (var key in attendeesDateSelection) {
+          if (attendeesDateSelection.hasOwnProperty(key)) {
+            for (var dateStatuskey in dateStatus['free']) {
+              if (dateStatus['free'].hasOwnProperty(dateStatuskey)) {
+                if (key === dateStatuskey && attendeesDateSelection[key] === 'free') {
+                  dateStatus['free'][dateStatuskey] = dateStatus['free'][dateStatuskey] + 1;
+                }
+                if (key === dateStatuskey && attendeesDateSelection[key] === 'maybe') {
+                  dateStatus['maybe'][dateStatuskey] = dateStatus['maybe'][dateStatuskey] + 1;
+                }
+                if (key === dateStatuskey && attendeesDateSelection[key] === 'busy') {
+                  dateStatus['busy'][dateStatuskey] = dateStatus['busy'][dateStatuskey] + 1;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      var arrFree = Object.keys(dateStatus['free']).map(function (key) {
+        return dateStatus['free'][key];
+      });
+
+      return _react2.default.createElement(_fixedDataTable.Column, {
+        header: _react2.default.createElement(
+          _fixedDataTable.Cell,
+          null,
+          'Free'
+        ),
+        cell: function cell(props) {
+          return _react2.default.createElement(
+            _fixedDataTable.Cell,
+            props,
+            arrFree[props.rowIndex]
+          );
+        },
+        width: 100
+      });
+    }
+  }, {
+    key: 'fillMaybeStatus',
+    value: function fillMaybeStatus() {
+      var arrMaybe = Object.keys(dateStatus['maybe']).map(function (key) {
+        return dateStatus['maybe'][key];
+      });
+
+      return _react2.default.createElement(_fixedDataTable.Column, {
+        header: _react2.default.createElement(
+          _fixedDataTable.Cell,
+          null,
+          'May be'
+        ),
+        cell: function cell(props) {
+          return _react2.default.createElement(
+            _fixedDataTable.Cell,
+            props,
+            arrMaybe[props.rowIndex]
+          );
+        },
+        width: 100
+      });
+    }
+  }, {
+    key: 'fillBusyStatus',
+    value: function fillBusyStatus() {
+      var arrBusy = Object.keys(dateStatus['busy']).map(function (key) {
+        return dateStatus['busy'][key];
+      });
+
+      return _react2.default.createElement(_fixedDataTable.Column, {
+        header: _react2.default.createElement(
+          _fixedDataTable.Cell,
+          null,
+          'Busy'
+        ),
+        cell: function cell(props) {
+          return _react2.default.createElement(
+            _fixedDataTable.Cell,
+            props,
+            arrBusy[props.rowIndex]
+          );
+        },
+        width: 100
+      });
+    }
+  }, {
     key: 'fillAttendeeDetails',
     value: function fillAttendeeDetails() {
-      console.log('in fillAttendeeDetails');
       var attendees = this.props.eventObj.attendees;
       var dateArray = this.props.eventObj.dateArray;
       if (attendees.length !== 0) {
         var attendeesColumn = attendees.map(function (attendee, i) {
-          console.log('in attendee map');
           var orderedDateStausArray = [];
           dateArray.map(function (date, i) {
             for (var key in attendee.personalizedDateSelection) {
               if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
                 if (date === key) {
-                  orderedDateStausArray.push(attendee.personalizedDateSelection[key]);
+                  if (attendee.personalizedDateSelection[key] === 'free') {
+                    orderedDateStausArray.push(_react2.default.createElement(
+                      _FontIcon2.default,
+                      { className: 'material-icons', color: _colors.blue500, style: styles.icon2 },
+                      'event_available'
+                    ));
+                  }
+                  if (attendee.personalizedDateSelection[key] === 'maybe') {
+                    orderedDateStausArray.push(_react2.default.createElement(
+                      _FontIcon2.default,
+                      { className: 'material-icons', color: _colors.blue500, style: styles.icon2 },
+                      'warning'
+                    ));
+                  }
+                  if (attendee.personalizedDateSelection[key] === 'busy') {
+                    orderedDateStausArray.push(_react2.default.createElement(
+                      _FontIcon2.default,
+                      { className: 'material-icons', color: _colors.blue500, style: styles.icon2 },
+                      'event_busy'
+                    ));
+                  }
                 }
               }
             }
@@ -504,7 +643,7 @@ var EventPageComponent = function (_Component) {
                 orderedDateStausArray[props.rowIndex]
               );
             },
-            width: 200
+            width: 100
           });
         });
         return attendeesColumn;
@@ -522,9 +661,10 @@ var EventPageComponent = function (_Component) {
         return _react2.default.createElement(
           'div',
           { className: 'row' },
+          _react2.default.createElement('div', { className: 'col-xs-3' }),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-offset-4 col-xs-2' },
+            { className: 'col-xs-offset-1 col-xs-2' },
             _react2.default.createElement(
               'label',
               { style: styles.dateLabel },
@@ -536,13 +676,12 @@ var EventPageComponent = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'col-xs' },
-            _react2.default.createElement('br', null),
             _react2.default.createElement(
               _RadioButton.RadioButtonGroup,
-              { name: 'shipSpeed', onChange: _this3.handleDateToogle.bind(_this3, date), defaultSelected: 'busy' },
+              { name: 'shipSpeed', style: { display: 'flex' }, onChange: _this3.handleDateToogle.bind(_this3, date), defaultSelected: 'busy' },
               _react2.default.createElement(_RadioButton.RadioButton, {
                 value: 'free',
-                label: '',
+                label: 'Free',
                 checkedIcon: _react2.default.createElement(
                   _FontIcon2.default,
                   { className: 'material-icons', color: _colors.red500, style: styles.icon },
@@ -553,11 +692,11 @@ var EventPageComponent = function (_Component) {
                   { className: 'material-icons', style: styles.icon },
                   'event_available'
                 ),
-                style: styles.radioButton
+                style: styles.block
               }),
               _react2.default.createElement(_RadioButton.RadioButton, {
                 value: 'maybe',
-                label: '',
+                label: 'MayBe',
                 checkedIcon: _react2.default.createElement(
                   _FontIcon2.default,
                   { className: 'material-icons', color: _colors.red500, style: styles.icon },
@@ -568,11 +707,11 @@ var EventPageComponent = function (_Component) {
                   { className: 'material-icons', style: styles.icon },
                   'warning'
                 ),
-                style: styles.radioButton
+                style: styles.block1
               }),
               _react2.default.createElement(_RadioButton.RadioButton, {
                 value: 'busy',
-                label: '',
+                label: 'Busy',
                 checkedIcon: _react2.default.createElement(
                   _FontIcon2.default,
                   { className: 'material-icons', color: _colors.red500, style: styles.icon },
@@ -583,7 +722,7 @@ var EventPageComponent = function (_Component) {
                   { className: 'material-icons', style: styles.icon },
                   'event_busy'
                 ),
-                style: styles.radioButton
+                style: styles.block
               })
             )
           )
@@ -598,15 +737,7 @@ var EventPageComponent = function (_Component) {
       var result = void 0;
 
       if (Object.keys(this.props.eventObj).length === 0 && this.props.eventObj.constructor === Object) {
-        result = _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'h1',
-            null,
-            ' Object empty '
-          )
-        );
+        result = _react2.default.createElement('div', null);
       } else {
         (function () {
           var dateArray = _this4.props.eventObj.dateArray;
@@ -614,6 +745,7 @@ var EventPageComponent = function (_Component) {
           result = _react2.default.createElement(
             'div',
             null,
+            _react2.default.createElement('br', null),
             _react2.default.createElement(
               'div',
               { className: 'row center-xs' },
@@ -621,6 +753,31 @@ var EventPageComponent = function (_Component) {
                 'label',
                 { style: styles.formLabel },
                 ' The Event Table '
+              )
+            ),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs-offset-2 col-xs-4' },
+                _react2.default.createElement(
+                  'label',
+                  { style: styles.formLabel3 },
+                  ' No of people who entered the available dates: '
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs' },
+                _react2.default.createElement(
+                  'label',
+                  { style: styles.formLabel2 },
+                  ' ',
+                  _this4.props.eventObj.attendees.length,
+                  ' '
+                )
               )
             ),
             _react2.default.createElement('br', null),
@@ -650,47 +807,11 @@ var EventPageComponent = function (_Component) {
                     );
                   },
                   fixed: true,
-                  width: 200
+                  width: 180
                 }),
-                _react2.default.createElement(_fixedDataTable.Column, {
-                  header: _react2.default.createElement(
-                    _fixedDataTable.Cell,
-                    null,
-                    'Free'
-                  ),
-                  cell: _react2.default.createElement(
-                    'cell',
-                    null,
-                    'Free'
-                  ),
-                  width: 200
-                }),
-                _react2.default.createElement(_fixedDataTable.Column, {
-                  header: _react2.default.createElement(
-                    _fixedDataTable.Cell,
-                    null,
-                    'May be'
-                  ),
-                  cell: _react2.default.createElement(
-                    'cell',
-                    null,
-                    'May be'
-                  ),
-                  width: 200
-                }),
-                _react2.default.createElement(_fixedDataTable.Column, {
-                  header: _react2.default.createElement(
-                    _fixedDataTable.Cell,
-                    null,
-                    'Busy'
-                  ),
-                  cell: _react2.default.createElement(
-                    'cell',
-                    null,
-                    'Busy'
-                  ),
-                  width: 200
-                }),
+                _this4.fillFreeStatus(),
+                _this4.fillMaybeStatus(),
+                _this4.fillBusyStatus(),
                 _this4.fillAttendeeDetails()
               )
             ),
