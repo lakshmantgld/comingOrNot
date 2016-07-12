@@ -12,13 +12,7 @@ import http from 'http';
 import config from './config/config.json';
 
 // connect to DB
-// mongoose.connect(url.format({
-//   protocol: config.mongodb.protocol,
-//   slashes: true,
-//   hostname: config.mongodb.hostname,
-//   port: config.mongodb.port,
-//   pathname: config.mongodb.path
-// }));
+mongoose.connect(process.env.MONGOLAB_URI);
 
 let app = express();
 
