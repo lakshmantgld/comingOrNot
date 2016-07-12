@@ -70,9 +70,6 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "request": "^2.72.0",
-    "flexboxgrid": "^6.3.0",
-    "material-design-icons": "^2.2.3",
-    "react-copy-to-clipboard": "https://npmcdn.com/react-copy-to-clipboard/bower.zip",
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6"
   },
