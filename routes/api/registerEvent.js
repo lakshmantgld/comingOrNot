@@ -11,8 +11,9 @@ router.post('/', (req, res) => {
 
   console.log('name ' + name + '   purpose ' + purpose + '  dateArray  = ' + dateArray);
 
+  console.log('now printing the event model itself');
   console.log(event);
-
+  console.log(JSON.stringify(event));
 
   event.save(name, purpose, dateArray, (error, eventObj) => {
     if (error) {
