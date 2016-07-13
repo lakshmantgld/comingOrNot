@@ -1017,7 +1017,7 @@ var EventShareComponent = function (_Component) {
     key: 'getEventPageUrl',
     value: function getEventPageUrl() {
       var eventId = this.props.params.eventId;
-      var eventURL = 'https://herokuapp.com/event/eventId=' + eventId;
+      var eventURL = 'https://letsmeetupp.herokuapp.com/event/eventId=' + eventId;
 
       return eventURL;
     }
@@ -1025,7 +1025,7 @@ var EventShareComponent = function (_Component) {
     key: 'render',
     value: function render() {
       var eventId = this.props.params.eventId;
-      var eventShareURL = 'https://herokuapp.com/event/eventId=' + eventId;
+      var eventShareURL = 'https://letsmeetupp.herokuapp.com/event/eventId=' + eventId;
 
       return _react2.default.createElement(
         'div',
@@ -1037,7 +1037,7 @@ var EventShareComponent = function (_Component) {
           _react2.default.createElement(
             'label',
             { style: styles.formLabel },
-            ' Share the Event Url with your friends, for choosing the best date possible '
+            ' Share the Event Url with your friends, for choosing the best possible date'
           )
         ),
         _react2.default.createElement('br', null),
