@@ -86,7 +86,7 @@ class EventShareComponent extends Component {
       <div>
       <br />
         <div className='row center-xs'>
-          <label style={styles.formLabel}> Share the Event Url with your friends, for choosing the best date possible </label>
+          <label style={styles.formLabel}> Share the Event Url with your friends, for choosing the best possible date</label>
         </div>
         <br />
         <br />
