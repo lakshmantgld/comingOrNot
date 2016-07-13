@@ -11,7 +11,7 @@ import http from 'http';
 
 import config from './config/config.json';
 
-let uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL;
+let uristring = 'mongodb://heroku_gb9thp1q:5t12qp32n228q27hhrfekechv4@ds031867.mlab.com:31867/heroku_gb9thp1q';
 
 mongoose.connect(uristring, function (err, res) {
   if (err) {
