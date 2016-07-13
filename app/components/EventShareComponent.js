@@ -73,14 +73,14 @@ class EventShareComponent extends Component {
 
   getEventPageUrl() {
     const eventId = this.props.params.eventId;
-    const eventURL = 'https://herokuapp.com/event/eventId=' + eventId;
+    const eventURL = 'https://letsmeetupp.herokuapp.com/event/eventId=' + eventId;
 
     return eventURL;
   }
 
   render() {
     const eventId = this.props.params.eventId;
-    const eventShareURL = 'https://herokuapp.com/event/eventId=' + eventId;
+    const eventShareURL = 'https://letsmeetupp.herokuapp.com/event/eventId=' + eventId;
 
     return (
       <div>
