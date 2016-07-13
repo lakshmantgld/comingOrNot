@@ -11,6 +11,8 @@ router.post('/', (req, res) => {
 
   console.log('name ' + name + '   purpose ' + purpose + '  dateArray  = ' + dateArray);
 
+  console.log(event);
+
 
   event.save(name, purpose, dateArray, (error, eventObj) => {
     if (error) {
