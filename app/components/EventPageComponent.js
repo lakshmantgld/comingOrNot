@@ -316,6 +316,11 @@ class EventPageComponent extends Component {
     });
   }
 
+  getEventInformation() {
+    let eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
+    return eventInformation;
+  }
+
   render() {
 
     let result;
@@ -330,6 +335,10 @@ class EventPageComponent extends Component {
 
       result = (
         <div>
+          <br />
+          <div className='row center-xs'>
+            <label style={styles.formLabel}> {this.getEventInformation()} </label>
+          </div>
           <br />
           <div className='row center-xs'>
             <label style={styles.formLabel}> The Event Table </label>
@@ -370,7 +379,7 @@ class EventPageComponent extends Component {
           </div>
           <br />
           <div className='row center-xs'>
-            <label style={styles.formLabel}> Enter youe convenient Dates </label>
+            <label style={styles.formLabel}> Enter your convenient Dates </label>
           </div>
           <br />
           <div className='row'>
