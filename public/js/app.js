@@ -730,6 +730,12 @@ var EventPageComponent = function (_Component) {
       });
     }
   }, {
+    key: 'getEventInformation',
+    value: function getEventInformation() {
+      var eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
+      return eventInformation;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
@@ -745,6 +751,18 @@ var EventPageComponent = function (_Component) {
           result = _react2.default.createElement(
             'div',
             null,
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+              'div',
+              { className: 'row center-xs' },
+              _react2.default.createElement(
+                'label',
+                { style: styles.formLabel },
+                ' ',
+                _this4.getEventInformation(),
+                ' '
+              )
+            ),
             _react2.default.createElement('br', null),
             _react2.default.createElement(
               'div',
@@ -822,7 +840,7 @@ var EventPageComponent = function (_Component) {
               _react2.default.createElement(
                 'label',
                 { style: styles.formLabel },
-                ' Enter youe convenient Dates '
+                ' Enter your convenient Dates '
               )
             ),
             _react2.default.createElement('br', null),
