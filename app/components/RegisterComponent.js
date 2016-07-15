@@ -1,11 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
-import { grey100, grey600, red500 } from 'material-ui/styles/colors';
+import { grey600, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
-import TimePicker from 'material-ui/TimePicker';
 import Chip from 'material-ui/Chip';
 
 import InfiniteCalendar from 'react-infinite-calendar';
@@ -14,24 +12,9 @@ import { storeName, storePurpose, registerEvent, storeDateArray, storeDateArrayE
          storeNameErrorLabel, storePurposeErrorLabel } from './../actions/registerActions';
 
 let styles = {
-  formTab: {
-    paddingBottom: '16px'
-  },
-  formGroup: {
-    margin: '16px',
-    padding: '16px'
-  },
-  formItem: {
-    margin: '16px'
-  },
   formLabel: {
     text: 'bold',
     fontSize: '25px',
-    color: grey600
-  },
-  formLabel2: {
-    text: 'bold',
-    fontSize: '20px',
     color: grey600
   },
   errorLabel: {
@@ -41,10 +24,6 @@ let styles = {
   },
   chip: {
     margin: 4,
-  },
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
   }
 };
 
@@ -67,6 +46,7 @@ class RegisterComponent extends Component {
   componentDidMount() {
   }
 
+// method is invoked when you delete a selected date, it in turn deletes from the state object.
   handleRequestDelete(label) {
     this.props.dispatch(popDateArray(label))
     if (this.props.dateArray.length <= 5) {
@@ -74,10 +54,7 @@ class RegisterComponent extends Component {
     }
   }
 
-  handleTouchTap() {
-    alert('You clicked the Chip.');
-  }
-
+// stores the name of the event creator.
   storeName(e) {
     if (e.target.value.length >= '40') {
       this.props.dispatch(storeNameErrorLabel('Only 40 characters permitted!!!'))
@@ -87,6 +64,7 @@ class RegisterComponent extends Component {
     }
   }
 
+// stores the purpose of the event and throws an error in case of any edge cases failed.
   storePurpose(e) {
     if (e.target.value.length >= '100') {
       this.props.dispatch(storePurposeErrorLabel('Only 100 characters permitted!!!'))
@@ -96,16 +74,13 @@ class RegisterComponent extends Component {
     }
   }
 
+// Stores the selected date in the state object.
   storeDate(date) {
     if (this.props.dateArray.length <= 5) {
       this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')));
     } else {
       this.props.dispatch(storeDateArrayErrorLabel('Only 6 dates permitted'));
     }
-  }
-
-  getUrl() {
-    return '/source=' + this.props.source + '/destination=' + this.props.destination;
   }
 
   registerEvent(e) {
