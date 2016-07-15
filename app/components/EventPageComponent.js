@@ -1,22 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
-import { grey100, grey600, red500, blue500 } from 'material-ui/styles/colors';
+import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
-import TimePicker from 'material-ui/TimePicker';
-import Chip from 'material-ui/Chip';
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 import {Table, Column, Cell} from 'fixed-data-table';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent  } from './../actions/registerActions';
@@ -24,16 +15,6 @@ import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAtt
 let dateStatus;
 
 let styles = {
-  formTab: {
-    paddingBottom: '16px'
-  },
-  formGroup: {
-    margin: '16px',
-    padding: '16px'
-  },
-  formItem: {
-    margin: '16px'
-  },
   formLabel: {
     text: 'bold',
     fontSize: '25px',
@@ -58,16 +39,6 @@ let styles = {
     text: 'bold',
     fontSize: '22px',
     color: red500
-  },
-  chip: {
-    margin: 4,
-  },
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: 20
   },
   paperStyle: {
     width: '50%'
@@ -96,6 +67,8 @@ let buttonStyle = {
 };
 
 class EventPageComponent extends Component {
+
+// The methods in the constructor are given to bind the function to redux's state object.
   constructor(props) {
     super(props);
     this.handleDateToogle = this.handleDateToogle.bind(this);
@@ -103,14 +76,18 @@ class EventPageComponent extends Component {
     this.updateEvent = this.updateEvent.bind(this);
   }
 
+// The below method gets executed after all the components have been successfully rendered on the screen.
   componentDidMount() {
     this.props.dispatch(fetchEvent(this.props.params.eventId));
   }
 
+// Store the selected date to the state object.
+// dispatch is the one that invokes the action creators.
   handleDateToogle(date, e) {
     this.props.dispatch(storePersonalizedDateSelection(date, e.target.value));
   }
 
+// Will store attendeeName and invoke error action in case of failed edge case.
   storeAttendeeName(e) {
     if (e.target.value.length >= '40') {
       this.props.dispatch(storeAttendeeNameErrorLabel('Only 40 characters permitted!!!'))
@@ -120,6 +97,9 @@ class EventPageComponent extends Component {
     }
   }
 
+// This is an helper function to store the dates that have not been selected by the user.
+// for instance, there are six dates, and the user selects the status(free, maybe, busy) for the four and
+// leaves the remaining dates, then the below method will give default values to the unselected dates by the user.
   fillTheLeftOutDates() {
     let count = 0;
     this.props.eventObj.dateArray.map((date, i) => {
@@ -137,22 +117,29 @@ class EventPageComponent extends Component {
     });
   }
 
+// This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTime() {
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
   }
 
+// stores the attendess selection of dates and his name.
   updateEvent(e) {
-    // populating personalizedDateSelection if user has not chosen any status.
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
     } else {
+
+      // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDates();
+
+      // A timeout has been used, because There will be a little time taken for storing the default values
+      // to the left-out dates. So, having a delay will give a consistency in the application.
       setTimeout((function() {
        this.callAfterSomeTime();
      }).bind(this), 1000);
     }
   }
 
+// This method is responsible for calculating the count of free, maybe and busy for a given date.
   fillFreeStatus() {
     let dateStatusArray = this.props.eventObj.dateArray;
     dateStatus = {};
@@ -235,6 +222,7 @@ class EventPageComponent extends Component {
 
   }
 
+  // Fills the attendess selection in the event table.
   fillAttendeeDetails() {
     let attendees = this.props.eventObj.attendees;
     let dateArray = this.props.eventObj.dateArray;
@@ -276,6 +264,7 @@ class EventPageComponent extends Component {
     }
   }
 
+// Renders the date for the event for user selection.
   dateToggleSection() {
     let dateArray = this.props.eventObj.dateArray;
     return dateArray.map((date, i) =>{
@@ -316,11 +305,13 @@ class EventPageComponent extends Component {
     });
   }
 
+// Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
     return eventInformation;
   }
 
+// Render the whole EventPage App. Starting point of this component.
   render() {
 
     let result;
