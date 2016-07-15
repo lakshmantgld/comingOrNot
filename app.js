@@ -1,17 +1,16 @@
 import express from 'express';
 import path from 'path';
-import session from 'express-session';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import passport from 'passport';
 import mongoose from 'mongoose';
 import url from 'url';
 import http from 'http';
 
+// All credentials and path are imported from config file.
 import config from './config/config.json';
 
-let uristring = 'mongodb://heroku_gb9thp1q:5t12qp32n228q27hhrfekechv4@ds031867.mlab.com:31867/heroku_gb9thp1q';
+let uristring = config.mongodb.uristring;
 
 mongoose.connect(uristring, function (err, res) {
   if (err) {
@@ -19,7 +18,10 @@ mongoose.connect(uristring, function (err, res) {
   } else {
   console.log ('Succeeded connected to: ' + uristring);
   }
-});// connect to DB
+});
+
+// connect to DB for localhost mongodb
+
 // mongoose.connect(url.format({
 //   protocol: config.mongodb.protocol,
 //   slashes: true,
