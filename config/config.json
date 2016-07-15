@@ -1,14 +1,10 @@
 {
   "mongodb": {
+    "uristring": "mongodb://heroku_gb9thp1q:5t12qp32n228q27hhrfekechv4@ds031867.mlab.com:31867/heroku_gb9thp1q",
     "protocol": "mongodb",
     "hostname": "localhost",
     "port": "27017",
     "path": "test"
-  },
-
-  "node": {
-    "url": "http://localhost:3000",
-    "path": "/"
   }
 
 }
