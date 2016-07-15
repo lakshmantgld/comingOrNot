@@ -1,12 +1,15 @@
 {
-  "name": "ansible-web",
+  "name": "LetsMeetUp",
   "version": "0.0.1",
   "main": "bin/www",
   "keywords": [
-    "ansible"
+    "reactJS",
+    "nodeJS",
+    "mongoDB",
+    "event organizer"
   ],
-  "license": "Xerox",
-  "homepage": "https://sd9.dcpfs.net/gitlab/applications/ansible-web",
+  "license": "open source",
+  "homepage": "https://letsmeetupp.herokuapp.com/",
   "ignore": [
     "**/.*",
     "node_modules",
