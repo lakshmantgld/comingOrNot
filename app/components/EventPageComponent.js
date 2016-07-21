@@ -1,13 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
+import Chip from 'material-ui/Chip';
+import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import {Table, Column, Cell} from 'fixed-data-table';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent  } from './../actions/registerActions';
@@ -39,6 +45,12 @@ let styles = {
     text: 'bold',
     fontSize: '22px',
     color: red500
+  },
+  chip: {
+    margin: 4,
+  },
+  textField: {
+    marginLeft: 20
   },
   paperStyle: {
     width: '50%'
@@ -311,7 +323,7 @@ class EventPageComponent extends Component {
     return eventInformation;
   }
 
-// Render the whole EventPage App. Starting point of this component.
+// Render the whole EventPage App
   render() {
 
     let result;
