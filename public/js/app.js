@@ -795,7 +795,7 @@ var EventPageComponent = function (_Component) {
                 {
                   rowsCount: dateArray.length,
                   rowHeight: 50,
-                  width: window.innerWidth,
+                  width: 800,
                   height: 50 * (dateArray.length + 1),
                   headerHeight: 50
                 },
