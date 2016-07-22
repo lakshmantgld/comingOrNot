@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.STORE_ATTENDEE_NAME_ERROR_LABEL = exports.ATTENDEE_NAME = exports.STORE_PERSONALIZED_DATE_SELECTION = exports.STORE_EVENT = exports.STORE_PURPOSE_ERROR_LABEL = exports.STORE_NAME_ERROR_LABEL = exports.STORE_DATE_ARRAY_ERROR_LABEL = exports.POP_DATE_ARRAY = exports.STORE_DATE_ARRAY = exports.STORE_PURPOSE = exports.STORE_NAME = undefined;
+exports.TOGGLE_CAST_ATTENDANCE = exports.STORE_ATTENDEE_NAME_ERROR_LABEL = exports.ATTENDEE_NAME = exports.STORE_PERSONALIZED_DATE_SELECTION = exports.STORE_EVENT = exports.STORE_PURPOSE_ERROR_LABEL = exports.STORE_NAME_ERROR_LABEL = exports.STORE_DATE_ARRAY_ERROR_LABEL = exports.POP_DATE_ARRAY = exports.STORE_DATE_ARRAY = exports.STORE_PURPOSE = exports.STORE_NAME = undefined;
 exports.storeName = storeName;
 exports.storePurpose = storePurpose;
 exports.storeDateArray = storeDateArray;
@@ -18,6 +18,7 @@ exports.storePersonalizedDateSelection = storePersonalizedDateSelection;
 exports.storeAttendeeName = storeAttendeeName;
 exports.storeAttendeeNameErrorLabel = storeAttendeeNameErrorLabel;
 exports.updateEvent = updateEvent;
+exports.toggleCastAttendance = toggleCastAttendance;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
@@ -38,6 +39,7 @@ var STORE_EVENT = exports.STORE_EVENT = 'STORE_EVENT';
 var STORE_PERSONALIZED_DATE_SELECTION = exports.STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECTION';
 var ATTENDEE_NAME = exports.ATTENDEE_NAME = 'ATTENDEE_NAME';
 var STORE_ATTENDEE_NAME_ERROR_LABEL = exports.STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
+var TOGGLE_CAST_ATTENDANCE = exports.TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 
 function storeName(name) {
   return function (dispatch) {
@@ -198,6 +200,15 @@ function updateEvent(name, personalizedDateSelection, eventId) {
       return res.json();
     }).then(function (json) {
       return dispatch(storeEvent(json));
+    });
+  };
+}
+
+function toggleCastAttendance(toggleValue) {
+  return function (dispatch) {
+    return dispatch({
+      type: TOGGLE_CAST_ATTENDANCE,
+      toggleValue: toggleValue
     });
   };
 }
@@ -379,6 +390,8 @@ var EventPageComponent = function (_Component) {
     _this.handleDateToogle = _this.handleDateToogle.bind(_this);
     _this.storeAttendeeName = _this.storeAttendeeName.bind(_this);
     _this.updateEvent = _this.updateEvent.bind(_this);
+    _this.toggleCastAttendance = _this.toggleCastAttendance.bind(_this);
+    _this.toggleCastAttendanceButton = _this.toggleCastAttendanceButton.bind(_this);
     return _this;
   }
 
@@ -444,6 +457,7 @@ var EventPageComponent = function (_Component) {
     key: 'callAfterSomeTime',
     value: function callAfterSomeTime() {
       this.props.dispatch((0, _registerActions.updateEvent)(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
+      this.props.dispatch((0, _registerActions.toggleCastAttendance)(false));
     }
 
     // stores the attendess selection of dates and his name.
@@ -711,6 +725,90 @@ var EventPageComponent = function (_Component) {
         );
       });
     }
+  }, {
+    key: 'toggleCastAttendanceButton',
+    value: function toggleCastAttendanceButton() {
+      if (this.props.toggleCastAttendance) {
+        this.props.dispatch((0, _registerActions.toggleCastAttendance)(false));
+      } else {
+        this.props.dispatch((0, _registerActions.toggleCastAttendance)(true));
+      }
+    }
+  }, {
+    key: 'toggleCastAttendance',
+    value: function toggleCastAttendance() {
+      if (this.props.toggleCastAttendance) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'row center-xs' },
+            _react2.default.createElement(
+              'label',
+              { style: styles.formLabel },
+              ' Enter your convenient Dates '
+            )
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs-offset-5 col-xs-1' },
+              _react2.default.createElement(
+                'label',
+                { style: styles.formLabel },
+                ' Name '
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs' },
+              _react2.default.createElement(_TextField2.default, { id: 'name', hintText: 'Name', onChange: this.storeAttendeeName, value: this.props.attendeeName }),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'label',
+                { style: styles.errorLabel },
+                ' ',
+                this.props.attendeeNameErrorLabel,
+                ' '
+              )
+            )
+          ),
+          _react2.default.createElement('br', null),
+          this.dateToggleSection(),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'row center-xs' },
+            _react2.default.createElement(_RaisedButton2.default, { label: 'Update', primary: true, style: buttonStyle, disabled: false, onTouchTap: this.updateEvent })
+          )
+        );
+      } else {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'row center-xs' },
+            _react2.default.createElement(
+              'label',
+              { style: styles.formLabel },
+              ' Cast your attendance for the above days by pressing the button '
+            )
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'row center-xs' },
+            _react2.default.createElement(_RaisedButton2.default, { label: 'Cast Attendance', primary: true, style: buttonStyle, disabled: false, onTouchTap: this.toggleCastAttendanceButton })
+          )
+        );
+      }
+    }
 
     // Fill the details about the event.
 
@@ -822,50 +920,7 @@ var EventPageComponent = function (_Component) {
               )
             ),
             _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'div',
-              { className: 'row center-xs' },
-              _react2.default.createElement(
-                'label',
-                { style: styles.formLabel },
-                ' Enter your convenient Dates '
-              )
-            ),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'div',
-              { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-offset-5 col-xs-1' },
-                _react2.default.createElement(
-                  'label',
-                  { style: styles.formLabel },
-                  ' Name '
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs' },
-                _react2.default.createElement(_TextField2.default, { id: 'name', hintText: 'Name', onChange: _this4.storeAttendeeName, value: _this4.props.attendeeName }),
-                _react2.default.createElement('br', null),
-                _react2.default.createElement(
-                  'label',
-                  { style: styles.errorLabel },
-                  ' ',
-                  _this4.props.attendeeNameErrorLabel,
-                  ' '
-                )
-              )
-            ),
-            _react2.default.createElement('br', null),
-            _this4.dateToggleSection(),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'div',
-              { className: 'row center-xs' },
-              _react2.default.createElement(_RaisedButton2.default, { label: 'Update', primary: true, style: buttonStyle, disabled: false, onTouchTap: _this4.updateEvent })
-            )
+            _this4.toggleCastAttendance()
           );
         })();
       }
@@ -880,7 +935,8 @@ EventPageComponent.propTypes = {
   eventObj: _react.PropTypes.object.isRequired,
   attendeeName: _react.PropTypes.string.isRequired,
   attendeeNameErrorLabel: _react.PropTypes.string.isRequired,
-  personalizedDateSelection: _react.PropTypes.object.isRequired
+  personalizedDateSelection: _react.PropTypes.object.isRequired,
+  toggleCastAttendance: _react.PropTypes.bool.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(function (state) {
@@ -888,7 +944,8 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     eventObj: state.eventObj,
     attendeeName: state.attendeeName,
     attendeeNameErrorLabel: state.attendeeNameErrorLabel,
-    personalizedDateSelection: state.personalizedDateSelection
+    personalizedDateSelection: state.personalizedDateSelection,
+    toggleCastAttendance: state.toggleCastAttendance
   };
 })(EventPageComponent);
 
@@ -1554,6 +1611,7 @@ var reducers = (0, _redux.combineReducers)({
   personalizedDateSelection: _registerReducers.personalizedDateSelection,
   attendeeName: _registerReducers.attendeeName,
   attendeeNameErrorLabel: _registerReducers.attendeeNameErrorLabel,
+  toggleCastAttendance: _registerReducers.toggleCastAttendance,
   routing: _reactRouterRedux.routerReducer
 });
 
@@ -1575,6 +1633,7 @@ exports.eventObj = eventObj;
 exports.personalizedDateSelection = personalizedDateSelection;
 exports.attendeeName = attendeeName;
 exports.attendeeNameErrorLabel = attendeeNameErrorLabel;
+exports.toggleCastAttendance = toggleCastAttendance;
 
 var _registerActions = require('./../actions/registerActions');
 
@@ -1700,6 +1759,18 @@ function attendeeNameErrorLabel() {
   switch (action.type) {
     case _registerActions.STORE_ATTENDEE_NAME_ERROR_LABEL:
       return action.errorLabel;
+    default:
+      return state;
+  }
+}
+
+function toggleCastAttendance() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _registerActions.TOGGLE_CAST_ATTENDANCE:
+      return action.toggleValue;
     default:
       return state;
   }
