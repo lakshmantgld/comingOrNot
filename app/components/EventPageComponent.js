@@ -344,8 +344,15 @@ class EventPageComponent extends Component {
       );
     } else {
       return (
-        <div className='row center-xs'>
-          <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+        <div>
+          <br />
+          <div className='row center-xs'>
+            <label style={styles.formLabel}> Cast your attendance for the above days by pressing the button </label>
+          </div>
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+          </div>
         </div>
       );
     }
