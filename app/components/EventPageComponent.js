@@ -10,7 +10,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent  } from './../actions/registerActions';
+         updateEvent, toggleCastAttendance  } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -74,6 +74,8 @@ class EventPageComponent extends Component {
     this.handleDateToogle = this.handleDateToogle.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
+    this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
+    this.toggleCastAttendanceButton = this.toggleCastAttendanceButton.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -120,6 +122,7 @@ class EventPageComponent extends Component {
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTime() {
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
+    this.props.dispatch(toggleCastAttendance(false));
   }
 
 // stores the attendess selection of dates and his name.
@@ -305,6 +308,50 @@ class EventPageComponent extends Component {
     });
   }
 
+  toggleCastAttendanceButton() {
+    if (this.props.toggleCastAttendance) {
+      this.props.dispatch(toggleCastAttendance(false));
+    } else {
+      this.props.dispatch(toggleCastAttendance(true));
+    }
+  }
+
+  toggleCastAttendance() {
+    if (this.props.toggleCastAttendance) {
+      return (
+        <div>
+          <div className='row center-xs'>
+            <label style={styles.formLabel}> Enter your convenient Dates </label>
+          </div>
+          <br />
+          <div className='row'>
+            <div className='col-xs-offset-5 col-xs-1'>
+              <label style={styles.formLabel}> Name </label>
+            </div>
+            <div className='col-xs'>
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+              <br />
+              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+            </div>
+          </div>
+          <br />
+          {this.dateToggleSection()}
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className='row center-xs'>
+          <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+        </div>
+      );
+    }
+
+  }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
@@ -369,26 +416,7 @@ class EventPageComponent extends Component {
             </Table>
           </div>
           <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> Enter your convenient Dates </label>
-          </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> Name </label>
-            </div>
-            <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
-              <br />
-              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-            </div>
-          </div>
-          <br />
-          {this.dateToggleSection()}
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label="Update" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
-          </div>
+          {this.toggleCastAttendance()}
         </div>
       );
     }
@@ -400,12 +428,14 @@ EventPageComponent.propTypes = {
   eventObj: PropTypes.object.isRequired,
   attendeeName: PropTypes.string.isRequired,
   attendeeNameErrorLabel: PropTypes.string.isRequired,
-  personalizedDateSelection: PropTypes.object.isRequired
+  personalizedDateSelection: PropTypes.object.isRequired,
+  toggleCastAttendance: PropTypes.bool.isRequired
 };
 
 export default connect(state => ({
   eventObj: state.eventObj,
   attendeeName: state.attendeeName,
   attendeeNameErrorLabel: state.attendeeNameErrorLabel,
-  personalizedDateSelection: state.personalizedDateSelection
+  personalizedDateSelection: state.personalizedDateSelection,
+  toggleCastAttendance: state.toggleCastAttendance
 }))(EventPageComponent);

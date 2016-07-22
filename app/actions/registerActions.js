@@ -12,6 +12,7 @@ export const STORE_EVENT = 'STORE_EVENT';
 export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECTION';
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
+export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 
 export function storeName(name) {
   return dispatch => {
@@ -173,5 +174,14 @@ export function updateEvent(name, personalizedDateSelection, eventId) {
         return res.json();
       })
       .then(json => dispatch(storeEvent(json)))
+  };
+}
+
+export function toggleCastAttendance(toggleValue) {
+  return dispatch => {
+    return dispatch({
+      type: TOGGLE_CAST_ATTENDANCE,
+      toggleValue: toggleValue
+    });
   };
 }
