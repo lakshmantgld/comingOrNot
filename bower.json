@@ -20,6 +20,6 @@
   "dependencies": {
     "flexboxgrid": "^6.3.0",
     "material-design-icons": "^2.2.3",
-    "react-copy-to-clipboard": "https://npmcdn.com/react-copy-to-clipboard/bower.zip"
+    "react-copy-to-clipboard": "https://unpkg.com/react-copy-to-clipboard/bower.zip"
   }
 }
