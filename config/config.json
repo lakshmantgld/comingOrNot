@@ -1,10 +1,10 @@
 {
   "mongodb": {
-    "uristring": "mongodb://heroku_gb9thp1q:5t12qp32n228q27hhrfekechv4@ds031867.mlab.com:31867/heroku_gb9thp1q",
+    "uristring": "mongodb://172.27.87.74:27017/",
     "protocol": "mongodb",
-    "hostname": "localhost",
+    "hostname": "172.27.87.74",
     "port": "27017",
-    "path": "test"
+    "path": "LetsMeetup"
   }
 
 }

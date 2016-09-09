@@ -12,23 +12,23 @@ import config from './config/config.json';
 
 let uristring = config.mongodb.uristring;
 
-mongoose.connect(uristring, function (err, res) {
+/**mongoose.connect(uristring, function (err, res) {
   if (err) {
   console.log ('ERROR connecting to: ' + uristring + '. ' + err);
   } else {
   console.log ('Succeeded connected to: ' + uristring);
   }
-});
+});*/
 
 // connect to DB for localhost mongodb
 
-// mongoose.connect(url.format({
-//   protocol: config.mongodb.protocol,
-//   slashes: true,
-//   hostname: config.mongodb.hostname,
-//   port: config.mongodb.port,
-//   pathname: config.mongodb.path
-// }));
+ mongoose.connect(url.format({
+  protocol: config.mongodb.protocol,
+  slashes: true,
+  hostname: config.mongodb.hostname,
+  port: config.mongodb.port,
+  pathname: config.mongodb.path
+}));
 
 let app = express();
 
