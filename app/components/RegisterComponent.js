@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
 
 import InfiniteCalendar from 'react-infinite-calendar';
+import Geosuggest from 'react-geosuggest';
 
 import { storeName, storePurpose, registerEvent, storeDateArray, storeDateArrayErrorLabel, popDateArray,
          storeNameErrorLabel, storePurposeErrorLabel } from './../actions/registerActions';
@@ -83,6 +84,10 @@ class RegisterComponent extends Component {
     }
   }
 
+  onSuggestSelect(suggest) {
+    console.log(suggest);
+  }
+
   registerEvent(e) {
     if (this.props.name.length === 0) {
       this.props.dispatch(storeNameErrorLabel('Name field is required!!'));
@@ -116,6 +121,12 @@ class RegisterComponent extends Component {
 
     let dateArray = this.props.dateArray.map(this.renderChip, this);
 
+    let fixtures = [
+      {label: 'Old Elbe Tunnel, Hamburg', location: {lat: 53.5459, lng: 9.966576}},
+      {label: 'Reeperbahn, Hamburg', location: {lat: 53.5495629, lng: 9.9625838}},
+      {label: 'Alster, Hamburg', location: {lat: 53.5610398, lng: 10.0259135}}
+    ];
+
     return (
       <div>
         <br />
@@ -147,6 +158,15 @@ class RegisterComponent extends Component {
         <br />
         <div className='row center-xs'>
           <label style={styles.formLabel}> Select the Dates for the Event </label>
+        </div>
+        <div>
+          <Geosuggest
+            placeholder="Start typing!"
+            initialValue="Hamburg"
+            fixtures={fixtures}
+            onSuggestSelect={this.onSuggestSelect}
+            location={new google.maps.LatLng(53.558572, 9.9278215)}
+            radius="20" />
         </div>
         <br />
         <div className='row'>
