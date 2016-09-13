@@ -77,7 +77,9 @@ class RegisterComponent extends Component {
 // Stores the selected date in the state object.
   storeDate(date) {
     if (this.props.dateArray.length <= 5) {
-      this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')));
+      (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY'))==-1)?
+       this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
+       :console.log("Duplicate date");
     } else {
       this.props.dispatch(storeDateArrayErrorLabel('Only 6 dates permitted'));
     }
