@@ -110,10 +110,8 @@ class RegisterComponent extends Component {
   }
 
   render() {
-    let today = new Date();
-    let minDate = Number(today); // One week before today
-    let min = Number(new Date() - (24*60*60*1000) * 60); // One week before today
 
+    let today = new Date(); // Get today's date to give minimum limit to the calendar
     let dateArray = this.props.dateArray.map(this.renderChip, this);
 
     return (
@@ -163,6 +161,7 @@ class RegisterComponent extends Component {
                     width={580}
                     height={275}
                     rowHeight={55}
+                    minDate={today}
                     onSelect={this.storeDate}
                     keyboardSupport={true}
                 />
