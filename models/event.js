@@ -4,6 +4,7 @@ const EventSchema = new Schema({
   name: String,
   purpose: String,
   dateArray: [String],
+  location: String,
   attendees: [{
     attendeeName: String,
     personalizedDateSelection: {}
@@ -20,8 +21,8 @@ function getEvent(eventId, callback) {
   Event.findOne({_id: Types.ObjectId(eventId)}, callback);
 }
 
-function save(name, purpose, dateArray, callback) {
-  Event.count({name: name, purpose: purpose, dateArray: dateArray}, (err, number) => {
+function save(name, purpose, dateArray, location, callback) {
+  Event.count({name: name, purpose: purpose, dateArray: dateArray, location: location}, (err, number) => {
     if (err) {
       return callback(err);
     }
@@ -29,7 +30,7 @@ function save(name, purpose, dateArray, callback) {
       return callback(name + ' is already registered.');
     }
 
-    let event = new Event({name: name, purpose: purpose, dateArray: dateArray});
+    let event = new Event({name: name, purpose: purpose, dateArray: dateArray, location: location});
     event.save(callback);
   });
 }
