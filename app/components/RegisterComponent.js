@@ -10,7 +10,7 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
 
 import { storeName, storePurpose, registerEvent, storeDateArray, storeDateArrayErrorLabel, popDateArray,
-         storeNameErrorLabel, storePurposeErrorLabel } from './../actions/registerActions';
+         storeNameErrorLabel, storePurposeErrorLabel, storeLocation } from './../actions/registerActions';
 
 let styles = {
   formLabel: {
@@ -42,6 +42,7 @@ class RegisterComponent extends Component {
     this.registerEvent = this.registerEvent.bind(this);
     this.storeDate = this.storeDate.bind(this);
     this.renderChip = this.renderChip.bind(this);
+    this.storeLocation = this.storeLocation.bind(this);
   }
 
   componentDidMount() {
@@ -84,6 +85,10 @@ class RegisterComponent extends Component {
     }
   }
 
+  storeLocation(location) {
+    this.props.dispatch(storeLocation(location));
+  }
+
   onSuggestSelect(suggest) {
     console.log(suggest);
   }
@@ -94,7 +99,7 @@ class RegisterComponent extends Component {
     } else if (this.props.purpose.length === 0) {
       this.props.dispatch(storePurposeErrorLabel('Purpose field is required!!'));
     } else {
-      this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray));
+      this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray, this.props.location));
     }
   }
 
@@ -122,9 +127,9 @@ class RegisterComponent extends Component {
     let dateArray = this.props.dateArray.map(this.renderChip, this);
 
     let fixtures = [
-      {label: 'Old Elbe Tunnel, Hamburg', location: {lat: 53.5459, lng: 9.966576}},
-      {label: 'Reeperbahn, Hamburg', location: {lat: 53.5495629, lng: 9.9625838}},
-      {label: 'Alster, Hamburg', location: {lat: 53.5610398, lng: 10.0259135}}
+      {label: 'mantra, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.44371, lng: 139.63803}},
+      {label: 'Khazana, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.4568977, lng: 139.6311364}},
+      {label: 'Garlic Jo\'s, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.456838, lng: 139.6310049}}
     ];
 
     return (
@@ -161,12 +166,14 @@ class RegisterComponent extends Component {
         </div>
         <div>
           <Geosuggest
-            placeholder="Start typing!"
-            initialValue="Hamburg"
+            placeholder='Enter the restaurant location here!'
+            initialValue=''
+            country='JP'
             fixtures={fixtures}
             onSuggestSelect={this.onSuggestSelect}
-            location={new google.maps.LatLng(53.558572, 9.9278215)}
-            radius="20" />
+            onChange={this.storeLocation}
+            location={new google.maps.LatLng(35.44371, 139.63803)}
+            radius='40' />
         </div>
         <br />
         <div className='row'>
@@ -203,7 +210,8 @@ RegisterComponent.propTypes = {
   dateArray: PropTypes.array.isRequired,
   dateArrayErrorLabel: PropTypes.string.isRequired,
   nameErrorLabel: PropTypes.string.isRequired,
-  purposeErrorLabel: PropTypes.string.isRequired
+  purposeErrorLabel: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -212,5 +220,6 @@ export default connect(state => ({
   dateArray: state.dateArray,
   dateArrayErrorLabel: state.dateArrayErrorLabel,
   nameErrorLabel: state.nameErrorLabel,
-  purposeErrorLabel: state.purposeErrorLabel
+  purposeErrorLabel: state.purposeErrorLabel,
+  location: state.location
 }))(RegisterComponent);

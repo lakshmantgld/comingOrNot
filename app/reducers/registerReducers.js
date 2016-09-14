@@ -1,7 +1,7 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         TOGGLE_CAST_ATTENDANCE } from './../actions/registerActions';
+         TOGGLE_CAST_ATTENDANCE, STORE_LOCATION } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -104,6 +104,15 @@ export function toggleCastAttendance(state = false, action) {
   switch(action.type) {
     case TOGGLE_CAST_ATTENDANCE:
       return action.toggleValue;
+    default:
+      return state;
+  }
+}
+
+export function location(state = '', action) {
+  switch(action.type) {
+    case STORE_LOCATION:
+      return action.location;
     default:
       return state;
   }
