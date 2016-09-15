@@ -13,6 +13,7 @@ export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECT
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
 export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
+export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
 
 export function storeName(name) {
   return dispatch => {
@@ -182,6 +183,14 @@ export function toggleCastAttendance(toggleValue) {
     return dispatch({
       type: TOGGLE_CAST_ATTENDANCE,
       toggleValue: toggleValue
+    });
+  };
+}
+
+export function emptyPersonalizedDateSelection() {
+  return dispatch => {
+    return dispatch({
+      type: EMPTY_PERSONALIZED_DATE_SELECTION
     });
   };
 }

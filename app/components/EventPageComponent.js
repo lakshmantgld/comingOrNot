@@ -11,7 +11,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance  } from './../actions/registerActions';
+         updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection  } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -125,6 +125,7 @@ class EventPageComponent extends Component {
     cookie.save("name", this.props.attendeeName);
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
     this.props.dispatch(toggleCastAttendance(false));
+    this.props.dispatch(emptyPersonalizedDateSelection());
   }
 
 // stores the attendess selection of dates and his name.
