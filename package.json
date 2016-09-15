@@ -52,6 +52,7 @@
     "morgan": "~1.7.0",
     "react": "^15.0.2",
     "react-cookie": "^0.4.8",
+    "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "15.0.2",
     "react-infinite-calendar": "^1.1.14",
     "react-redux": "^4.4.5",
