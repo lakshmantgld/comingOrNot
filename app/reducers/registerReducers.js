@@ -1,7 +1,7 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         TOGGLE_CAST_ATTENDANCE } from './../actions/registerActions';
+         TOGGLE_CAST_ATTENDANCE, EMPTY_PERSONALIZED_DATE_SELECTION } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -77,6 +77,8 @@ export function personalizedDateSelection(state = {}, action) {
       return Object.assign({}, state, {
         [action.date]: action.status
       })
+    case EMPTY_PERSONALIZED_DATE_SELECTION:
+      return {};
     default:
       return state;
   }
