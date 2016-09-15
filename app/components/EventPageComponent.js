@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import cookie from 'react-cookie';
 
 import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
@@ -121,6 +122,7 @@ class EventPageComponent extends Component {
 
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTime() {
+    cookie.save("name", this.props.attendeeName);
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
     this.props.dispatch(toggleCastAttendance(false));
   }
