@@ -61,7 +61,9 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "webpack": "^1.13.2",
+    "babel-loader": "^6.2.5"
   },
   "devDependencies": {
     "babelify": "^7.3.0",
