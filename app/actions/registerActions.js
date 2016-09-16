@@ -105,7 +105,7 @@ export function registerEvent(name, purpose, dateArray) {
 }
 
 function storeEvent(json) {
-  console.log('coming here' + JSON.stringify(json));
+  //console.log('coming here' + JSON.stringify(json));
   return {
     type: STORE_EVENT,
     json
