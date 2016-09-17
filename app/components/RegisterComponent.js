@@ -1,15 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
+// The below code is for extracting the location of browser. not working in localhost.
+//import geolocator from 'geolocator';
+
 import { grey600, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
 
 import InfiniteCalendar from 'react-infinite-calendar';
+import Geosuggest from 'react-geosuggest';
 
 import { storeName, storePurpose, registerEvent, storeDateArray, storeDateArrayErrorLabel, popDateArray,
-         storeNameErrorLabel, storePurposeErrorLabel } from './../actions/registerActions';
+         storeNameErrorLabel, storePurposeErrorLabel, storeLocation } from './../actions/registerActions';
 
 let styles = {
   formLabel: {
@@ -41,6 +45,8 @@ class RegisterComponent extends Component {
     this.registerEvent = this.registerEvent.bind(this);
     this.storeDate = this.storeDate.bind(this);
     this.renderChip = this.renderChip.bind(this);
+    this.storeLocation = this.storeLocation.bind(this);
+    this.suggestLocation = this.suggestLocation.bind(this);
   }
 
   componentDidMount() {
@@ -85,13 +91,21 @@ class RegisterComponent extends Component {
     }
   }
 
+  storeLocation(location) {
+    this.props.dispatch(storeLocation(location));
+  }
+
+  suggestLocation(location) {
+    this.props.dispatch(storeLocation(location.label));
+  }
+
   registerEvent(e) {
     if (this.props.name.length === 0) {
       this.props.dispatch(storeNameErrorLabel('Name field is required!!'));
     } else if (this.props.purpose.length === 0) {
       this.props.dispatch(storePurposeErrorLabel('Purpose field is required!!'));
     } else {
-      this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray));
+      this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray, this.props.location));
     }
   }
 
@@ -113,8 +127,39 @@ class RegisterComponent extends Component {
 
   render() {
 
+    // The below code is for extracting the location of browser. not working in localhost.
+    // geolocator.config({
+    //     language: "en",
+    //     google: {
+    //         version: "3",
+    //         key: "AIzaSyD1RMZkEvaBljDPOiLj0tdu0rwWPQlwFlA"
+    //     }
+    // });
+    //
+    // var options = {
+    //     enableHighAccuracy: true,
+    //     timeout: 6000,
+    //     maximumAge: 0,
+    //     desiredAccuracy: 30,
+    //     fallbackToIP: true, // fallback to IP if Geolocation fails or rejected
+    //     addressLookup: true,
+    //     timezone: true,
+    //     map: "map-canvas"
+    // };
+    // geolocator.locate(options, function (err, location) {
+    //     if (err) return console.log(err);
+    //     console.log("prining location of browser");
+    //     console.log(location);
+    // });
+
     let today = new Date(); // Get today's date to give minimum limit to the calendar
     let dateArray = this.props.dateArray.map(this.renderChip, this);
+
+    let fixtures = [
+      {label: 'mantra, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.44371, lng: 139.63803}},
+      {label: 'Khazana, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.4568977, lng: 139.6311364}},
+      {label: 'Garlic Jo\'s, Yokohama, Kanagawa Prefecture, Japan', location: {lat: 35.456838, lng: 139.6310049}}
+    ];
 
     return (
       <div>
@@ -147,6 +192,17 @@ class RegisterComponent extends Component {
         <br />
         <div className='row center-xs'>
           <label style={styles.formLabel}> Select the Dates for the Event </label>
+        </div>
+        <div>
+          <Geosuggest
+            placeholder='Enter the restaurant location here!'
+            initialValue=''
+            country='JP'
+            fixtures={fixtures}
+            onSuggestSelect={this.suggestLocation}
+            onChange={this.storeLocation}
+            location={new google.maps.LatLng(35.44371, 139.63803)}
+            radius='40' />
         </div>
         <br />
         <div className='row'>
@@ -184,7 +240,8 @@ RegisterComponent.propTypes = {
   dateArray: PropTypes.array.isRequired,
   dateArrayErrorLabel: PropTypes.string.isRequired,
   nameErrorLabel: PropTypes.string.isRequired,
-  purposeErrorLabel: PropTypes.string.isRequired
+  purposeErrorLabel: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -193,5 +250,6 @@ export default connect(state => ({
   dateArray: state.dateArray,
   dateArrayErrorLabel: state.dateArrayErrorLabel,
   nameErrorLabel: state.nameErrorLabel,
-  purposeErrorLabel: state.purposeErrorLabel
+  purposeErrorLabel: state.purposeErrorLabel,
+  location: state.location
 }))(RegisterComponent);

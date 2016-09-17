@@ -13,6 +13,7 @@ export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECT
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
 export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
+export const STORE_LOCATION = 'STORE_LOCATION';
 export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
 
 export function storeName(name) {
@@ -84,7 +85,7 @@ function storeEventId(json) {
   return browserHistory.push('/eventCreated/eventId=' + eventId);
 }
 
-export function registerEvent(name, purpose, dateArray) {
+export function registerEvent(name, purpose, dateArray, location) {
   return dispatch => {
     return fetch('/api/registerEvent', {credentials: 'include',
       method: 'POST',
@@ -92,7 +93,7 @@ export function registerEvent(name, purpose, dateArray) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'name' : name, 'purpose' : purpose, 'dateArray': dateArray})})
+      body: JSON.stringify({'name' : name, 'purpose' : purpose, 'dateArray': dateArray, 'location': location})})
       .then(res => {
         if (res.status !== 200) {
           let status = res.status;
@@ -185,6 +186,15 @@ export function toggleCastAttendance(toggleValue) {
       toggleValue: toggleValue
     });
   };
+}
+
+export function storeLocation(location) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_LOCATION,
+      location: location
+    });
+  }
 }
 
 export function emptyPersonalizedDateSelection() {
