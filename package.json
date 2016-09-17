@@ -51,6 +51,8 @@
     "mongoose": "^4.4.17",
     "morgan": "~1.7.0",
     "react": "^15.0.2",
+    "react-cookie": "^0.4.8",
+    "react-copy-to-clipboard": "^4.2.3",
     "react-dom": "15.0.2",
     "react-geosuggest": "^1.25.0",
     "react-infinite-calendar": "^1.1.14",
@@ -60,7 +62,9 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "webpack": "^1.13.2",
+    "babel-loader": "^6.2.5"
   },
   "devDependencies": {
     "babelify": "^7.3.0",

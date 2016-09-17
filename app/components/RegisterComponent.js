@@ -79,7 +79,9 @@ class RegisterComponent extends Component {
 // Stores the selected date in the state object.
   storeDate(date) {
     if (this.props.dateArray.length <= 5) {
-      this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')));
+      (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY'))==-1)?
+       this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
+       :console.log("Duplicate date");
     } else {
       this.props.dispatch(storeDateArrayErrorLabel('Only 6 dates permitted'));
     }
@@ -120,10 +122,8 @@ class RegisterComponent extends Component {
   }
 
   render() {
-    let today = new Date();
-    let minDate = Number(today); // One week before today
-    let min = Number(new Date() - (24*60*60*1000) * 60); // One week before today
 
+    let today = new Date(); // Get today's date to give minimum limit to the calendar
     let dateArray = this.props.dateArray.map(this.renderChip, this);
 
     let fixtures = [
@@ -190,6 +190,7 @@ class RegisterComponent extends Component {
                     width={580}
                     height={275}
                     rowHeight={55}
+                    minDate={today}
                     onSelect={this.storeDate}
                     keyboardSupport={true}
                 />
