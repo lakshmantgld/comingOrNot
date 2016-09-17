@@ -43,6 +43,7 @@ class RegisterComponent extends Component {
     this.storeDate = this.storeDate.bind(this);
     this.renderChip = this.renderChip.bind(this);
     this.storeLocation = this.storeLocation.bind(this);
+    this.suggestLocation = this.suggestLocation.bind(this);
   }
 
   componentDidMount() {
@@ -91,8 +92,8 @@ class RegisterComponent extends Component {
     this.props.dispatch(storeLocation(location));
   }
 
-  onSuggestSelect(suggest) {
-    console.log(suggest);
+  suggestLocation(location) {
+    this.props.dispatch(storeLocation(location.label));
   }
 
   registerEvent(e) {
@@ -170,7 +171,7 @@ class RegisterComponent extends Component {
             initialValue=''
             country='JP'
             fixtures={fixtures}
-            onSuggestSelect={this.onSuggestSelect}
+            onSuggestSelect={this.suggestLocation}
             onChange={this.storeLocation}
             location={new google.maps.LatLng(35.44371, 139.63803)}
             radius='40' />
