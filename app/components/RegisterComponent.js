@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
+// The below code is for extracting the location of browser. not working in localhost.
+//import geolocator from 'geolocator';
+
 import { grey600, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
@@ -123,6 +126,31 @@ class RegisterComponent extends Component {
   }
 
   render() {
+
+    // The below code is for extracting the location of browser. not working in localhost.
+    // geolocator.config({
+    //     language: "en",
+    //     google: {
+    //         version: "3",
+    //         key: "AIzaSyD1RMZkEvaBljDPOiLj0tdu0rwWPQlwFlA"
+    //     }
+    // });
+    //
+    // var options = {
+    //     enableHighAccuracy: true,
+    //     timeout: 6000,
+    //     maximumAge: 0,
+    //     desiredAccuracy: 30,
+    //     fallbackToIP: true, // fallback to IP if Geolocation fails or rejected
+    //     addressLookup: true,
+    //     timezone: true,
+    //     map: "map-canvas"
+    // };
+    // geolocator.locate(options, function (err, location) {
+    //     if (err) return console.log(err);
+    //     console.log("prining location of browser");
+    //     console.log(location);
+    // });
 
     let today = new Date(); // Get today's date to give minimum limit to the calendar
     let dateArray = this.props.dateArray.map(this.renderChip, this);
