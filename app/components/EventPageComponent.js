@@ -254,7 +254,7 @@ class EventPageComponent extends Component {
         });
         return (
           <Column
-            header={<Cell>{attendee.attendeeName}</Cell>}
+            header={<Cell onTouchTap={this.toggleCastAttendanceButton}>{attendee.attendeeName}</Cell>}
             cell={props => (
               <Cell {...props}>
                 {orderedDateStausArray[props.rowIndex]}
@@ -321,6 +321,7 @@ class EventPageComponent extends Component {
 
   toggleCastAttendance() {
     if (this.props.toggleCastAttendance) {
+      if(document.cookie.indexOf('name') > -1 ){
       return (
         <div>
           <div className='row center-xs'>
@@ -332,7 +333,7 @@ class EventPageComponent extends Component {
               <label style={styles.formLabel}> Name </label>
             </div>
             <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={cookie.load('name')} />
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -344,7 +345,33 @@ class EventPageComponent extends Component {
             <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
           </div>
         </div>
-      );
+      );}
+      else{
+        return (
+          <div>
+            <div className='row center-xs'>
+              <label style={styles.formLabel}> Enter your convenient Dates </label>
+            </div>
+            <br />
+            <div className='row'>
+              <div className='col-xs-offset-5 col-xs-1'>
+                <label style={styles.formLabel}> Name </label>
+              </div>
+              <div className='col-xs'>
+                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                <br />
+                <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+              </div>
+            </div>
+            <br />
+            {this.dateToggleSection()}
+            <br />
+            <div className='row center-xs'>
+              <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+            </div>
+          </div>
+        );
+      }
     } else {
       return (
         <div>
