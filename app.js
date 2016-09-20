@@ -48,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/registerEvent', require('./routes/api/registerEvent'));
 app.use('/api/fetchEvent', require('./routes/api/fetchEvent'));
 app.use('/api/updateEvent', require('./routes/api/updateEvent'));
+app.use('/api/updateAttendee', require('./routes/api/updateAttendee'));
 app.use('/', require('./routes/index'));
 
 /* Error Handlers */
