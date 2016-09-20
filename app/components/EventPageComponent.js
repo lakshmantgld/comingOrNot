@@ -190,7 +190,7 @@ class EventPageComponent extends Component {
             {arrFree[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
   }
@@ -206,7 +206,7 @@ class EventPageComponent extends Component {
             {arrMaybe[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
 
@@ -223,7 +223,7 @@ class EventPageComponent extends Component {
             {arrBusy[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
 
@@ -406,9 +406,9 @@ class EventPageComponent extends Component {
             <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
             <ResponsiveFixedDataTable
               rowsCount={dateArray.length}
-              rowHeight={50}
-              height={50 * (dateArray.length + 1)}
-              headerHeight={30}
+              rowHeight={35}
+              height={(35 * (dateArray.length + 1))+15 }
+              headerHeight={50}
             >
               <Column
                 header={<Cell>Dates</Cell>}

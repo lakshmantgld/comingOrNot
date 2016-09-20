@@ -43,7 +43,7 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "fixed-data-table": "^0.6.1",
+    "fixed-data-table": "^0.6.3",
     "fixed-data-table-2": "^0.7.2",
     "isomorphic-fetch": "^2.2.1",
     "jade": "^1.11.0",
