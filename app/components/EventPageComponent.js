@@ -407,20 +407,9 @@ class EventPageComponent extends Component {
             <ResponsiveFixedDataTable
               rowsCount={dateArray.length}
               rowHeight={50}
-              width={10}
               height={50 * (dateArray.length + 1)}
-              headerHeight={50}
+              headerHeight={30}
             >
-            <Column
-              header={<Cell>Dates</Cell>}
-              cell={props => (
-                <Cell {...props}>
-                  {"qwerqw"}
-                </Cell>
-              )}
-              fixed={true}
-              width={180}
-            />
               <Column
                 header={<Cell>Dates</Cell>}
                 cell={props => (
