@@ -1,7 +1,8 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         TOGGLE_CAST_ATTENDANCE, EMPTY_PERSONALIZED_DATE_SELECTION } from './../actions/registerActions';
+         TOGGLE_CAST_ATTENDANCE, EMPTY_PERSONALIZED_DATE_SELECTION, STORE_UPDATE_ATTENDEE_ID, STORE_UPDATE_ATTENDEE_NAME,
+          STORE_UPDATE_ATTENDEE_DATE } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -92,6 +93,33 @@ export function attendeeName(state = '', action) {
       return state;
   }
 }
+
+export function updateAttendeeId(state = '', action) {
+  switch(action.type) {
+    case STORE_UPDATE_ATTENDEE_ID:
+      return action.id;
+    default:
+      return state;
+  }
+}
+
+export function updateAttendeeDate(state = {}, action) {
+  switch(action.type) {
+    case STORE_UPDATE_ATTENDEE_DATE:
+      return action.date;
+    default:
+      return state;
+  }
+}
+
+ export function updateAttendeeName(state = '', action) {
+   switch(action.type) {
+     case STORE_UPDATE_ATTENDEE_NAME:
+       return action.name;
+     default:
+       return state;
+   }
+ }
 
 export function attendeeNameErrorLabel(state = '', action) {
   switch(action.type) {

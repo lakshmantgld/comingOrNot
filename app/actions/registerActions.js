@@ -14,11 +14,41 @@ export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
 export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
+export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
+export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
+export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
 
 export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
+      name: name
+    });
+  };
+}
+
+export function storeUpdateAttendeeId(id) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_ID,
+      id: id
+    });
+  };
+}
+
+export function storeUpdateAttendeeDate(date) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_DATE,
+      date: date
+    });
+  };
+}
+
+export function storeUpdateAttendeeName(name) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_NAME,
       name: name
     });
   };

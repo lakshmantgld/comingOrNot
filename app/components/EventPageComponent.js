@@ -11,7 +11,8 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection  } from './../actions/registerActions';
+         updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
+         storeUpdateAttendeeDate } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -77,6 +78,7 @@ class EventPageComponent extends Component {
     this.updateEvent = this.updateEvent.bind(this);
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
     this.toggleCastAttendanceButton = this.toggleCastAttendanceButton.bind(this);
+    this.updateAttendeeComponent = this.updateAttendeeComponent.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -90,6 +92,12 @@ class EventPageComponent extends Component {
     this.props.dispatch(storePersonalizedDateSelection(date, e.target.value));
   }
 
+  updateAttendeeComponent(id, name, date, e){
+    this.props.dispatch(storeUpdateAttendeeId(id));
+    this.props.dispatch(storeUpdateAttendeeName(name));
+    this.props.dispatch(storeUpdateAttendeeDate(date));
+    this.toggleCastAttendanceButton();
+  }
 // Will store attendeeName and invoke error action in case of failed edge case.
   storeAttendeeName(e) {
     if (e.target.value.length >= '40') {
@@ -228,6 +236,8 @@ class EventPageComponent extends Component {
 
   }
 
+
+
   // Fills the attendess selection in the event table.
   fillAttendeeDetails() {
     let attendees = this.props.eventObj.attendees;
@@ -254,7 +264,7 @@ class EventPageComponent extends Component {
         });
         return (
           <Column
-            header={<Cell onTouchTap={this.toggleCastAttendanceButton}>{attendee.attendeeName}</Cell>}
+            header={<Cell onTouchTap={this.updateAttendeeComponent.bind(this, attendee._id, attendee.attendeeName, attendee.personalizedDateSelection)}>{attendee.attendeeName}</Cell>}
             cell={props => (
               <Cell {...props}>
                 {orderedDateStausArray[props.rowIndex]}
@@ -319,34 +329,96 @@ class EventPageComponent extends Component {
     }
   }
 
+  updateDateToggleSection() {
+    let updateDateCollection = [];
+    let i = 0;
+    for (let key in this.props.updateAttendeeDate) {
+      if (this.props.updateAttendeeDate.hasOwnProperty(key)) {
+          updateDateCollection[i++] = (
+            <div className='row'>
+              <div className='col-xs-3'>
+              </div>
+              <div className='col-xs-offset-1 col-xs-2'>
+                <label style={styles.dateLabel}> {key} </label>
+              </div>
+              <div className='col-xs'>
+                  <RadioButtonGroup name='shipSpeed' style={{ display: 'flex' }} onChange={this.handleDateToogle.bind(this, key)} defaultSelected={this.props.updateAttendeeDate[key]}>
+                      <RadioButton
+                        value='free'
+                        label='Free'
+                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_available</FontIcon>}
+                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_available</FontIcon>}
+                        style={styles.block}
+                      />
+                      <RadioButton
+                        value='maybe'
+                        label='MayBe'
+                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>warning</FontIcon>}
+                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>warning</FontIcon>}
+                        style={styles.block1}
+                      />
+                      <RadioButton
+                        value='busy'
+                        label='Busy'
+                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_busy</FontIcon>}
+                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_busy</FontIcon>}
+                        style={styles.block}
+                      />
+                  </RadioButtonGroup>
+              </div>
+            </div>
+          );
+        } // if
+      } // for
+      return updateDateCollection;
+  }
+
   toggleCastAttendance() {
     if (this.props.toggleCastAttendance) {
-      if(document.cookie.indexOf('name') > -1 ){
-      return (
-        <div>
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> Enter your convenient Dates </label>
-          </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> Name </label>
-            </div>
-            <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={cookie.load('name')} />
+      console.log("cominghere");
+      if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') {
+        console.log("passing update");
+        if (document.cookie.indexOf('name') > -1 && cookie.load('name') === this.props.updateAttendeeName ) {
+          this.props.dispatch(storeAttendeeName(this.props.updateAttendeeName));
+          return (
+            <div>
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> Enter your convenient Dates </label>
+              </div>
               <br />
-              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+              <div className='row'>
+                <div className='col-xs-offset-5 col-xs-1'>
+                  <label style={styles.formLabel}> Name </label>
+                </div>
+                <div className='col-xs'>
+                  <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                  <br />
+                  <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+                </div>
+              </div>
+              <br />
+              {this.updateDateToggleSection()}
+              <br />
+              <div className='row center-xs'>
+                <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+              </div>
             </div>
-          </div>
-          <br />
-          {this.dateToggleSection()}
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
-          </div>
-        </div>
-      );}
-      else{
+          );
+        } else {
+          return (
+            <div>
+              <br />
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> Cast your attendance for the above days by pressing the button </label>
+              </div>
+              <br />
+              <div className='row center-xs'>
+                <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+              </div>
+            </div>
+          );
+        }
+      } else {
         return (
           <div>
             <div className='row center-xs'>
@@ -386,7 +458,6 @@ class EventPageComponent extends Component {
         </div>
       );
     }
-
   }
 
 // Fill the details about the event.
@@ -466,7 +537,10 @@ EventPageComponent.propTypes = {
   attendeeName: PropTypes.string.isRequired,
   attendeeNameErrorLabel: PropTypes.string.isRequired,
   personalizedDateSelection: PropTypes.object.isRequired,
-  toggleCastAttendance: PropTypes.bool.isRequired
+  toggleCastAttendance: PropTypes.bool.isRequired,
+  updateAttendeeId: PropTypes.string.isRequired,
+  updateAttendeeName: PropTypes.string.isRequired,
+  updateAttendeeDate: PropTypes.object.isRequired,
 };
 
 export default connect(state => ({
@@ -474,5 +548,8 @@ export default connect(state => ({
   attendeeName: state.attendeeName,
   attendeeNameErrorLabel: state.attendeeNameErrorLabel,
   personalizedDateSelection: state.personalizedDateSelection,
-  toggleCastAttendance: state.toggleCastAttendance
+  toggleCastAttendance: state.toggleCastAttendance,
+  updateAttendeeId: state.updateAttendeeId,
+  updateAttendeeName: state.updateAttendeeName,
+  updateAttendeeDate: state.updateAttendeeDate,
 }))(EventPageComponent);
