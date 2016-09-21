@@ -79,6 +79,7 @@ class EventPageComponent extends Component {
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
     this.toggleCastAttendanceButton = this.toggleCastAttendanceButton.bind(this);
     this.updateAttendeeComponent = this.updateAttendeeComponent.bind(this);
+    this.updateAttendee = this.updateAttendee.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -92,10 +93,17 @@ class EventPageComponent extends Component {
     this.props.dispatch(storePersonalizedDateSelection(date, e.target.value));
   }
 
+  updateAttendee() {
+    this.toggleCastAttendanceButton();
+    this.props.dispatch(storeUpdateAttendeeName(''));
+    this.props.dispatch(storeUpdateAttendeeId(''));
+  }
+
   updateAttendeeComponent(id, name, date, e){
-    this.props.dispatch(storeUpdateAttendeeId(id));
     this.props.dispatch(storeUpdateAttendeeName(name));
+    this.props.dispatch(storeUpdateAttendeeId(id));
     this.props.dispatch(storeUpdateAttendeeDate(date));
+    this.props.dispatch(storeAttendeeName(name));
     this.toggleCastAttendanceButton();
   }
 // Will store attendeeName and invoke error action in case of failed edge case.
@@ -103,7 +111,7 @@ class EventPageComponent extends Component {
     if (e.target.value.length >= '40') {
       this.props.dispatch(storeAttendeeNameErrorLabel('Only 40 characters permitted!!!'))
     } else {
-      this.props.dispatch(storeAttendeeNameErrorLabel(''))
+      this.props.dispatch(storeAttendeeNameErrorLabel(''));
       this.props.dispatch(storeAttendeeName(e.target.value));
     }
   }
@@ -379,7 +387,6 @@ class EventPageComponent extends Component {
       if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') {
         console.log("passing update");
         if (document.cookie.indexOf('name') > -1 && cookie.load('name') === this.props.updateAttendeeName ) {
-          this.props.dispatch(storeAttendeeName(this.props.updateAttendeeName));
           return (
             <div>
               <div className='row center-xs'>
