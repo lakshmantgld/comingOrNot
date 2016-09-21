@@ -45,11 +45,11 @@ a.accountListItem, a.playbookListItem {
   font-size: 1rem;
   position: relative;
   width: 50%;
-  margin: 1em auto;
+
   text-align: left;
 }
 .geosuggest__input {
-  width: 100%;
+  
   border: 2px solid transparent;
   box-shadow: 0 0 1px #3d464d;
   padding: .5em 1em;

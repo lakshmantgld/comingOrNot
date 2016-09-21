@@ -165,21 +165,17 @@ class RegisterComponent extends Component {
       <div>
         <br />
         <div className='row'>
-          <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> Name </label>
-          </div>
-          <div className='col-xs'>
+
+          <div className='col-md-6 col-md-offset-6'>
             <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
             <br />
             <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
           </div>
         </div>
-        <br />
+
         <div className='row'>
-          <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> Purpose </label>
-          </div>
-          <div className='col-xs'>
+
+          <div className='col-md-6 col-md-offset-6'>
             <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
               multiLine={true}
               rows={2}
@@ -190,19 +186,24 @@ class RegisterComponent extends Component {
           </div>
         </div>
         <br />
-        <div className='row center-xs'>
-          <label style={styles.formLabel}> Select the Dates for the Event </label>
+        <br />
+        <div className='row'>
+          <div className='col-md-6 col-md-offset-6 col-xs-4'>
+            <Geosuggest
+              placeholder='Restaurant location'
+              initialValue=''
+              country='JP'
+              fixtures={fixtures}
+              onSuggestSelect={this.suggestLocation}
+              onChange={this.storeLocation}
+              location={new google.maps.LatLng(35.44371, 139.63803)}
+              radius='40' />
+          </div>
         </div>
-        <div>
-          <Geosuggest
-            placeholder='Enter the restaurant location here!'
-            initialValue=''
-            country='JP'
-            fixtures={fixtures}
-            onSuggestSelect={this.suggestLocation}
-            onChange={this.storeLocation}
-            location={new google.maps.LatLng(35.44371, 139.63803)}
-            radius='40' />
+        <br />
+        <br />
+        <div className='col-md-6 col-md-offset-6 col-xs-4'>
+          <label style={styles.formLabel}> Select the Dates for the Event </label>
         </div>
         <br />
         <div className='row'>
@@ -215,9 +216,9 @@ class RegisterComponent extends Component {
             </div>
             <div className='col-xs-6'>
                 <InfiniteCalendar
-                    layout='landscape'
-                    width={580}
-                    height={275}
+                    layout='portrait'
+                    width={300}
+                    height={300}
                     rowHeight={55}
                     minDate={today}
                     onSelect={this.storeDate}
