@@ -22,7 +22,6 @@ const reducers = combineReducers({
   updateAttendeeId,
   updateAttendeeName,
   updateAttendeeDate,
-  editAttendance,
   routing: routerReducer
 });
 
