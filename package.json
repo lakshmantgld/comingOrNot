@@ -28,7 +28,7 @@
     ]
   },
   "scripts": {
-    "start": "nodemon ./bin/www && node server.js",
+    "start": "node ./bin/www",
     "test": "mocha --compilers js:espower-babel/guess test/*.js"
   },
   "dependencies": {
