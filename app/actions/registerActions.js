@@ -17,6 +17,7 @@ export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECT
 export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
 export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
 export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
+export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 
 export function storeName(name) {
   return dispatch => {
@@ -201,6 +202,27 @@ export function updateEvent(name, personalizedDateSelection, eventId) {
         if (res.status !== 200) {
           let status = res.status;
           console.log('error in updating event object');
+        }
+        return res.json();
+      })
+      .then(json => dispatch(storeEvent(json)))
+  };
+}
+
+export function updateAttendee(attendeeId, name, personalizedDateSelection, eventId) {
+  console.log('calling upda');
+  return dispatch => {
+    return fetch('/api/updateAttendee', {credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'attendeeId': attendeeId, 'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
+      .then(res => {
+        if (res.status !== 200) {
+          let status = res.status;
+          console.log('error in updating attendee object');
         }
         return res.json();
       })

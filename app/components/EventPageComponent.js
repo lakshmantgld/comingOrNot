@@ -12,7 +12,7 @@ import {Table, Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
-         storeUpdateAttendeeDate } from './../actions/registerActions';
+         storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -93,10 +93,46 @@ class EventPageComponent extends Component {
     this.props.dispatch(storePersonalizedDateSelection(date, e.target.value));
   }
 
-  updateAttendee() {
-    this.toggleCastAttendanceButton();
+  callAfterSomeTimeUpdateAttendee() {
+    this.props.dispatch(updateAttendee(this.props.updateAttendeeId, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
     this.props.dispatch(storeUpdateAttendeeName(''));
     this.props.dispatch(storeUpdateAttendeeId(''));
+    this.toggleCastAttendanceButton();
+  }
+
+  fillTheLeftOutDatesAttendee() {
+    let count = 0;
+    for (let date in this.props.updateAttendeeDate) {
+      if (this.props.updateAttendeeDate.hasOwnProperty(date)) {
+        for (let key in this.props.personalizedDateSelection) {
+          if (this.props.personalizedDateSelection.hasOwnProperty(key)) {
+            if (date === key ) {
+              count = 1;
+            }
+          }
+        }
+        if (count === 0) {
+          this.props.dispatch(storePersonalizedDateSelection(date, this.props.updateAttendeeDate[date]));
+        }
+        count = 0;
+      }
+    }
+  }
+
+  updateAttendee() {
+    if (this.props.attendeeName.length === 0) {
+      this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+    } else {
+
+      // populating personalizedDateSelection if user has not chosen any status.
+      this.fillTheLeftOutDatesAttendee();
+
+      // A timeout has been used, because There will be a little time taken for storing the default values
+      // to the left-out dates. So, having a delay will give a consistency in the application.
+      setTimeout((function() {
+       this.callAfterSomeTimeUpdateAttendee();
+     }).bind(this), 1000);
+    }
   }
 
   updateAttendeeComponent(id, name, date, e){
@@ -137,7 +173,7 @@ class EventPageComponent extends Component {
   }
 
 // This cast by attendess will be invoked after an secod for providing delay.
-  callAfterSomeTime() {
+  callAfterSomeTimeUpdate() {
     cookie.save("name", this.props.attendeeName);
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
     this.props.dispatch(toggleCastAttendance(false));
@@ -156,7 +192,7 @@ class EventPageComponent extends Component {
       // A timeout has been used, because There will be a little time taken for storing the default values
       // to the left-out dates. So, having a delay will give a consistency in the application.
       setTimeout((function() {
-       this.callAfterSomeTime();
+       this.callAfterSomeTimeUpdate();
      }).bind(this), 1000);
     }
   }

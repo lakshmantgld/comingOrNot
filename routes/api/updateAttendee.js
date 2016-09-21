@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
   let personalizedDateSelection = req.body.personalizedDateSelection;
   let eventId = req.body.eventId;
 
-  console.log(name + "   " + attendeeId + "   " + personalizedDateSelection + "   " + eventId);
+  console.log(name + " <-name  " + attendeeId + " <-id  " + personalizedDateSelection + "   " + eventId);
 
   let attendee = {};
   attendee['attendeeName'] = name;
