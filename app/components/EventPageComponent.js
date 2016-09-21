@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-
+import Dimensions from 'react-dimensions'
 import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-
-import {Table, Column, Cell} from 'fixed-data-table';
+import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
+import {Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
@@ -67,6 +67,7 @@ let styles = {
 let buttonStyle = {
   margin : 12
 };
+
 
 class EventPageComponent extends Component {
 
@@ -241,7 +242,7 @@ class EventPageComponent extends Component {
             {arrFree[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
   }
@@ -257,7 +258,7 @@ class EventPageComponent extends Component {
             {arrMaybe[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
 
@@ -274,7 +275,7 @@ class EventPageComponent extends Component {
             {arrBusy[props.rowIndex]}
           </Cell>
         )}
-        width={100}
+        width={80}
       />
     );
 
@@ -543,11 +544,11 @@ class EventPageComponent extends Component {
           </div>
           <br />
           <div className='row center-xs'>
-            <Table
+            <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
+            <ResponsiveFixedDataTable
               rowsCount={dateArray.length}
-              rowHeight={50}
-              width={800}
-              height={50 * (dateArray.length + 1)}
+              rowHeight={35}
+              height={(35 * (dateArray.length + 1))+15 }
               headerHeight={50}
             >
               <Column
@@ -564,8 +565,9 @@ class EventPageComponent extends Component {
               {this.fillMaybeStatus()}
               {this.fillBusyStatus()}
               {this.fillAttendeeDetails()}
-            </Table>
+            </ResponsiveFixedDataTable>
           </div>
+        </div>
           <br />
           {this.toggleCastAttendance()}
         </div>
@@ -585,6 +587,7 @@ EventPageComponent.propTypes = {
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
 };
+
 
 export default connect(state => ({
   eventObj: state.eventObj,
