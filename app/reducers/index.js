@@ -3,7 +3,8 @@ import { routerReducer } from 'react-router-redux';
 
 import { name, purpose, latlngs, sourceLabel, destinationLabel, dateArray, dateArrayErrorLabel,
         nameErrorLabel, purposeErrorLabel, eventObj, personalizedDateSelection, attendeeName,
-        attendeeNameErrorLabel, toggleCastAttendance, location } from './registerReducers';
+        attendeeNameErrorLabel, toggleCastAttendance, location, updateAttendeeDate, updateAttendeeId,
+        updateAttendeeName } from './registerReducers';
 
 const reducers = combineReducers({
   name,
@@ -18,6 +19,10 @@ const reducers = combineReducers({
   attendeeNameErrorLabel,
   toggleCastAttendance,
   location,
+  updateAttendeeId,
+  updateAttendeeName,
+  updateAttendeeDate,
+  editAttendance,
   routing: routerReducer
 });
 

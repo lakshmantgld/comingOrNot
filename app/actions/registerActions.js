@@ -15,11 +15,42 @@ export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL'
 export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 export const STORE_LOCATION = 'STORE_LOCATION';
 export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
+export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
+export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
+export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
+export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 
 export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
+      name: name
+    });
+  };
+}
+
+export function storeUpdateAttendeeId(id) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_ID,
+      id: id
+    });
+  };
+}
+
+export function storeUpdateAttendeeDate(date) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_DATE,
+      date: date
+    });
+  };
+}
+
+export function storeUpdateAttendeeName(name) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_UPDATE_ATTENDEE_NAME,
       name: name
     });
   };
@@ -172,6 +203,27 @@ export function updateEvent(name, personalizedDateSelection, eventId) {
         if (res.status !== 200) {
           let status = res.status;
           console.log('error in updating event object');
+        }
+        return res.json();
+      })
+      .then(json => dispatch(storeEvent(json)))
+  };
+}
+
+export function updateAttendee(attendeeId, name, personalizedDateSelection, eventId) {
+  console.log('calling upda');
+  return dispatch => {
+    return fetch('/api/updateAttendee', {credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'attendeeId': attendeeId, 'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
+      .then(res => {
+        if (res.status !== 200) {
+          let status = res.status;
+          console.log('error in updating attendee object');
         }
         return res.json();
       })

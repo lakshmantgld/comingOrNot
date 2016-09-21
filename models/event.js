@@ -39,6 +39,10 @@ function update(eventId, attendee, callback) {
   Event.findOneAndUpdate({_id: Types.ObjectId(eventId)}, {$push: {attendees: attendee}}, {new: true}, callback);
 }
 
+function updateAttendee(eventId, attendee, callback) {
+  Event.findOneAndUpdate({_id: Types.ObjectId(eventId), "attendees._id": Types.ObjectId(attendee.attendeeId)}, {$set: {"attendees.$.attendeeName": attendee.attendeeName, "attendees.$.personalizedDateSelection": attendee.personalizedDateSelection}}, {new: true}, callback);
+}
+
 function remove(userId, accessKeyId, secretAccessKey, callback) {
   Event.remove({userId: userId, accessKeyId: accessKeyId, secretAccessKey: secretAccessKey}, callback);
 }
@@ -48,5 +52,6 @@ module.exports = {
   getEvent: getEvent,
   update: update,
   save: save,
+  updateAttendee: updateAttendee,
   remove: remove
 };
