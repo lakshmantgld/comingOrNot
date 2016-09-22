@@ -163,73 +163,85 @@ class RegisterComponent extends Component {
 
     return (
       <div>
-        <br />
-        <div className='row'>
+          <div className="row" id='fullRow'>
+              <div className="col-md-4 col-md-offset-1">
+                        <br />
 
-          <div className='col-md-6 col-md-offset-6'>
-            <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
-            <br />
-            <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
-          </div>
-        </div>
+                        <div className='row'>
 
-        <div className='row'>
+                          <div className='col-md-6'>
+                            <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
+                            <br />
+                            <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
+                          </div>
+                        </div>
 
-          <div className='col-md-6 col-md-offset-6'>
-            <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
-              multiLine={true}
-              rows={2}
-              rowsMax={4}
-            />
-            <br />
-            <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
-          </div>
-        </div>
-        <br />
-        <br />
-        <div className='row'>
-          <div className='col-md-6 col-md-offset-6 col-xs-4'>
-            <Geosuggest
-              placeholder='Restaurant location'
-              initialValue=''
-              country='JP'
-              fixtures={fixtures}
-              onSuggestSelect={this.suggestLocation}
-              onChange={this.storeLocation}
-              location={new google.maps.LatLng(35.44371, 139.63803)}
-              radius='40' />
-          </div>
-        </div>
-        <br />
-        <br />
-        <div className='col-md-6 col-md-offset-6 col-xs-4'>
-          <label style={styles.formLabel}> Select the Dates for the Event </label>
-        </div>
-        <br />
-        <div className='row'>
-          <div className='row'>
-            <div className="col-xs-6">
-                { dateArray }
-              <div className='row center-xs'>
-                <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                        <div className='row'>
+
+                          <div className='col-md-6'>
+                            <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
+                              multiLine={true}
+                              rows={2}
+                              rowsMax={4}
+                            />
+                            <br />
+                            <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
+                          </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div className='row'>
+                          <div className='col-md-6'>
+                            <Geosuggest
+                              placeholder='Restaurant location'
+                              initialValue=''
+                              country='JP'
+                              fixtures={fixtures}
+                              onSuggestSelect={this.suggestLocation}
+                              onChange={this.storeLocation}
+                              location={new google.maps.LatLng(35.44371, 139.63803)}
+                              radius='40' />
+                          </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div className='col-md-6'>
+                          <label style={styles.formLabel}> Select the Dates for the Event </label>
+                        </div>
+                        <br />
+
+                        <div className='row col-md-offset-2' id="regButton">
+                          <RaisedButton label="Register" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
+                        </div>
+
               </div>
-            </div>
-            <div className='col-xs-6'>
-                <InfiniteCalendar
-                    layout='portrait'
-                    width={300}
-                    height={300}
-                    rowHeight={55}
-                    minDate={today}
-                    onSelect={this.storeDate}
-                    keyboardSupport={true}
-                />
-            </div>
-          </div>
-        </div>
-        <div className='row center-xs'>
-          <RaisedButton label="Register" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
-        </div>
+
+              <div className='col-md-1 col-md-offset-1'>
+                  <div className='verticalLine'>
+                  </div>
+              </div>
+               <div className='col-md-4'>
+                          <div>
+                            <div className="col-xs-6">
+                                { dateArray }
+                              <div className='row center-xs'>
+                                <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                              </div>
+                            </div>
+                            <div className='col-xs-6'>
+                                <InfiniteCalendar
+                                    layout='portrait'
+                                    width={400}
+                                    height={300}
+                                    rowHeight={55}
+                                    minDate={today}
+                                    onSelect={this.storeDate}
+                                    keyboardSupport={true}
+                                />
+                            </div>
+                          </div>
+              </div>
+              </div>
       </div>
     );
   }
