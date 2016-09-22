@@ -96,9 +96,11 @@ class EventPageComponent extends Component {
 
   callAfterSomeTimeUpdateAttendee() {
     this.props.dispatch(updateAttendee(this.props.updateAttendeeId, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
+    cookie.save("name", this.props.attendeeName);
     this.props.dispatch(storeUpdateAttendeeName(''));
     this.props.dispatch(storeUpdateAttendeeId(''));
     this.toggleCastAttendanceButton();
+    this.props.dispatch(storeAttendeeName(''));
   }
 
   fillTheLeftOutDatesAttendee() {
@@ -123,6 +125,8 @@ class EventPageComponent extends Component {
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+    } else if (this.duplicateCheck()) {
+      this.props.dispatch(storeAttendeeNameErrorLabel('Name already exists!! Please enter anothe name'));
     } else {
 
       // populating personalizedDateSelection if user has not chosen any status.
@@ -181,10 +185,29 @@ class EventPageComponent extends Component {
     this.props.dispatch(emptyPersonalizedDateSelection());
   }
 
+  duplicateCheck() {
+    let count = 0;
+    let i = 0;
+    for (i = 0; i < this.props.eventObj.attendees.length; i++) {
+      if (this.props.attendeeName === this.props.eventObj.attendees[i].attendeeName) {
+        count = 1;
+      }
+    }
+
+    if (count === 1) {
+      return true;
+    } else {
+      return false;
+    }
+    count = 0;
+  }
+
 // stores the attendess selection of dates and his name.
   updateEvent(e) {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+    } else if (this.duplicateCheck()) {
+      this.props.dispatch(storeAttendeeNameErrorLabel('Name already exists!! Please enter anothe name'));
     } else {
 
       // populating personalizedDateSelection if user has not chosen any status.
