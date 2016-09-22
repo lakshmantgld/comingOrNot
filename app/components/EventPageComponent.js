@@ -99,6 +99,7 @@ class EventPageComponent extends Component {
     this.props.dispatch(storeUpdateAttendeeName(''));
     this.props.dispatch(storeUpdateAttendeeId(''));
     this.toggleCastAttendanceButton();
+    this.props.dispatch(storeAttendeeName(''));
   }
 
   fillTheLeftOutDatesAttendee() {
@@ -123,6 +124,8 @@ class EventPageComponent extends Component {
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+    } else if (this.duplicateCheck()) {
+      this.props.dispatch(storeAttendeeNameErrorLabel('Name already exists!! Please enter anothe name'));
     } else {
 
       // populating personalizedDateSelection if user has not chosen any status.
