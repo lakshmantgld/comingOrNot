@@ -1,8 +1,8 @@
 {
   "mongodb": {
-    "uristring": "mongodb://127.0.0.1:27017/",
+    "uristring": "mongodb://172.27.87.74:27017/",
     "protocol": "mongodb",
-    "hostname": "127.0.0.1",
+    "hostname": "172.27.87.74",
     "port": "27017",
     "path": "LetsMeetup"
   }
