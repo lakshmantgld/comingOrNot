@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
-import {Column, Cell} from 'fixed-data-table';
+import {Table, Column, Cell} from 'fixed-data-table';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
@@ -568,9 +568,10 @@ class EventPageComponent extends Component {
           <br />
           <div className='row center-xs'>
             <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
-            <ResponsiveFixedDataTable
+            <Table
               rowsCount={dateArray.length}
               rowHeight={35}
+              width={800}
               height={(35 * (dateArray.length + 1))+15 }
               headerHeight={50}
             >
@@ -588,7 +589,7 @@ class EventPageComponent extends Component {
               {this.fillMaybeStatus()}
               {this.fillBusyStatus()}
               {this.fillAttendeeDetails()}
-            </ResponsiveFixedDataTable>
+            </Table>
           </div>
         </div>
           <br />
