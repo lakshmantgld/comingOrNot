@@ -1,7 +1,7 @@
-node_modules
 bower_components
 .DS_Store
 npm-debug.log
 public/js/app.js
 public/js/app.js.map
 .bowerrc
+node_modules
