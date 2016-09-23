@@ -1,14 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import Dimensions from 'react-dimensions'
 import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
-import {Column, Cell} from 'fixed-data-table';
+import {Table, Column, Cell} from 'fixed-data-table-2';
+import MediaQuery from 'react-responsive';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection  } from './../actions/registerActions';
@@ -381,54 +380,73 @@ class EventPageComponent extends Component {
       );
     } else {
       let dateArray = this.props.eventObj.dateArray;
-
       result = (
+
+
+
         <div>
-          <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.getEventInformation()} </label>
-          </div>
-          <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> The Event Table </label>
-          </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-2 col-xs-4'>
-              <label style={styles.formLabel3}> No of people who entered the available dates: </label>
-            </div>
-            <div className='col-xs'>
-              <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
-            </div>
-          </div>
-          <br />
-          <div className='row center-xs'>
-            <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
-            <ResponsiveFixedDataTable
-              rowsCount={dateArray.length}
-              rowHeight={35}
-              height={(35 * (dateArray.length + 1))+15 }
-              headerHeight={50}
-            >
-              <Column
-                header={<Cell>Dates</Cell>}
-                cell={props => (
-                  <Cell {...props}>
-                    {dateArray[props.rowIndex]}
-                  </Cell>
-                )}
-                fixed={true}
-                width={180}
-              />
-              {this.fillFreeStatus()}
-              {this.fillMaybeStatus()}
-              {this.fillBusyStatus()}
-              {this.fillAttendeeDetails()}
-            </ResponsiveFixedDataTable>
-          </div>
+
+
+          <div>
+          <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+            <div>You are a desktop or laptop</div>
+
+              <br />
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> {this.getEventInformation()} </label>
+              </div>
+              <br />
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> The Event Table </label>
+              </div>
+              <br />
+              <div className='row'>
+                <div className='col-xs-offset-2 col-xs-4'>
+                  <label style={styles.formLabel3}> No of people who entered the available dates: </label>
+                </div>
+                <div className='col-xs'>
+                  <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
+                </div>
+              </div>
+              <br />
+              <div className='row center-xs'>
+                <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
+                <Table
+                  rowsCount={dateArray.length}
+                  width={800}
+                  rowHeight={35}
+                  height={(35 * (dateArray.length + 1))+15 }
+                  headerHeight={50}
+                >
+                  <Column
+                    header={<Cell>Dates</Cell>}
+                    cell={props => (
+                      <Cell {...props}>
+                        {dateArray[props.rowIndex]}
+                      </Cell>
+                    )}
+                    fixed={true}
+                    width={180}
+                  />
+                  {this.fillFreeStatus()}
+                  {this.fillMaybeStatus()}
+                  {this.fillBusyStatus()}
+                  {this.fillAttendeeDetails()}
+                </Table>
+              </div>
+              </div>
+              <br />
+              {this.toggleCastAttendance()}
+
+
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={1224} >
+            <div>You are a tablet or mobile phone</div>
+          </MediaQuery>
         </div>
-          <br />
-          {this.toggleCastAttendance()}
+
+
+
         </div>
       );
     }
