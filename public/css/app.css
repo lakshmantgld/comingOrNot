@@ -8,10 +8,19 @@ body {
 .headerBar a:hover {
   text-decoration: none;
   color: #FFFFFF;
+
 }
 
 .headerMenu {
   margin-top: 0;
+}
+
+#mainDiv{
+  background: url(1.jpg) no-repeat center center fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
 }
 
 @media only screen and (min-width: 48em) {
@@ -85,10 +94,6 @@ a.accountListItem, a.playbookListItem {
       margin-top: 12px;
       margin-bottom: -12px;
       box-sizing: border-box;
-
-
-
-
 
 }
 .geosuggest__input:focus {
