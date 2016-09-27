@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import cookie from 'react-cookie';
 import { grey600, red500, blue500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table-2';
 import MediaQuery from 'react-responsive';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection  } from './../actions/registerActions';
@@ -32,7 +33,7 @@ let styles = {
   },
   dateLabel: {
     text: 'bold',
-    fontSize: '20px',
+    fontSize: '25px',
     color: grey600
   },
   errorLabel: {
@@ -311,6 +312,119 @@ class EventPageComponent extends Component {
     });
   }
 
+  MobiledateToggleSection() {
+    let dateArray = this.props.eventObj.dateArray;
+    return dateArray.map((date, i) =>{
+      return (
+
+
+      <div className = 'row center-xs'>
+      <div className='col-sm-8 col-xs-12'>
+    {/**<label style={styles.dateLabel}> {date} </label>*/}
+    <Card expandable={true}>
+      <CardHeader
+        title={date}
+            actAsExpander={true}
+            showExpandableButton={true}
+          />
+        <CardText>
+            <div className='row center-xs'>
+              <br></br>
+              <br></br>
+                {/**<div className='col-xs-12'>
+                    <label style={styles.dateLabel}>
+                        {date}
+                    </label>
+                </div>
+                <br></br>
+                <br></br>
+                <br></br>*/}
+                <div className='col-xs-12'>
+
+                    <MediaQuery minDeviceWidth={420}>
+                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                            <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > event_available < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > event_available < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > warning < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > warning < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > event_busy < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > event_busy < /FontIcon>}/>
+
+                        </RadioButtonGroup>
+                    </MediaQuery>
+
+                    <MediaQuery maxDeviceWidth={420}>
+                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                            <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > event_available < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > event_available < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > warning < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > warning < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > event_busy < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > event_busy < /FontIcon>}/>
+
+                        </RadioButtonGroup>
+                    </MediaQuery>
+                </div>
+            </div>
+        </CardText>
+        <CardText expandable={true}>
+      Free: You, Yourself, Your dog
+      <br></br>
+      Maybe: She, He
+      <br></br>
+      Busy: Me, Myself
+    </CardText>
+    </Card>
+    <br></br>
+</div>
+</div>
+
+      );
+    });
+  }
+
   toggleCastAttendanceButton() {
     if (this.props.toggleCastAttendance) {
       this.props.dispatch(toggleCastAttendance(false));
@@ -362,6 +476,39 @@ class EventPageComponent extends Component {
 
   }
 
+  toggleMobileCastAttendance() {
+    if (this.props.toggleCastAttendance) {
+      return (
+        <div>
+
+          <div className='row center-xs'>
+            <div className='col-xs-10'>
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+              <br />
+              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+            </div>
+          </div>
+          <br />
+          {this.MobiledateToggleSection()}
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+          </div>
+        </div>
+      );
+    }
+
+  }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
@@ -389,7 +536,7 @@ class EventPageComponent extends Component {
 
           <div>
           <MediaQuery minDeviceWidth={1224} orientation='landscape'>
-            <div>You are a desktop or laptop</div>
+
 
               <br />
               <div className='row center-xs'>
@@ -441,7 +588,34 @@ class EventPageComponent extends Component {
 
           </MediaQuery>
           <MediaQuery maxDeviceWidth={1224} >
-            <div>You are a tablet or mobile phone</div>
+            {/*<div>You are a tablet or mobile phone</div>*/}
+
+            <br></br>
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> {this.props.eventObj.purpose} </label>
+              </div>
+
+              <br></br>
+
+              <div>
+
+                <div className='row center-xs'>
+                  <div className='col-xs-10'>
+                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <br />
+                    <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+                  </div>
+                </div>
+                <br />
+                <br></br>
+                {this.MobiledateToggleSection()}
+                <br />
+                <div className='row center-xs'>
+                  <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                </div>
+              </div>
+
+
           </MediaQuery>
         </div>
 
