@@ -15,12 +15,8 @@ body {
   margin-top: 0;
 }
 
-#mainDiv{
-  background: url(1.jpg) no-repeat center center fixed;
- -webkit-background-size: cover;
- -moz-background-size: cover;
- -o-background-size: cover;
- background-size: cover;
+#leftBox{
+      border: 1px solid black;
 }
 
 @media only screen and (min-width: 48em) {
@@ -29,10 +25,11 @@ body {
   }
 }
 #regButton{
-      margin: 75px;
+
+
 }
 .verticalLine {
-    border-left: solid #635c5c;
+    border-left: 1px solid #635c5c;
     height :500px;
 
 }
@@ -49,6 +46,7 @@ a.accountListItem, a.playbookListItem {
 }
 #fullRow{
   margin-top: 90px;
+
 }
 .row {
   width: 100%;

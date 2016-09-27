@@ -10,15 +10,18 @@ class Header extends Component {
 
   render() {
     return (
+
       <header>
         <AppBar
           className='headerBar'
+          style={{backgroundColor: 'black'}}
           title={<a href='/'>
                   <center> Lets Meet Up!! </center>
                 </a>}
           showMenuIconButton={false}
         />
       </header>
+
     );
   }
 }

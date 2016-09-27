@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 // The below code is for extracting the location of browser. not working in localhost.
 //import geolocator from 'geolocator';
 
-import { grey600, red500 } from 'material-ui/styles/colors';
+import { grey600, red500, grey900, grey50 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
+
 
 import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
@@ -28,11 +29,21 @@ let styles = {
   },
   chip: {
     margin: 4,
+  },
+  underlineStyle: {
+    borderColor: grey900,
+  },
+  dateSelectLabel:{
+    fontSize: '19px'
+  },
+  datePush:{
+    marginTop: '20px'
   }
 };
 
 let buttonStyle = {
-  margin : 12
+  margin : 12,
+  color : 'rgb(255, 255, 255)'
 };
 
 let mymap;
@@ -111,8 +122,8 @@ class RegisterComponent extends Component {
 
   renderChip(data) {
     return (
-      <div>
-        <div className='row center-xs'>
+
+        <div className='col-xs-6' >
           <Chip
             key={data}
             onRequestDelete={() => this.handleRequestDelete(data)}
@@ -120,8 +131,8 @@ class RegisterComponent extends Component {
             {data}
           </Chip>
         </div>
-        <br />
-      </div>
+
+
     );
   }
 
@@ -164,13 +175,15 @@ class RegisterComponent extends Component {
     return (
       <div>
           <div className="row" id='fullRow'>
+
               <div className="col-md-4 col-md-offset-1">
+                    <div className='row'  id='leftBox'>
                         <br />
 
                         <div className='row'>
 
                           <div className='col-md-6'>
-                            <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
+                            <TextField id='name' floatingLabelText="Name" onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
                             <br />
                             <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
                           </div>
@@ -179,16 +192,11 @@ class RegisterComponent extends Component {
                         <div className='row'>
 
                           <div className='col-md-6'>
-                            <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
-                              multiLine={true}
-                              rows={2}
-                              rowsMax={4}
-                            />
-                            <br />
+                            <TextField id='purpose' floatingLabelText='Purpose' onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+
                             <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
                           </div>
                         </div>
-                        <br />
                         <br />
                         <div className='row'>
                           <div className='col-md-6'>
@@ -205,15 +213,22 @@ class RegisterComponent extends Component {
                         </div>
                         <br />
                         <br />
-                        <div className='col-md-6'>
-                          <label style={styles.formLabel}> Select the Dates for the Event </label>
+                        <div className='row' style={styles.datePush}>
+                        <div className='col-md-12'>
+                          <label style={styles.dateSelectLabel}> Select the Dates for the Event </label>
+                        </div></div>
+                        <div className="col-xs-12">
+                            <div className='row'>{ dateArray }</div>
+                          <div className='row center-xs'>
+                            <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                          </div>
                         </div>
                         <br />
 
                         <div className='row col-md-offset-2' id="regButton">
-                          <RaisedButton label="Register" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
+                          <RaisedButton label="Register" labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
                         </div>
-
+                </div>
               </div>
 
               <div className='col-md-1 col-md-offset-1'>
@@ -222,14 +237,23 @@ class RegisterComponent extends Component {
               </div>
                <div className='col-md-4'>
                           <div>
-                            <div className="col-xs-6">
-                                { dateArray }
-                              <div className='row center-xs'>
-                                <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
-                              </div>
-                            </div>
+
                             <div className='col-xs-6'>
                                 <InfiniteCalendar
+                                theme={{
+  selectionColor: 'rgb(6, 5, 6)',
+  textColor: {
+     default: '#333',
+     active: '#FFF'
+  },
+  weekdayColor: 'rgb(49, 44, 49)',
+  headerColor: 'rgb(6, 5, 6)',
+  floatingNav: {
+     background: 'rgb(6, 5, 6)',
+     color: '#FFF',
+     chevron: '#FFA726'
+  }
+}}
                                     layout='portrait'
                                     width={400}
                                     height={300}
