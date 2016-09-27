@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 // The below code is for extracting the location of browser. not working in localhost.
 //import geolocator from 'geolocator';
+import englishJson from '../../en.json';
+import japaneseJson from '../../jp.json';
 
 import { grey600, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
@@ -13,7 +15,7 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
 
 import { storeName, storePurpose, registerEvent, storeDateArray, storeDateArrayErrorLabel, popDateArray,
-         storeNameErrorLabel, storePurposeErrorLabel, storeLocation } from './../actions/registerActions';
+         storeNameErrorLabel, storePurposeErrorLabel, storeLocation, changelanguage } from './../actions/registerActions';
 
 let styles = {
   formLabel: {
@@ -47,9 +49,12 @@ class RegisterComponent extends Component {
     this.renderChip = this.renderChip.bind(this);
     this.storeLocation = this.storeLocation.bind(this);
     this.suggestLocation = this.suggestLocation.bind(this);
+    this.renderJapanese = this.renderJapanese.bind(this);
+    this.renderEnglish = this.renderEnglish.bind(this);
   }
 
   componentDidMount() {
+    this.props.dispatch(changelanguage(englishJson));
   }
 
 // method is invoked when you delete a selected date, it in turn deletes from the state object.
@@ -63,7 +68,7 @@ class RegisterComponent extends Component {
 // stores the name of the event creator.
   storeName(e) {
     if (e.target.value.length >= '40') {
-      this.props.dispatch(storeNameErrorLabel('Only 40 characters permitted!!!'))
+      this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabel))
     } else {
       this.props.dispatch(storeNameErrorLabel(''))
       this.props.dispatch(storeName(e.target.value));
@@ -73,7 +78,7 @@ class RegisterComponent extends Component {
 // stores the purpose of the event and throws an error in case of any edge cases failed.
   storePurpose(e) {
     if (e.target.value.length >= '100') {
-      this.props.dispatch(storePurposeErrorLabel('Only 100 characters permitted!!!'))
+      this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabel))
     } else {
       this.props.dispatch(storePurposeErrorLabel(''))
       this.props.dispatch(storePurpose(e.target.value));
@@ -87,7 +92,7 @@ class RegisterComponent extends Component {
        this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
        :console.log("Duplicate date");
     } else {
-      this.props.dispatch(storeDateArrayErrorLabel('Only 6 dates permitted'));
+      this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayErrorLabel));
     }
   }
 
@@ -101,9 +106,9 @@ class RegisterComponent extends Component {
 
   registerEvent(e) {
     if (this.props.name.length === 0) {
-      this.props.dispatch(storeNameErrorLabel('Name field is required!!'));
+      this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
     } else if (this.props.purpose.length === 0) {
-      this.props.dispatch(storePurposeErrorLabel('Purpose field is required!!'));
+      this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
     } else {
       this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray, this.props.location));
     }
@@ -123,6 +128,18 @@ class RegisterComponent extends Component {
         <br />
       </div>
     );
+  }
+
+  renderEnglish() {
+    console.log("json printing");
+    console.log(JSON.stringify(englishJson));
+    this.props.dispatch(changelanguage(englishJson));
+  }
+
+  renderJapanese() {
+    console.log("json printing");
+    console.log(JSON.stringify(japaneseJson));
+    this.props.dispatch(changelanguage(japaneseJson));
   }
 
   render() {
@@ -164,9 +181,16 @@ class RegisterComponent extends Component {
     return (
       <div>
         <br />
+        <div className='row center-xs'>
+          <RaisedButton label="English" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.renderEnglish} />
+        </div>
+        <br />
+        <div className='row center-xs'>
+          <RaisedButton label="Japanese" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.renderJapanese} />
+        </div>
         <div className='row'>
           <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> Name </label>
+            <label style={styles.formLabel}> {this.props.languageJson.name} </label>
           </div>
           <div className='col-xs'>
             <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
@@ -177,7 +201,7 @@ class RegisterComponent extends Component {
         <br />
         <div className='row'>
           <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> Purpose </label>
+            <label style={styles.formLabel}> {this.props.languageJson.purpose} </label>
           </div>
           <div className='col-xs'>
             <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
@@ -191,11 +215,11 @@ class RegisterComponent extends Component {
         </div>
         <br />
         <div className='row center-xs'>
-          <label style={styles.formLabel}> Select the Dates for the Event </label>
+          <label style={styles.formLabel}> {this.props.languageJson.calendarLabel} </label>
         </div>
         <div>
           <Geosuggest
-            placeholder='Enter the restaurant location here!'
+            placeholder={this.props.languageJson.geosuggestPlaceholder}
             initialValue=''
             country='JP'
             fixtures={fixtures}
@@ -227,7 +251,7 @@ class RegisterComponent extends Component {
           </div>
         </div>
         <div className='row center-xs'>
-          <RaisedButton label="Register" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
+          <RaisedButton label={this.props.languageJson.register} primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
         </div>
       </div>
     );
@@ -241,7 +265,8 @@ RegisterComponent.propTypes = {
   dateArrayErrorLabel: PropTypes.string.isRequired,
   nameErrorLabel: PropTypes.string.isRequired,
   purposeErrorLabel: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired
+  location: PropTypes.string.isRequired,
+  languageJson: PropTypes.object.isRequired
 };
 
 export default connect(state => ({
@@ -251,5 +276,6 @@ export default connect(state => ({
   dateArrayErrorLabel: state.dateArrayErrorLabel,
   nameErrorLabel: state.nameErrorLabel,
   purposeErrorLabel: state.purposeErrorLabel,
-  location: state.location
+  location: state.location,
+  languageJson: state.languageJson
 }))(RegisterComponent);

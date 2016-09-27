@@ -14,7 +14,7 @@ class Header extends Component {
         <AppBar
           className='headerBar'
           title={<a href='/'>
-                  <center> Lets Meet Up!! </center>
+                  <center> {this.props.languageJson.header} </center>
                 </a>}
           showMenuIconButton={false}
         />
@@ -24,7 +24,9 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+  languageJson: PropTypes.object.isRequired
 };
 
 export default connect(state =>({
+  languageJson: state.languageJson
 }))(Header);

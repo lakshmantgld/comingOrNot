@@ -124,9 +124,9 @@ class EventPageComponent extends Component {
 
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
-      this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
     } else if (this.duplicateCheck()) {
-      this.props.dispatch(storeAttendeeNameErrorLabel('Name already exists!! Please enter anothe name'));
+      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
     } else {
 
       // populating personalizedDateSelection if user has not chosen any status.
@@ -150,7 +150,7 @@ class EventPageComponent extends Component {
 // Will store attendeeName and invoke error action in case of failed edge case.
   storeAttendeeName(e) {
     if (e.target.value.length >= '40') {
-      this.props.dispatch(storeAttendeeNameErrorLabel('Only 40 characters permitted!!!'))
+      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel))
     } else {
       this.props.dispatch(storeAttendeeNameErrorLabel(''));
       this.props.dispatch(storeAttendeeName(e.target.value));
@@ -205,9 +205,9 @@ class EventPageComponent extends Component {
 // stores the attendess selection of dates and his name.
   updateEvent(e) {
     if (this.props.attendeeName.length === 0) {
-      this.props.dispatch(storeAttendeeNameErrorLabel('Name field is required!!'));
+      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
     } else if (this.duplicateCheck()) {
-      this.props.dispatch(storeAttendeeNameErrorLabel('Name already exists!! Please enter anothe name'));
+      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
     } else {
 
       // populating personalizedDateSelection if user has not chosen any status.
@@ -450,7 +450,7 @@ class EventPageComponent extends Component {
           return (
             <div>
               <div className='row center-xs'>
-                <label style={styles.formLabel}> Enter your convenient Dates </label>
+                <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
               </div>
               <br />
               <div className='row'>
@@ -476,7 +476,7 @@ class EventPageComponent extends Component {
             <div>
               <br />
               <div className='row center-xs'>
-                <label style={styles.formLabel}> Cast your attendance for the above days by pressing the button </label>
+                <label style={styles.formLabel}> {this.props.languageJson.dateCastSelectionLabel} </label>
               </div>
               <br />
               <div className='row center-xs'>
@@ -489,7 +489,7 @@ class EventPageComponent extends Component {
         return (
           <div>
             <div className='row center-xs'>
-              <label style={styles.formLabel}> Enter your convenient Dates </label>
+              <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
             </div>
             <br />
             <div className='row'>
@@ -516,7 +516,7 @@ class EventPageComponent extends Component {
         <div>
           <br />
           <div className='row center-xs'>
-            <label style={styles.formLabel}> Cast your attendance for the above days by pressing the button </label>
+            <label style={styles.formLabel}> {this.props.languageJson.dateCastSelectionLabel} </label>
           </div>
           <br />
           <div className='row center-xs'>
@@ -529,7 +529,7 @@ class EventPageComponent extends Component {
 
 // Fill the details about the event.
   getEventInformation() {
-    let eventInformation = this.props.eventObj.name + ' is organizing ' + this.props.eventObj.purpose + '. Please cast your available Dates!!';
+    let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
     return eventInformation;
   }
 
@@ -554,12 +554,12 @@ class EventPageComponent extends Component {
           </div>
           <br />
           <div className='row center-xs'>
-            <label style={styles.formLabel}> The Event Table </label>
+            <label style={styles.formLabel}> {this.props.languageJson.eventTableLabel} </label>
           </div>
           <br />
           <div className='row'>
             <div className='col-xs-offset-2 col-xs-4'>
-              <label style={styles.formLabel3}> No of people who entered the available dates: </label>
+              <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
             </div>
             <div className='col-xs'>
               <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
@@ -610,6 +610,7 @@ EventPageComponent.propTypes = {
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
+  languageJson: PropTypes.object.isRequired
 };
 
 
@@ -622,4 +623,5 @@ export default connect(state => ({
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,
+  languageJson: state.languageJson
 }))(EventPageComponent);

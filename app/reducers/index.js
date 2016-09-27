@@ -4,7 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import { name, purpose, latlngs, sourceLabel, destinationLabel, dateArray, dateArrayErrorLabel,
         nameErrorLabel, purposeErrorLabel, eventObj, personalizedDateSelection, attendeeName,
         attendeeNameErrorLabel, toggleCastAttendance, location, updateAttendeeDate, updateAttendeeId,
-        updateAttendeeName } from './registerReducers';
+        updateAttendeeName, languageJson } from './registerReducers';
 
 const reducers = combineReducers({
   name,
@@ -22,6 +22,7 @@ const reducers = combineReducers({
   updateAttendeeId,
   updateAttendeeName,
   updateAttendeeDate,
+  languageJson,
   routing: routerReducer
 });
 
