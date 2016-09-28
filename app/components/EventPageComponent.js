@@ -1,14 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import Dimensions from 'react-dimensions'
-import { grey600, red500, blue500 } from 'material-ui/styles/colors';
+import { grey600, red500, blue500, green500, yellow800} from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import {Table, Column, Cell} from 'fixed-data-table-2';
+import MediaQuery from 'react-responsive';
 import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
-import {Table, Column, Cell} from 'fixed-data-table';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
@@ -34,7 +35,7 @@ let styles = {
   },
   dateLabel: {
     text: 'bold',
-    fontSize: '20px',
+    fontSize: '25px',
     color: grey600
   },
   errorLabel: {
@@ -318,13 +319,13 @@ class EventPageComponent extends Component {
             if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
               if (date === key) {
                 if (attendee.personalizedDateSelection[key] === 'free') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_available</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={green500} style={styles.icon2}>panorama_fish_eye</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'maybe') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>warning</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={yellow800} style={styles.icon2}>change_history</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'busy') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_busy</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={red500} style={styles.icon2}>clear</FontIcon>);
                 }
               }
             }
@@ -364,27 +365,156 @@ class EventPageComponent extends Component {
                   <RadioButton
                     value='free'
                     label='Free'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_available</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_available</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>panorama_fish_eye</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>panorama_fish_eye</FontIcon>}
                     style={styles.block}
                   />
                   <RadioButton
                     value='maybe'
                     label='MayBe'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>warning</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>warning</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>change_history</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>change_history</FontIcon>}
                     style={styles.block1}
                   />
                   <RadioButton
                     value='busy'
                     label='Busy'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_busy</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_busy</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>clear</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>clear</FontIcon>}
                     style={styles.block}
                   />
               </RadioButtonGroup>
           </div>
         </div>
+      );
+    });
+  }
+
+  MobiledateToggleSection() {
+    let dateArray = this.props.eventObj.dateArray;
+    let attendees = this.props.eventObj.attendees;
+
+    return dateArray.map((date, i) =>{
+    let freelist = "", maybelist = "", busylist = "";
+      attendees.map((attendee, j) => {
+        for (let key in attendee.personalizedDateSelection) {
+          if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
+            if (date === key) {
+
+              if (attendee.personalizedDateSelection[key] === 'free') {
+              freelist+= (freelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+              if (attendee.personalizedDateSelection[key] === 'maybe') {
+              maybelist+= (maybelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+              if (attendee.personalizedDateSelection[key] === 'busy') {
+              busylist+= (busylist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+            }
+          }
+        }
+      });
+
+      return (
+
+
+    <div className = 'row center-xs'>
+    <div className='col-sm-8 col-xs-12'>
+    {/**<label style={styles.dateLabel}> {date} </label>*/}
+    <Card expandable={true}>
+      <CardHeader
+          style={{paddingLeft:"90px"}}
+          title={date}
+          actAsExpander={true}
+          showExpandableButton={true}
+          />
+          <CardText expandable={true}>
+           Free: {freelist}
+           <br></br>
+           Maybe: {maybelist}
+           <br></br>
+           Busy: {busylist}
+          </CardText>
+        <CardActions>
+            <div className='row center-xs'>
+              <br></br>
+              <br></br>
+                <div className='col-xs-12'>
+
+                    <MediaQuery minDeviceWidth={420}> {/** Tablets and phablets: display label for radio buttons*/}
+                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                            <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                green500
+                            }
+                            style = {
+                                styles.icon
+                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > panorama_fish_eye < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                yellow800
+                            }
+                            style = {
+                                styles.icon
+                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > change_history < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > clear < /FontIcon>}/>
+
+                        </RadioButtonGroup>
+                    </MediaQuery>
+
+                    <MediaQuery maxDeviceWidth={420}> {/** Smartphones */}
+                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+
+                          <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                green500
+                            }
+                            style = {
+                                styles.icon
+                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > panorama_fish_eye < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                yellow800
+                            }
+                            style = {
+                                styles.icon
+                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > change_history < /FontIcon>}/>
+
+                            <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                red500
+                            }
+                            style = {
+                                styles.icon
+                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                                styles.icon
+                            } > clear < /FontIcon>}/>
+
+                        </RadioButtonGroup>
+                    </MediaQuery>
+                </div>
+            </div>
+        </CardActions>
+    </Card>
+    <br></br>
+    </div>
+    </div>
+
       );
     });
   }
@@ -527,6 +657,39 @@ class EventPageComponent extends Component {
     }
   }
 
+  toggleMobileCastAttendance() {
+    if (this.props.toggleCastAttendance) {
+      return (
+        <div>
+
+          <div className='row center-xs'>
+            <div className='col-xs-10'>
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+              <br />
+              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+            </div>
+          </div>
+          <br />
+          {this.MobiledateToggleSection()}
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+          </div>
+        </div>
+      );
+    }
+
+  }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
@@ -545,55 +708,99 @@ class EventPageComponent extends Component {
       );
     } else {
       let dateArray = this.props.eventObj.dateArray;
-
+      let tableheight= (35 * (dateArray.length + 1))+15;
       result = (
+
+
+
         <div>
-          <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.getEventInformation()} </label>
-          </div>
-          <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.props.languageJson.eventTableLabel} </label>
-          </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-2 col-xs-4'>
-              <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
-            </div>
-            <div className='col-xs'>
-              <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
-            </div>
-          </div>
-          <br />
-          <div className='row center-xs'>
-            <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
-            <Table
-              rowsCount={dateArray.length}
-              rowHeight={35}
-              width={800}
-              height={(35 * (dateArray.length + 1))+15 }
-              headerHeight={50}
-            >
-              <Column
-                header={<Cell>Dates</Cell>}
-                cell={props => (
-                  <Cell {...props}>
-                    {dateArray[props.rowIndex]}
-                  </Cell>
-                )}
-                fixed={true}
-                width={180}
-              />
-              {this.fillFreeStatus()}
-              {this.fillMaybeStatus()}
-              {this.fillBusyStatus()}
-              {this.fillAttendeeDetails()}
-            </Table>
-          </div>
+          <div>
+          <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+
+
+              <br />
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> {this.getEventInformation()} </label>
+              </div>
+              <br />
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> {this.props.languageJson.eventTableLabel} </label>
+              </div>
+              <br />
+              <div className='row'>
+                <div className='col-xs-offset-2 col-xs-4'>
+                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
+                </div>
+                <div className='col-xs'>
+                  <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
+                </div>
+              </div>
+              <br />
+              <div className='row center-xs'>
+                <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
+                <ResponsiveFixedDataTable
+                  rowsCount={dateArray.length}
+                  width={800}
+                  rowHeight={35}
+                  containerStyle={{minHeight:tableheight}}
+                  headerHeight={50}
+                >
+                  <Column
+                    header={<Cell>Dates</Cell>}
+                    cell={props => (
+                      <Cell {...props}>
+                        {dateArray[props.rowIndex]}
+                      </Cell>
+                    )}
+                    fixed={true}
+                    width={180}
+                  />
+                  {this.fillFreeStatus()}
+                  {this.fillMaybeStatus()}
+                  {this.fillBusyStatus()}
+                  {this.fillAttendeeDetails()}
+                </ResponsiveFixedDataTable>
+              </div>
+              </div>
+              <br />
+              {this.toggleCastAttendance()}
+
+
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={1224} >
+            {/*<div>You are a tablet or mobile phone</div>*/}
+
+            <br></br>
+              <div className='row center-xs'>
+                <label style={styles.formLabel}> {this.props.eventObj.purpose} </label>
+              </div>
+
+              <br></br>
+
+              <div>
+
+                <div className='row center-xs'>
+                  <div className='col-xs-10'>
+                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <br />
+                    <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+                  </div>
+                </div>
+                <br />
+                <br></br>
+                {this.MobiledateToggleSection()}
+                <br />
+                <div className='row center-xs'>
+                  <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                </div>
+              </div>
+
+
+          </MediaQuery>
         </div>
-          <br />
-          {this.toggleCastAttendance()}
+
+
+
         </div>
       );
     }
