@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import { grey600, red500, blue500 } from 'material-ui/styles/colors';
+import { grey600, red500, blue500, green500, yellow800} from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -242,13 +242,13 @@ class EventPageComponent extends Component {
             if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
               if (date === key) {
                 if (attendee.personalizedDateSelection[key] === 'free') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>panorama_fish_eye</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={green500} style={styles.icon2}>panorama_fish_eye</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'maybe') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>change_history</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={yellow800} style={styles.icon2}>change_history</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'busy') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>clear</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={red500} style={styles.icon2}>clear</FontIcon>);
                 }
               }
             }
@@ -315,7 +315,29 @@ class EventPageComponent extends Component {
 
   MobiledateToggleSection() {
     let dateArray = this.props.eventObj.dateArray;
+    let attendees = this.props.eventObj.attendees;
+
     return dateArray.map((date, i) =>{
+    let freelist = "", maybelist = "", busylist = "";
+      attendees.map((attendee, j) => {
+        for (let key in attendee.personalizedDateSelection) {
+          if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
+            if (date === key) {
+
+              if (attendee.personalizedDateSelection[key] === 'free') {
+              freelist+= (freelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+              if (attendee.personalizedDateSelection[key] === 'maybe') {
+              maybelist+= (maybelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+              if (attendee.personalizedDateSelection[key] === 'busy') {
+              busylist+= (busylist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              }
+            }
+          }
+        }
+      });
+
       return (
 
 
@@ -324,29 +346,29 @@ class EventPageComponent extends Component {
     {/**<label style={styles.dateLabel}> {date} </label>*/}
     <Card expandable={true}>
       <CardHeader
-        title={date}
-            actAsExpander={true}
-            showExpandableButton={true}
+          style={{paddingLeft:"90px"}}
+          title={date}
+          actAsExpander={true}
+          showExpandableButton={true}
           />
-        <CardText>
+          <CardText expandable={true}>
+           Free: {freelist}
+           <br></br>
+           Maybe: {maybelist}
+           <br></br>
+           Busy: {busylist}
+          </CardText>
+        <CardActions>
             <div className='row center-xs'>
               <br></br>
               <br></br>
-                {/**<div className='col-xs-12'>
-                    <label style={styles.dateLabel}>
-                        {date}
-                    </label>
-                </div>
-                <br></br>
-                <br></br>
-                <br></br>*/}
                 <div className='col-xs-12'>
 
-                    <MediaQuery minDeviceWidth={420}>
+                    <MediaQuery minDeviceWidth={420}> {/** Tablets and phablets: display label for radio buttons*/}
                         <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
 
                             <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
+                                green500
                             }
                             style = {
                                 styles.icon
@@ -355,7 +377,7 @@ class EventPageComponent extends Component {
                             } > panorama_fish_eye < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
+                                yellow800
                             }
                             style = {
                                 styles.icon
@@ -375,11 +397,12 @@ class EventPageComponent extends Component {
                         </RadioButtonGroup>
                     </MediaQuery>
 
-                    <MediaQuery maxDeviceWidth={420}>
+                    <MediaQuery maxDeviceWidth={420}> {/** Smartphones */}
                         <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
 
-                            <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
+
+                          <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                                green500
                             }
                             style = {
                                 styles.icon
@@ -388,7 +411,7 @@ class EventPageComponent extends Component {
                             } > panorama_fish_eye < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
+                                yellow800
                             }
                             style = {
                                 styles.icon
@@ -409,14 +432,7 @@ class EventPageComponent extends Component {
                     </MediaQuery>
                 </div>
             </div>
-        </CardText>
-        <CardText expandable={true}>
-         Free: You, Yourself, Your dog
-         <br></br>
-         Maybe: She, He
-         <br></br>
-         Busy: Me, Myself
-        </CardText>
+        </CardActions>
     </Card>
     <br></br>
     </div>
