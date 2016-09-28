@@ -17,6 +17,7 @@ body {
 
 #leftBox{
       border: 1px solid black;
+          border-radius: 12px;
 }
 
 @media only screen and (min-width: 48em) {
