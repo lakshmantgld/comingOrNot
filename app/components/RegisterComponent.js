@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 
 // The below code is for extracting the location of browser. not working in localhost.
 //import geolocator from 'geolocator';
-import englishJson from '../../en.json';
-import japaneseJson from '../../jp.json';
-
 import { grey600, red500 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
+
+import englishJson from '../../en.json';
 
 import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
@@ -49,12 +48,9 @@ class RegisterComponent extends Component {
     this.renderChip = this.renderChip.bind(this);
     this.storeLocation = this.storeLocation.bind(this);
     this.suggestLocation = this.suggestLocation.bind(this);
-    this.renderJapanese = this.renderJapanese.bind(this);
-    this.renderEnglish = this.renderEnglish.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(changelanguage(englishJson));
   }
 
 // method is invoked when you delete a selected date, it in turn deletes from the state object.
@@ -130,18 +126,6 @@ class RegisterComponent extends Component {
     );
   }
 
-  renderEnglish() {
-    console.log("json printing");
-    console.log(JSON.stringify(englishJson));
-    this.props.dispatch(changelanguage(englishJson));
-  }
-
-  renderJapanese() {
-    console.log("json printing");
-    console.log(JSON.stringify(japaneseJson));
-    this.props.dispatch(changelanguage(japaneseJson));
-  }
-
   render() {
 
     // The below code is for extracting the location of browser. not working in localhost.
@@ -181,13 +165,6 @@ class RegisterComponent extends Component {
     return (
       <div>
         <br />
-        <div className='row center-xs'>
-          <RaisedButton label="English" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.renderEnglish} />
-        </div>
-        <br />
-        <div className='row center-xs'>
-          <RaisedButton label="Japanese" primary={true} style={buttonStyle} disabled={false} onTouchTap={this.renderJapanese} />
-        </div>
         <div className='row'>
           <div className='col-xs-offset-5 col-xs-1'>
             <label style={styles.formLabel}> {this.props.languageJson.name} </label>
