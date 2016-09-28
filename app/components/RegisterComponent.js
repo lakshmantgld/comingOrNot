@@ -198,7 +198,8 @@ class RegisterComponent extends Component {
                           </div>
                         </div>
                         <br />
-                        <div className='row'>
+                        <br />
+                        <div className='row' style={styles.datePush}>
                           <div className='col-md-6'>
                             <Geosuggest
                               placeholder='Restaurant location'
@@ -213,10 +214,13 @@ class RegisterComponent extends Component {
                         </div>
                         <br />
                         <br />
+                        <br />
+                        <br />
                         <div className='row' style={styles.datePush}>
                         <div className='col-md-12'>
                           <label style={styles.dateSelectLabel}> Select the Dates for the Event </label>
-                        </div></div>
+
+                        </div><br /><br /></div>
                         <div className="col-xs-12">
                             <div className='row'>{ dateArray }</div>
                           <div className='row center-xs'>
@@ -225,9 +229,13 @@ class RegisterComponent extends Component {
                         </div>
                         <br />
 
-                        <div className='row col-md-offset-2' id="regButton">
+                        <div className='row col-md-offset-2 center-xs' id="regButton">
                           <RaisedButton label="Register" labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                          <br />
+                          <br />
+                          <br />
                         </div>
+
                 </div>
               </div>
 
