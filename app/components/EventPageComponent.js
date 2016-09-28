@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table-2';
 import MediaQuery from 'react-responsive';
+import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
@@ -241,13 +242,13 @@ class EventPageComponent extends Component {
             if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
               if (date === key) {
                 if (attendee.personalizedDateSelection[key] === 'free') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_available</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>panorama_fish_eye</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'maybe') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>warning</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>change_history</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'busy') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>event_busy</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={blue500} style={styles.icon2}>clear</FontIcon>);
                 }
               }
             }
@@ -287,22 +288,22 @@ class EventPageComponent extends Component {
                   <RadioButton
                     value='free'
                     label='Free'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_available</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_available</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>panorama_fish_eye</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>panorama_fish_eye</FontIcon>}
                     style={styles.block}
                   />
                   <RadioButton
                     value='maybe'
                     label='MayBe'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>warning</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>warning</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>change_history</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>change_history</FontIcon>}
                     style={styles.block1}
                   />
                   <RadioButton
                     value='busy'
                     label='Busy'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_busy</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_busy</FontIcon>}
+                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>clear</FontIcon>}
+                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>clear</FontIcon>}
                     style={styles.block}
                   />
               </RadioButtonGroup>
@@ -318,8 +319,8 @@ class EventPageComponent extends Component {
       return (
 
 
-      <div className = 'row center-xs'>
-      <div className='col-sm-8 col-xs-12'>
+    <div className = 'row center-xs'>
+    <div className='col-sm-8 col-xs-12'>
     {/**<label style={styles.dateLabel}> {date} </label>*/}
     <Card expandable={true}>
       <CardHeader
@@ -349,27 +350,27 @@ class EventPageComponent extends Component {
                             }
                             style = {
                                 styles.icon
-                            } > event_available < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > event_available < /FontIcon>}/>
+                            } > panorama_fish_eye < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
                                 red500
                             }
                             style = {
                                 styles.icon
-                            } > warning < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > warning < /FontIcon>}/>
+                            } > change_history < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
                                 red500
                             }
                             style = {
                                 styles.icon
-                            } > event_busy < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > event_busy < /FontIcon>}/>
+                            } > clear < /FontIcon>}/>
 
                         </RadioButtonGroup>
                     </MediaQuery>
@@ -382,27 +383,27 @@ class EventPageComponent extends Component {
                             }
                             style = {
                                 styles.icon
-                            } > event_available < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > event_available < /FontIcon>}/>
+                            } > panorama_fish_eye < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
                                 red500
                             }
                             style = {
                                 styles.icon
-                            } > warning < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > warning < /FontIcon>}/>
+                            } > change_history < /FontIcon>}/>
 
                             <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
                                 red500
                             }
                             style = {
                                 styles.icon
-                            } > event_busy < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
                                 styles.icon
-                            } > event_busy < /FontIcon>}/>
+                            } > clear < /FontIcon>}/>
 
                         </RadioButtonGroup>
                     </MediaQuery>
@@ -410,16 +411,16 @@ class EventPageComponent extends Component {
             </div>
         </CardText>
         <CardText expandable={true}>
-      Free: You, Yourself, Your dog
-      <br></br>
-      Maybe: She, He
-      <br></br>
-      Busy: Me, Myself
-    </CardText>
+         Free: You, Yourself, Your dog
+         <br></br>
+         Maybe: She, He
+         <br></br>
+         Busy: Me, Myself
+        </CardText>
     </Card>
     <br></br>
-</div>
-</div>
+    </div>
+    </div>
 
       );
     });
@@ -527,6 +528,7 @@ class EventPageComponent extends Component {
       );
     } else {
       let dateArray = this.props.eventObj.dateArray;
+      let tableheight= (35 * (dateArray.length + 1))+15;
       result = (
 
 
@@ -558,11 +560,11 @@ class EventPageComponent extends Component {
               <br />
               <div className='row center-xs'>
                 <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
-                <Table
+                <ResponsiveFixedDataTable
                   rowsCount={dateArray.length}
                   width={800}
                   rowHeight={35}
-                  height={(35 * (dateArray.length + 1))+15 }
+                  containerStyle={{minHeight:tableheight}}
                   headerHeight={50}
                 >
                   <Column
@@ -579,7 +581,7 @@ class EventPageComponent extends Component {
                   {this.fillMaybeStatus()}
                   {this.fillBusyStatus()}
                   {this.fillAttendeeDetails()}
-                </Table>
+                </ResponsiveFixedDataTable>
               </div>
               </div>
               <br />
