@@ -43,9 +43,11 @@ class Header extends Component {
 
   render() {
     return (
+
       <header>
         <AppBar
           className='headerBar'
+          style={{backgroundColor: 'black'}}
           title={<a href='/'>
                   <center> {this.props.languageJson.header} </center>
                 </a>}
@@ -64,6 +66,7 @@ class Header extends Component {
           }
         />
       </header>
+
     );
   }
 }

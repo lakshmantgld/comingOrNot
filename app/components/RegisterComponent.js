@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // The below code is for extracting the location of browser. not working in localhost.
 //import geolocator from 'geolocator';
-import { grey600, red500 } from 'material-ui/styles/colors';
+import { grey600, red500, grey900, grey50 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
@@ -29,11 +29,21 @@ let styles = {
   },
   chip: {
     margin: 4,
+  },
+  underlineStyle: {
+    borderColor: grey900,
+  },
+  dateSelectLabel:{
+    fontSize: '19px'
+  },
+  datePush:{
+    marginTop: '20px'
   }
 };
 
 let buttonStyle = {
-  margin : 12
+  margin : 12,
+  color : 'rgb(255, 255, 255)'
 };
 
 let mymap;
@@ -112,8 +122,8 @@ class RegisterComponent extends Component {
 
   renderChip(data) {
     return (
-      <div>
-        <div className='row center-xs'>
+
+        <div className='col-xs-6' >
           <Chip
             key={data}
             onRequestDelete={() => this.handleRequestDelete(data)}
@@ -121,8 +131,8 @@ class RegisterComponent extends Component {
             {data}
           </Chip>
         </div>
-        <br />
-      </div>
+
+
     );
   }
 
@@ -164,72 +174,98 @@ class RegisterComponent extends Component {
 
     return (
       <div>
-        <br />
-        <div className='row'>
-          <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> {this.props.languageJson.name} </label>
-          </div>
-          <div className='col-xs'>
-            <TextField id='name' hintText='Name' onChange={this.storeName} value={this.props.name} />
-            <br />
-            <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
-          </div>
-        </div>
-        <br />
-        <div className='row'>
-          <div className='col-xs-offset-5 col-xs-1'>
-            <label style={styles.formLabel}> {this.props.languageJson.purpose} </label>
-          </div>
-          <div className='col-xs'>
-            <TextField id='purpose' hintText='Purpose' onChange={this.storePurpose} value={this.props.purpose}
-              multiLine={true}
-              rows={2}
-              rowsMax={4}
-            />
-            <br />
-            <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
-          </div>
-        </div>
-        <br />
-        <div className='row center-xs'>
-          <label style={styles.formLabel}> {this.props.languageJson.calendarLabel} </label>
-        </div>
-        <div>
-          <Geosuggest
-            placeholder={this.props.languageJson.geosuggestPlaceholder}
-            initialValue=''
-            country='JP'
-            fixtures={fixtures}
-            onSuggestSelect={this.suggestLocation}
-            onChange={this.storeLocation}
-            location={new google.maps.LatLng(35.44371, 139.63803)}
-            radius='40' />
-        </div>
-        <br />
-        <div className='row'>
-          <div className='row'>
-            <div className="col-xs-6">
-                { dateArray }
-              <div className='row center-xs'>
-                <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+          <div className="row" id='fullRow'>
+
+              <div className="col-md-4 col-md-offset-1">
+                    <div className='row'  id='leftBox'>
+                        <br />
+
+                        <div className='row'>
+
+                          <div className='col-md-6'>
+                            <TextField id='name' floatingLabelText="Name" onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
+                            <br />
+                            <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
+                          </div>
+                        </div>
+
+                        <div className='row'>
+
+                          <div className='col-md-6'>
+                            <TextField id='purpose' floatingLabelText='Purpose' onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+
+                            <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
+                          </div>
+                        </div>
+                        <br />
+                        <div className='row'>
+                          <div className='col-md-6'>
+                            <Geosuggest
+                              placeholder='Restaurant location'
+                              initialValue=''
+                              country='JP'
+                              fixtures={fixtures}
+                              onSuggestSelect={this.suggestLocation}
+                              onChange={this.storeLocation}
+                              location={new google.maps.LatLng(35.44371, 139.63803)}
+                              radius='40' />
+                          </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div className='row' style={styles.datePush}>
+                        <div className='col-md-12'>
+                          <label style={styles.dateSelectLabel}> Select the Dates for the Event </label>
+                        </div></div>
+                        <div className="col-xs-12">
+                            <div className='row'>{ dateArray }</div>
+                          <div className='row center-xs'>
+                            <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                          </div>
+                        </div>
+                        <br />
+
+                        <div className='row col-md-offset-2' id="regButton">
+                          <RaisedButton label="Register" labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                        </div>
+                </div>
               </div>
-            </div>
-            <div className='col-xs-6'>
-                <InfiniteCalendar
-                    layout='landscape'
-                    width={580}
-                    height={275}
-                    rowHeight={55}
-                    minDate={today}
-                    onSelect={this.storeDate}
-                    keyboardSupport={true}
-                />
-            </div>
-          </div>
-        </div>
-        <div className='row center-xs'>
-          <RaisedButton label={this.props.languageJson.register} primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerEvent} />
-        </div>
+
+              <div className='col-md-1 col-md-offset-1'>
+                  <div className='verticalLine'>
+                  </div>
+              </div>
+               <div className='col-md-4'>
+                          <div>
+
+                            <div className='col-xs-6'>
+                                <InfiniteCalendar
+                                theme={{
+  selectionColor: 'rgb(6, 5, 6)',
+  textColor: {
+     default: '#333',
+     active: '#FFF'
+  },
+  weekdayColor: 'rgb(49, 44, 49)',
+  headerColor: 'rgb(6, 5, 6)',
+  floatingNav: {
+     background: 'rgb(6, 5, 6)',
+     color: '#FFF',
+     chevron: '#FFA726'
+  }
+}}
+                                    layout='portrait'
+                                    width={400}
+                                    height={300}
+                                    rowHeight={55}
+                                    minDate={today}
+                                    onSelect={this.storeDate}
+                                    keyboardSupport={true}
+                                />
+                            </div>
+                          </div>
+              </div>
+              </div>
       </div>
     );
   }
