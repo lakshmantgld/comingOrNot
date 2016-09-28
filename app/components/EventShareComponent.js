@@ -55,7 +55,7 @@ class EventShareComponent extends Component {
       <div>
       <br />
         <div className='row center-xs'>
-          <label style={styles.formLabel}> Share the Event Url with your friends, for choosing the best possible date</label>
+          <label style={styles.formLabel}> {this.props.languageJson.shareLabel} </label>
         </div>
         <br />
         <br />
@@ -79,7 +79,7 @@ class EventShareComponent extends Component {
         <br />
         <div className='row center-xs'>
           <Link to={this.getEventPageUrl()}>
-            <RaisedButton label="Event Page" primary={true} style={buttonStyle} disabled={false} />
+            <RaisedButton label={this.props.languageJson.eventPageButton} primary={true} style={buttonStyle} disabled={false} />
           </Link>
         </div>
       </div>
@@ -88,7 +88,9 @@ class EventShareComponent extends Component {
 }
 
 EventShareComponent.propTypes = {
+  languageJson: PropTypes.object.isRequired
 };
 
 export default connect(state => ({
+  languageJson: state.languageJson
 }))(EventShareComponent);

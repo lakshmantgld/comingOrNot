@@ -19,6 +19,7 @@ export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
 export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
 export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
 export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
+export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 
 export function storeName(name) {
   return dispatch => {
@@ -253,6 +254,15 @@ export function emptyPersonalizedDateSelection() {
   return dispatch => {
     return dispatch({
       type: EMPTY_PERSONALIZED_DATE_SELECTION
+    });
+  };
+}
+
+export function changelanguage(languageJson) {
+  return dispatch => {
+    return dispatch({
+      type: RENDER_LANGUAGE,
+      languageJson: languageJson
     });
   };
 }

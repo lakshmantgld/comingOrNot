@@ -2,7 +2,7 @@ import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DEST
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
          TOGGLE_CAST_ATTENDANCE, EMPTY_PERSONALIZED_DATE_SELECTION, STORE_LOCATION, STORE_UPDATE_ATTENDEE_ID,
-          STORE_UPDATE_ATTENDEE_NAME, STORE_UPDATE_ATTENDEE_DATE } from './../actions/registerActions';
+          STORE_UPDATE_ATTENDEE_NAME, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -143,6 +143,15 @@ export function location(state = '', action) {
   switch(action.type) {
     case STORE_LOCATION:
       return action.location;
+    default:
+      return state;
+  }
+}
+
+export function languageJson(state = {}, action) {
+  switch(action.type) {
+    case RENDER_LANGUAGE:
+      return action.languageJson;
     default:
       return state;
   }
