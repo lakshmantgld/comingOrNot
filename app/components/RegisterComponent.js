@@ -183,7 +183,7 @@ class RegisterComponent extends Component {
                         <div className='row'>
 
                           <div className='col-md-6'>
-                            <TextField id='name' floatingLabelText="Name" onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
+                            <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
                             <br />
                             <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
                           </div>
@@ -192,7 +192,7 @@ class RegisterComponent extends Component {
                         <div className='row'>
 
                           <div className='col-md-6'>
-                            <TextField id='purpose' floatingLabelText='Purpose' onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+                            <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
 
                             <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
                           </div>
@@ -218,7 +218,7 @@ class RegisterComponent extends Component {
                         <br />
                         <div className='row' style={styles.datePush}>
                         <div className='col-md-12'>
-                          <label style={styles.dateSelectLabel}> Select the Dates for the Event </label>
+                          <label style={styles.dateSelectLabel}> {this.props.languageJson.calendarLabel} </label>
 
                         </div><br /><br /></div>
                         <div className="col-xs-12">
@@ -230,7 +230,7 @@ class RegisterComponent extends Component {
                         <br />
 
                         <div className='row col-md-offset-2 center-xs' id="regButton">
-                          <RaisedButton label="Register" labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                          <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
                           <br />
                           <br />
                           <br />
