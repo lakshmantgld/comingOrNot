@@ -6,11 +6,16 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Header from './Header';
 
+let styles = {
+  robotofont: {
+    fontFamily: 'sans-serif'
+  }
+};
 class App extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <div>
+        <div style={styles.robotofont}>
           <Header />
           {this.props.children}
         </div>
