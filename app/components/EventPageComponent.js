@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import { grey600, red500, blue500, green500, yellow800} from 'material-ui/styles/colors';
+import { grey600, red500, red200, blue500, green500, green200, yellow800, yellow200} from 'material-ui/styles/colors';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -62,7 +64,14 @@ let styles = {
   },
   radioButton: {
     marginBottom: 16,
-  }
+  },
+  chip: {
+   margin: 4,
+ },
+  chipwrapper: {
+   display: 'flex',
+   flexWrap: 'wrap',
+ }
 };
 
 let buttonStyle = {
@@ -395,25 +404,46 @@ class EventPageComponent extends Component {
     let attendees = this.props.eventObj.attendees;
 
     return dateArray.map((date, i) =>{
-    let freelist = "", maybelist = "", busylist = "";
+    let freelist = [], maybelist = [], busylist = [];
       attendees.map((attendee, j) => {
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
 
               if (attendee.personalizedDateSelection[key] === 'free') {
-              freelist+= (freelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              freelist.push(attendee.attendeeName);
               }
               if (attendee.personalizedDateSelection[key] === 'maybe') {
-              maybelist+= (maybelist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              maybelist.push(attendee.attendeeName);
               }
               if (attendee.personalizedDateSelection[key] === 'busy') {
-              busylist+= (busylist=="")? attendee.attendeeName  : ", "+attendee.attendeeName;
+              busylist.push(attendee.attendeeName);
               }
             }
           }
         }
       });
+
+      let freelist_chips = function()
+      {
+        return freelist.map((name, k) =>{
+            return(<Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={<FontIcon className="material-icons">panorama_fish_eye</FontIcon>} />{name}</Chip>);
+          });
+      };
+
+      let maybelist_chips = function()
+      {
+        return maybelist.map((name, k) =>{
+            return(<Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={<FontIcon className="material-icons">change_history</FontIcon>} />{name}</Chip>);
+          });
+      };
+
+      let busylist_chips = function()
+      {
+        return busylist.map((name, k) =>{
+            return(<Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={<FontIcon className="material-icons">clear</FontIcon>} />{name}</Chip>);
+          });
+      };
 
       return (
 
@@ -429,11 +459,11 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
-           Free: {freelist}
-           <br></br>
-           Maybe: {maybelist}
-           <br></br>
-           Busy: {busylist}
+            <div style={styles.chipwrapper}>{freelist_chips()}
+
+           {maybelist_chips()}
+
+           {busylist_chips()}</div>
           </CardText>
         <CardActions>
             <div className='row center-xs'>
