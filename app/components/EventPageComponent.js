@@ -738,7 +738,7 @@ class EventPageComponent extends Component {
       );
     } else {
       let dateArray = this.props.eventObj.dateArray;
-      let tableheight= (35 * (dateArray.length + 1))+15;
+      let tableheight= (35 * (dateArray.length + 2));
       result = (
 
 
