@@ -314,8 +314,6 @@ class EventPageComponent extends Component {
 
   }
 
-
-
   // Fills the attendess selection in the event table.
   fillAttendeeDetails() {
     let attendees = this.props.eventObj.attendees;
@@ -400,18 +398,18 @@ class EventPageComponent extends Component {
   }
 
   MobiledateToggleSection() {
-    let dateArray = this.props.eventObj.dateArray;
-    let attendees = this.props.eventObj.attendees;
+    let dateArray = this.props.eventObj.dateArray; //  Get date list
+    let attendees = this.props.eventObj.attendees; //  Get attendees list
 
-    return dateArray.map((date, i) =>{
+    return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
-      attendees.map((attendee, j) => {
+      attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
 
               if (attendee.personalizedDateSelection[key] === 'free') {
-              freelist.push(attendee.attendeeName);
+              freelist.push(attendee.attendeeName); // If attendee is free, push in freelist array
               }
               if (attendee.personalizedDateSelection[key] === 'maybe') {
               maybelist.push(attendee.attendeeName);
@@ -424,21 +422,21 @@ class EventPageComponent extends Component {
         }
       });
 
-      let freelist_chips = function()
+      let freelist_chips = function() // Create green chips using the freelist array
       {
         return freelist.map((name, k) =>{
             return(<Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={<FontIcon className="material-icons">panorama_fish_eye</FontIcon>} />{name}</Chip>);
           });
       };
 
-      let maybelist_chips = function()
+      let maybelist_chips = function() // Yellow chips
       {
         return maybelist.map((name, k) =>{
             return(<Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={<FontIcon className="material-icons">change_history</FontIcon>} />{name}</Chip>);
           });
       };
 
-      let busylist_chips = function()
+      let busylist_chips = function() // Red chips
       {
         return busylist.map((name, k) =>{
             return(<Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={<FontIcon className="material-icons">clear</FontIcon>} />{name}</Chip>);
@@ -450,7 +448,6 @@ class EventPageComponent extends Component {
 
     <div className = 'row center-xs'>
     <div className='col-sm-8 col-xs-12'>
-    {/**<label style={styles.dateLabel}> {date} </label>*/}
     <Card expandable={true}>
       <CardHeader
           style={{paddingLeft:"90px"}}
@@ -459,11 +456,7 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
-            <div style={styles.chipwrapper}>{freelist_chips()}
-
-           {maybelist_chips()}
-
-           {busylist_chips()}</div>
+            <div style={styles.chipwrapper}>{freelist_chips()}{maybelist_chips()}{busylist_chips()}</div>
           </CardText>
         <CardActions>
             <div className='row center-xs'>
@@ -603,10 +596,11 @@ class EventPageComponent extends Component {
 
   toggleCastAttendance() {
     if (this.props.toggleCastAttendance) {
-      console.log("cominghere");
-      if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') {
-        console.log("passing update");
+      console.log("toggle cast attendance flag: true");
+      if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') { {/** fails for first time event page visitor */}
+        console.log("Clicked attendee name");
         if (document.cookie.indexOf('name') > -1 && cookie.load('name') === this.props.updateAttendeeName ) {
+          console.log("Attendee name matches with cookie");
           return (
             <div>
               <div className='row center-xs'>
@@ -645,7 +639,7 @@ class EventPageComponent extends Component {
             </div>
           );
         }
-      } else {
+      } else { {/** First time event page visitor - Default date toggle (All busy) */}
         return (
           <div>
             <div className='row center-xs'>
@@ -657,7 +651,7 @@ class EventPageComponent extends Component {
                 <label style={styles.formLabel}> Name </label>
               </div>
               <div className='col-xs'>
-                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
                 <br />
                 <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
               </div>
@@ -671,7 +665,7 @@ class EventPageComponent extends Component {
           </div>
         );
       }
-    } else {
+    } else { {/** First time event page visitor - Cast Attendance Button */}
       return (
         <div>
           <br />
@@ -688,33 +682,17 @@ class EventPageComponent extends Component {
   }
 
   toggleMobileCastAttendance() {
-    if (this.props.toggleCastAttendance) {
+    if (true) {
       return (
         <div>
-
-          <div className='row center-xs'>
-            <div className='col-xs-10'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
-              <br />
-              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-            </div>
-          </div>
-          <br />
-          {this.MobiledateToggleSection()}
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
-          </div>
+          <div>{this.MobiledateToggleSection()}</div>
         </div>
+
+
       );
     } else {
       return (
-        <div>
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
-          </div>
-        </div>
+          <div>Hello cookie</div>
       );
     }
 
@@ -731,22 +709,21 @@ class EventPageComponent extends Component {
 
     let result;
 
-    if (Object.keys(this.props.eventObj).length === 0 && this.props.eventObj.constructor === Object) {
+    if (Object.keys(this.props.eventObj).length === 0 && this.props.eventObj.constructor === Object) { //Before fetching from DB
       result = (
         <div>
         </div>
       );
-    } else {
+    } else { //After fetching from DB
       let dateArray = this.props.eventObj.dateArray;
-      let tableheight= (35 * (dateArray.length + 2));
+      let tableheight= (35 * (dateArray.length + 2)); // Responsive height of the table based no. of dates
       result = (
-
-
 
         <div>
           <div>
-          <MediaQuery minDeviceWidth={1224} orientation='landscape'>
 
+          <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+              {/*<div> PC and Desktop code starts </div>*/}
 
               <br />
               <div className='row center-xs'>
@@ -795,10 +772,13 @@ class EventPageComponent extends Component {
               <br />
               {this.toggleCastAttendance()}
 
+              {/*<div> PC and Desktop code ends </div>*/}
 
           </MediaQuery>
+
           <MediaQuery maxDeviceWidth={1224} >
-            {/*<div>You are a tablet or mobile phone</div>*/}
+
+            {/*<div> Tablet & Smartphone code starts </div>*/}
 
             <br></br>
               <div className='row center-xs'>
@@ -818,13 +798,14 @@ class EventPageComponent extends Component {
                 </div>
                 <br />
                 <br></br>
-                {this.MobiledateToggleSection()}
+                {this.toggleMobileCastAttendance()}
                 <br />
                 <div className='row center-xs'>
                   <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
                 </div>
               </div>
 
+          {/*<div> Tablet & Smartphone code ends </div>*/}
 
           </MediaQuery>
         </div>
