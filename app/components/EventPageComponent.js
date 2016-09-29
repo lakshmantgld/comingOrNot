@@ -13,7 +13,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
-         storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
+         storeUpdateAttendeeDate, updateAttendee, fetchWeather } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -220,6 +220,39 @@ class EventPageComponent extends Component {
        this.callAfterSomeTimeUpdate();
      }).bind(this), 1000);
     }
+  }
+
+  fillDateWithWeather() {
+
+    let formattedSelectedDates = this.props.eventObj.dateArray.map((date) => {
+      let formattedDate;
+      if (date.indexOf("th") !== -1) {
+        formattedDate = date.replace("th", "");
+      } else if (date.indexOf("st") !== -1){
+        formattedDate = date.replace("st", "");
+      } else {
+        formattedDate = date.replace("nd", "");
+      }
+      console.log(formattedDate);
+
+      return formattedDate;
+    });
+
+
+
+    // let arrFree = Object.keys(dateStatus['free']).map(function (key) {return dateStatus['free'][key]});
+    //
+    // return (
+    //   <Column
+    //     header={<Cell>Free</Cell>}
+    //     cell={props => (
+    //       <Cell {...props}>
+    //         {arrFree[props.rowIndex]}
+    //       </Cell>
+    //     )}
+    //     width={80}
+    //   />
+    // );
   }
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
@@ -690,6 +723,10 @@ class EventPageComponent extends Component {
 
   }
 
+  fetchWeather(location) {
+    this.props.dispatch(fetchWeather(location));
+  }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
@@ -707,6 +744,7 @@ class EventPageComponent extends Component {
         </div>
       );
     } else {
+      // this.fetchWeather(this.props.eventObj.location);
       let dateArray = this.props.eventObj.dateArray;
       let tableheight= (35 * (dateArray.length + 1))+15;
       result = (
@@ -817,7 +855,9 @@ EventPageComponent.propTypes = {
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
-  languageJson: PropTypes.object.isRequired
+  languageJson: PropTypes.object.isRequired,
+  weather: PropTypes.array.isRequired
+
 };
 
 
@@ -830,5 +870,6 @@ export default connect(state => ({
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,
-  languageJson: state.languageJson
+  languageJson: state.languageJson,
+  weather: state.weather
 }))(EventPageComponent);
