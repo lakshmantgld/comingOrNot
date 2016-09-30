@@ -153,6 +153,7 @@ class EventPageComponent extends Component {
     }
   }
 
+// Attendee name on click on desktop table
   updateAttendeeComponent(id, name, date, e){
     this.props.dispatch(storeUpdateAttendeeName(name));
     this.props.dispatch(storeUpdateAttendeeId(id));
@@ -440,7 +441,9 @@ class EventPageComponent extends Component {
   }
 
 // Generate mobile toggle buttons
-  MobileToggleButtons(date){
+  MobileToggleButtons(date,cookie_available){
+    if(!cookie_available)
+    {
    return (
     <div>
         <MediaQuery minDeviceWidth={420}>
@@ -511,9 +514,69 @@ class EventPageComponent extends Component {
             </RadioButtonGroup>
         </MediaQuery>
     </div>);
+    }
+    else {
+      return (
+        <div>
+            <MediaQuery minDeviceWidth={420}>
+                {/** Tablets and phablets: display label for radio buttons*/}
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        green500
+                    }
+                    style = {
+                        styles.icon
+                    } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                        styles.icon
+                    } > panorama_fish_eye < /FontIcon>}/>
+
+                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        yellow800
+                    }
+                    style = {
+                        styles.icon
+                    } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                        styles.icon
+                    } > change_history < /FontIcon>}/>
+
+                    <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        red500
+                    }
+                    style = {
+                        styles.icon
+                    } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                        styles.icon
+                    } > clear < /FontIcon>}/>
+
+                </RadioButtonGroup>
+            </MediaQuery>
+
+            <MediaQuery maxDeviceWidth={420}>
+                {/** Smartphones */}
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                    <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        green500
+                    }
+                     > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
+
+                    <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        yellow800
+                    } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
+
+                    <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                        red500
+                    }> clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
+
+                </RadioButtonGroup>
+            </MediaQuery>
+        </div>
+      );
+    }
   }
 
-  MobiledateToggleSection() {
+  MobiledateToggleSection(cookie_available) {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
 
@@ -559,7 +622,7 @@ class EventPageComponent extends Component {
               <br></br>
                 <div className='col-xs-12'>
 
-                {this.MobileToggleButtons(date)}
+                {this.MobileToggleButtons(date,cookie_available)}
 
                 </div>
             </div>
@@ -725,7 +788,7 @@ class EventPageComponent extends Component {
                 </div>
                 <br></br>
                 <br></br>
-                  <div>{this.MobiledateToggleSection()}</div>
+                  <div>{this.MobiledateToggleSection(false)}</div>
                     <br />
                     <div className='row center-xs'>
                       <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
@@ -758,7 +821,7 @@ class EventPageComponent extends Component {
                 </div>
                 <br></br>
                 <br></br>
-                <div>{this.MobiledateToggleSection()}</div>
+                <div>{this.MobiledateToggleSection(true)}</div>
                   <br />
                   <div className='row center-xs'>
                     <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
