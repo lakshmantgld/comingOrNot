@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { grey600, red500 } from 'material-ui/styles/colors';
+import { grey600, red500, grey900, grey50 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Paper from 'material-ui/Paper';
@@ -27,7 +27,8 @@ let styles = {
 };
 
 let buttonStyle = {
-  margin : 12
+  margin : 12,
+
 };
 
 class EventShareComponent extends Component {
@@ -79,7 +80,7 @@ class EventShareComponent extends Component {
         <br />
         <div className='row center-xs'>
           <Link to={this.getEventPageUrl()}>
-            <RaisedButton label={this.props.languageJson.eventPageButton} primary={true} style={buttonStyle} disabled={false} />
+            <RaisedButton label={this.props.languageJson.eventPageButton} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} />
           </Link>
         </div>
       </div>
