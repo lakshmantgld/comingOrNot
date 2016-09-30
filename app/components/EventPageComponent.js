@@ -690,20 +690,37 @@ class EventPageComponent extends Component {
   }
 
   toggleMobileCastAttendance() {
-    if (true) {
-      return (
-        <div>
-          <div>{this.MobiledateToggleSection()}</div>
-        </div>
-
-
-      );
-    } else {
-      return (
-          <div>Hello cookie</div>
-      );
-    }
-
+      if (document.cookie.indexOf('name') == -1) { //Cookie not found? display virgin page
+          return (
+              <div>
+                <div className='row center-xs'>
+                  <div className='col-xs-10'>
+                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <br />
+                    <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+                  </div>
+                </div>
+                <br></br>
+                <br></br>
+                  <div>{this.MobiledateToggleSection()}</div>
+              </div>
+          );
+      } else { // Cookie found? fill page with cookie data
+          return (
+              <div>
+                <div className='row center-xs'>
+                  <div className='col-xs-10'>
+                    <TextField id='name' hintText='Name_Cookie' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <br />
+                    <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+                  </div>
+                </div>
+                <br></br>
+                <br></br>
+                <div>{this.MobiledateToggleSection()}</div>
+              </div>
+          );
+      }
   }
 
   handleRequestClose_NameEmpty() {
@@ -804,15 +821,6 @@ class EventPageComponent extends Component {
 
               <div>
 
-                <div className='row center-xs'>
-                  <div className='col-xs-10'>
-                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
-                    <br />
-                    <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-                  </div>
-                </div>
-                <br />
-                <br></br>
                 {this.toggleMobileCastAttendance()}
                 <br />
                 <div className='row center-xs'>
