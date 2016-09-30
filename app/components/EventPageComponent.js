@@ -15,8 +15,9 @@ import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag, registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
-         storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
+         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag,
+         registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId,
+         storeUpdateAttendeeName, storeUpdateAttendeeDate, updateAttendee, fetchWeather } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -233,6 +234,72 @@ class EventPageComponent extends Component {
      }).bind(this), 1000);
     }
   }
+
+  fillDateWithWeather() {
+    if (this.props.weather.length === 0) {
+
+      return (
+        <Column
+          header={<Cell>Dates</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              {this.props.eventObj.dateArray[props.rowIndex]}
+            </Cell>
+          )}
+          fixed={true}
+          width={180}
+        />
+      );
+    } else {
+      // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
+      let formattedEnteredDates = this.props.eventObj.dateArray.map((date) => {
+        let formattedDate;
+        if (date.indexOf("th") !== -1) {
+          formattedDate = date.replace("th", "");
+        } else if (date.indexOf("st") !== -1){
+          formattedDate = date.replace("st", "");
+        } else if (date.indexOf("nd") !== -1){
+          formattedDate = date.replace("nd", "");
+        } else {
+          formattedDate = date.replace("rd", "");
+        }
+
+        return formattedDate.split(",")[1];
+      });
+
+      // checks date with weather array and updates the weather If present.
+      let datesInColumn = formattedEnteredDates.map((eDate, i) => {
+        let dateInColumn = '';
+        for (let j=0; j<this.props.weather.length; j++) {
+          let enteredDate = new Date(eDate);
+          let weatherDate = new Date(this.props.weather[j].date);
+          if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
+            dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
+          }
+        }
+
+        if (dateInColumn !== '') {
+          return dateInColumn;
+        } else {
+          return this.props.eventObj.dateArray[i];
+        }
+
+      });
+
+      return (
+        <Column
+          header={<Cell>Dates</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              {datesInColumn[props.rowIndex]}
+            </Cell>
+          )}
+          fixed={true}
+          width={190}
+        />
+      );
+    }
+}
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   CountStatus() {
@@ -844,6 +911,10 @@ class EventPageComponent extends Component {
       this.props.dispatch(attendeeNameExistsFlag(false));
     }
 
+  fetchWeather(location) {
+    this.props.dispatch(fetchWeather(location));
+  }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
@@ -860,7 +931,10 @@ class EventPageComponent extends Component {
         <div>
         </div>
       );
-    } else { //After fetching from DB
+    } else {
+      if ( this.props.weather.length === 0 ) {
+        this.fetchWeather(this.props.eventObj.location);
+      }
       let dateArray = this.props.eventObj.dateArray;
       let tableheight= (35 * (dateArray.length + 2)); // Responsive height of the table based no. of dates
       result = (
@@ -898,16 +972,7 @@ class EventPageComponent extends Component {
                   containerStyle={{minHeight:tableheight}}
                   headerHeight={50}
                 >
-                  <Column
-                    header={<Cell>Dates</Cell>}
-                    cell={props => (
-                      <Cell {...props}>
-                        {dateArray[props.rowIndex]}
-                      </Cell>
-                    )}
-                    fixed={true}
-                    width={180}
-                  />
+                  {this.fillDateWithWeather()}
                   {this.fillFreeStatus()}
                   {this.fillMaybeStatus()}
                   {this.fillBusyStatus()}
@@ -938,14 +1003,9 @@ class EventPageComponent extends Component {
                 {this.toggleMobileCastAttendance()}
 
               </div>
-
           {/*<div> Tablet & Smartphone code ends </div>*/}
-
           </MediaQuery>
         </div>
-
-
-
         </div>
       );
     }
@@ -966,7 +1026,9 @@ EventPageComponent.propTypes = {
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
-  languageJson: PropTypes.object.isRequired
+  languageJson: PropTypes.object.isRequired,
+  weather: PropTypes.array.isRequired
+
 };
 
 
@@ -983,5 +1045,6 @@ export default connect(state => ({
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,
-  languageJson: state.languageJson
+  languageJson: state.languageJson,
+  weather: state.weather
 }))(EventPageComponent);

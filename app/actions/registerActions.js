@@ -24,6 +24,7 @@ export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
 export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
 export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
+export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
 
 export function storeName(name) {
   return dispatch => {
@@ -304,5 +305,43 @@ export function changelanguage(languageJson) {
       type: RENDER_LANGUAGE,
       languageJson: languageJson
     });
+  };
+}
+
+function storeWeatherJson(json) {
+  console.log('coming here' + JSON.stringify(json));
+  const forecast = json.query.results.channel.item.forecast;
+  let modifiedForecast = [];
+
+  for (let i=0; i<forecast.length; i++) {
+    let forecastObj = {};
+    forecastObj["date"] = forecast[i].date;
+    forecastObj["cast"] = forecast[i].text;
+    modifiedForecast.push(forecastObj);
+  }
+
+  return {
+    type: FETCH_AND_STORE_WEATHER,
+    forecast: modifiedForecast
+  }
+}
+
+export function fetchWeather(location) {
+  return dispatch => {
+    return fetch('https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"' + location + '\")&format=json&env=store://datatables.org/alltableswithkeys', {credentials: 'omit'})
+      .then(res => {
+        if (res.status !== 200) {
+          console.log("not fetch");
+          let status = res.status;
+          return dispatch({
+            type: FETCH_ERROR,
+            status: status
+          });
+        }
+        console.log("fetch successfully");
+        console.log(JSON.stringify(res));
+        return res.json();
+      })
+      .then(json => dispatch(storeWeatherJson(json)))
   };
 }
