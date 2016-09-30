@@ -51,9 +51,6 @@ let styles = {
   icon: {
     marginRight: 24
   },
-  icon2: {
-    marginRight: 10
-  },
   block: {
     maxWidth: 100,
     marginBottom: 16
@@ -236,37 +233,37 @@ class EventPageComponent extends Component {
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   CountStatus() {
-    
+
     let dateStatusArray = this.props.eventObj.dateArray;
     dateStatus = {};
     dateStatus['free'] = {};
     dateStatus['maybe'] = {};
     dateStatus['busy'] = {};
-    for (let i=0; i<dateStatusArray.length; i++) {
-      dateStatus['free'][dateStatusArray[i]] = 0;
-      dateStatus['maybe'][dateStatusArray[i]] = 0;
-      dateStatus['busy'][dateStatusArray[i]] = 0;
+    for (let i = 0; i < dateStatusArray.length; i++) {
+        dateStatus['free'][dateStatusArray[i]] = 0;
+        dateStatus['maybe'][dateStatusArray[i]] = 0;
+        dateStatus['busy'][dateStatusArray[i]] = 0;
     }
 
-    for (let j=0; j<this.props.eventObj.attendees.length; j++) {
-      let attendeesDateSelection = this.props.eventObj.attendees[j].personalizedDateSelection;
-      for (let key in attendeesDateSelection) {
-        if (attendeesDateSelection.hasOwnProperty(key)) {
-          for (let dateStatuskey in dateStatus['free']) {
-            if (dateStatus['free'].hasOwnProperty(dateStatuskey)) {
-              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'free')) {
-                dateStatus['free'][dateStatuskey] = dateStatus['free'][dateStatuskey] + 1;
-              }
-              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'maybe')) {
-                dateStatus['maybe'][dateStatuskey] = dateStatus['maybe'][dateStatuskey] + 1;
-              }
-              if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'busy')) {
-                dateStatus['busy'][dateStatuskey] = dateStatus['busy'][dateStatuskey] + 1;
-              }
+    for (let j = 0; j < this.props.eventObj.attendees.length; j++) {
+        let attendeesDateSelection = this.props.eventObj.attendees[j].personalizedDateSelection;
+        for (let key in attendeesDateSelection) {
+            if (attendeesDateSelection.hasOwnProperty(key)) {
+                for (let dateStatuskey in dateStatus['free']) {
+                    if (dateStatus['free'].hasOwnProperty(dateStatuskey)) {
+                        if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'free')) {
+                            dateStatus['free'][dateStatuskey] = dateStatus['free'][dateStatuskey] + 1;
+                        }
+                        if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'maybe')) {
+                            dateStatus['maybe'][dateStatuskey] = dateStatus['maybe'][dateStatuskey] + 1;
+                        }
+                        if ((key === dateStatuskey) && (attendeesDateSelection[key] === 'busy')) {
+                            dateStatus['busy'][dateStatuskey] = dateStatus['busy'][dateStatuskey] + 1;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
   }
 
@@ -337,13 +334,13 @@ class EventPageComponent extends Component {
             if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
               if (date === key) {
                 if (attendee.personalizedDateSelection[key] === 'free') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={green500} style={styles.icon2}>panorama_fish_eye</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={green500}>panorama_fish_eye</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'maybe') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={yellow800} style={styles.icon2}>change_history</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={yellow800}>change_history</FontIcon>);
                 }
                 if (attendee.personalizedDateSelection[key] === 'busy') {
-                  orderedDateStausArray.push(<FontIcon className='material-icons' color={red500} style={styles.icon2}>clear</FontIcon>);
+                  orderedDateStausArray.push(<FontIcon className='material-icons' color={red500}>clear</FontIcon>);
                 }
               }
             }
