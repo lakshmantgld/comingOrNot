@@ -223,37 +223,70 @@ class EventPageComponent extends Component {
   }
 
   fillDateWithWeather() {
+    if (this.props.weather.length === 0) {
 
-    let formattedSelectedDates = this.props.eventObj.dateArray.map((date) => {
-      let formattedDate;
-      if (date.indexOf("th") !== -1) {
-        formattedDate = date.replace("th", "");
-      } else if (date.indexOf("st") !== -1){
-        formattedDate = date.replace("st", "");
-      } else {
-        formattedDate = date.replace("nd", "");
-      }
-      console.log(formattedDate);
+      return (
+        <Column
+          header={<Cell>Dates</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              {this.props.eventObj.dateArray[props.rowIndex]}
+            </Cell>
+          )}
+          fixed={true}
+          width={180}
+        />
+      );
+    } else {
+      // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
+      let formattedEnteredDates = this.props.eventObj.dateArray.map((date) => {
+        let formattedDate;
+        if (date.indexOf("th") !== -1) {
+          formattedDate = date.replace("th", "");
+        } else if (date.indexOf("st") !== -1){
+          formattedDate = date.replace("st", "");
+        } else if (date.indexOf("nd") !== -1){
+          formattedDate = date.replace("nd", "");
+        } else {
+          formattedDate = date.replace("rd", "");
+        }
 
-      return formattedDate;
-    });
+        return formattedDate.split(",")[1];
+      });
 
+      // checks date with weather array and updates the weather If present.
+      let datesInColumn = formattedEnteredDates.map((eDate, i) => {
+        let dateInColumn = '';
+        for (let j=0; j<this.props.weather.length; j++) {
+          let enteredDate = new Date(eDate);
+          let weatherDate = new Date(this.props.weather[j].date);
+          if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
+            dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
+          }
+        }
 
+        if (dateInColumn !== '') {
+          return dateInColumn;
+        } else {
+          return this.props.eventObj.dateArray[i];
+        }
 
-    // let arrFree = Object.keys(dateStatus['free']).map(function (key) {return dateStatus['free'][key]});
-    //
-    // return (
-    //   <Column
-    //     header={<Cell>Free</Cell>}
-    //     cell={props => (
-    //       <Cell {...props}>
-    //         {arrFree[props.rowIndex]}
-    //       </Cell>
-    //     )}
-    //     width={80}
-    //   />
-    // );
-  }
+      });
+
+      return (
+        <Column
+          header={<Cell>Dates</Cell>}
+          cell={props => (
+            <Cell {...props}>
+              {datesInColumn[props.rowIndex]}
+            </Cell>
+          )}
+          fixed={true}
+          width={190}
+        />
+      );
+    }
+}
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   fillFreeStatus() {
@@ -744,12 +777,12 @@ class EventPageComponent extends Component {
         </div>
       );
     } else {
-      // this.fetchWeather(this.props.eventObj.location);
+      if ( this.props.weather.length === 0 ) {
+        this.fetchWeather(this.props.eventObj.location);
+      }
       let dateArray = this.props.eventObj.dateArray;
       let tableheight= (35 * (dateArray.length + 1))+15;
       result = (
-
-
 
         <div>
           <div>
@@ -783,16 +816,7 @@ class EventPageComponent extends Component {
                   containerStyle={{minHeight:tableheight}}
                   headerHeight={50}
                 >
-                  <Column
-                    header={<Cell>Dates</Cell>}
-                    cell={props => (
-                      <Cell {...props}>
-                        {dateArray[props.rowIndex]}
-                      </Cell>
-                    )}
-                    fixed={true}
-                    width={180}
-                  />
+                  {this.fillDateWithWeather()}
                   {this.fillFreeStatus()}
                   {this.fillMaybeStatus()}
                   {this.fillBusyStatus()}
@@ -832,13 +856,8 @@ class EventPageComponent extends Component {
                   <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
                 </div>
               </div>
-
-
           </MediaQuery>
         </div>
-
-
-
         </div>
       );
     }
