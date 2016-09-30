@@ -439,6 +439,80 @@ class EventPageComponent extends Component {
 
   }
 
+// Generate mobile toggle buttons
+  MobileToggleButtons(date){
+   return (
+    <div>
+        <MediaQuery minDeviceWidth={420}>
+            {/** Tablets and phablets: display label for radio buttons*/}
+            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    green500
+                }
+                style = {
+                    styles.icon
+                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > panorama_fish_eye < /FontIcon>}/>
+
+                <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    yellow800
+                }
+                style = {
+                    styles.icon
+                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > change_history < /FontIcon>}/>
+
+                <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    red500
+                }
+                style = {
+                    styles.icon
+                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > clear < /FontIcon>}/>
+
+            </RadioButtonGroup>
+        </MediaQuery>
+
+        <MediaQuery maxDeviceWidth={420}>
+            {/** Smartphones */}
+            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+
+                <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    green500
+                }
+                style = {
+                    styles.icon
+                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > panorama_fish_eye < /FontIcon>}/>
+
+                <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    yellow800
+                }
+                style = {
+                    styles.icon
+                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > change_history < /FontIcon>}/>
+
+                <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    red500
+                }
+                style = {
+                    styles.icon
+                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                    styles.icon
+                } > clear < /FontIcon>}/>
+
+            </RadioButtonGroup>
+        </MediaQuery>
+    </div>);
+  }
+
   MobiledateToggleSection() {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
@@ -485,72 +559,8 @@ class EventPageComponent extends Component {
               <br></br>
                 <div className='col-xs-12'>
 
-                    <MediaQuery minDeviceWidth={420}> {/** Tablets and phablets: display label for radio buttons*/}
-                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                {this.MobileToggleButtons(date)}
 
-                            <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                green500
-                            }
-                            style = {
-                                styles.icon
-                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > panorama_fish_eye < /FontIcon>}/>
-
-                            <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                yellow800
-                            }
-                            style = {
-                                styles.icon
-                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > change_history < /FontIcon>}/>
-
-                            <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
-                            }
-                            style = {
-                                styles.icon
-                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > clear < /FontIcon>}/>
-
-                        </RadioButtonGroup>
-                    </MediaQuery>
-
-                    <MediaQuery maxDeviceWidth={420}> {/** Smartphones */}
-                        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
-
-
-                          <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                green500
-                            }
-                            style = {
-                                styles.icon
-                            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > panorama_fish_eye < /FontIcon>}/>
-
-                            <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                yellow800
-                            }
-                            style = {
-                                styles.icon
-                            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > change_history < /FontIcon>}/>
-
-                            <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                                red500
-                            }
-                            style = {
-                                styles.icon
-                            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                                styles.icon
-                            } > clear < /FontIcon>}/>
-
-                        </RadioButtonGroup>
-                    </MediaQuery>
                 </div>
             </div>
         </CardActions>
