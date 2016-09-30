@@ -4,6 +4,7 @@ import cookie from 'react-cookie';
 import { grey600, red500, red200, blue500, green500, green200, yellow800, yellow200} from 'material-ui/styles/colors';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
+import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -14,7 +15,7 @@ import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
+         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
          storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
 
 let dateStatus;
@@ -85,6 +86,7 @@ class EventPageComponent extends Component {
   constructor(props) {
     super(props);
     this.handleDateToogle = this.handleDateToogle.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
@@ -138,10 +140,8 @@ class EventPageComponent extends Component {
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
     } else {
-
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesAttendee();
-
       // A timeout has been used, because There will be a little time taken for storing the default values
       // to the left-out dates. So, having a delay will give a consistency in the application.
       setTimeout((function() {
@@ -189,10 +189,10 @@ class EventPageComponent extends Component {
 
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeUpdate() {
-    cookie.save("name", this.props.attendeeName);
-    this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id));
-    this.props.dispatch(toggleCastAttendance(false));
-    this.props.dispatch(emptyPersonalizedDateSelection());
+    cookie.save("name", this.props.attendeeName); //save name in cookie
+    this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
+    this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
+    this.props.dispatch(emptyPersonalizedDateSelection()); // Clear all the status entered by the user
   }
 
   duplicateCheck() {
@@ -214,12 +214,13 @@ class EventPageComponent extends Component {
 
 // stores the attendess selection of dates and his name.
   updateEvent(e) {
+    this.props.dispatch(attendeeNameEmptyFlag(false)); // Refresh the value of flag so that state value changes and render
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
+      this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
     } else {
-
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDates();
 
@@ -698,6 +699,9 @@ class EventPageComponent extends Component {
 
   }
 
+  handleRequestClose() {
+      this.props.dispatch(attendeeNameEmptyFlag(false));
+    }
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
@@ -802,6 +806,12 @@ class EventPageComponent extends Component {
                 <br />
                 <div className='row center-xs'>
                   <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                    <Snackbar
+                open={this.props.attendeeNameEmptyFlag}
+                message="Please enter your name"
+                autoHideDuration={3000}
+                onRequestClose={this.handleRequestClose}
+              />
                 </div>
               </div>
 
@@ -825,6 +835,7 @@ EventPageComponent.propTypes = {
   attendeeNameErrorLabel: PropTypes.string.isRequired,
   personalizedDateSelection: PropTypes.object.isRequired,
   toggleCastAttendance: PropTypes.bool.isRequired,
+  attendeeNameEmptyFlag: PropTypes.bool.isRequired,
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
@@ -838,6 +849,7 @@ export default connect(state => ({
   attendeeNameErrorLabel: state.attendeeNameErrorLabel,
   personalizedDateSelection: state.personalizedDateSelection,
   toggleCastAttendance: state.toggleCastAttendance,
+  attendeeNameEmptyFlag: state.attendeeNameEmptyFlag,
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,
