@@ -84,6 +84,7 @@ class EventPageComponent extends Component {
 // The methods in the constructor are given to bind the function to redux's state object.
   constructor(props) {
     super(props);
+    this.CountStatus = this.CountStatus.bind(this);
     this.handleDateToogle = this.handleDateToogle.bind(this);
     this.handleRequestClose_NameEmpty = this.handleRequestClose_NameEmpty.bind(this);
     this.handleRequestClose_NameExists = this.handleRequestClose_NameExists.bind(this);
@@ -157,6 +158,7 @@ class EventPageComponent extends Component {
     this.props.dispatch(storeAttendeeName(name));
     this.toggleCastAttendanceButton();
   }
+
 // Will store attendeeName and invoke error action in case of failed edge case.
   storeAttendeeName(e) {
     if (e.target.value.length >= '40') {
@@ -233,7 +235,8 @@ class EventPageComponent extends Component {
   }
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
-  fillFreeStatus() {
+  CountStatus() {
+    
     let dateStatusArray = this.props.eventObj.dateArray;
     dateStatus = {};
     dateStatus['free'] = {};
@@ -265,6 +268,11 @@ class EventPageComponent extends Component {
         }
       }
     }
+  }
+
+  fillFreeStatus() { // Generate column to list free status count for each date
+
+    this.CountStatus(); // Count status for each date and stores in dateStatus array
 
     let arrFree = Object.keys(dateStatus['free']).map(function (key) {return dateStatus['free'][key]});
 
@@ -281,7 +289,8 @@ class EventPageComponent extends Component {
     );
   }
 
-  fillMaybeStatus() {
+  fillMaybeStatus() { // Generate column to list maybe status count for each date
+
     let arrMaybe = Object.keys(dateStatus['maybe']).map(function (key) {return dateStatus['maybe'][key]});
 
     return (
@@ -298,7 +307,8 @@ class EventPageComponent extends Component {
 
   }
 
-  fillBusyStatus() {
+  fillBusyStatus() { // Generate column to list maybe status count for each date
+
     let arrBusy = Object.keys(dateStatus['busy']).map(function (key) {return dateStatus['busy'][key]});
 
     return (
