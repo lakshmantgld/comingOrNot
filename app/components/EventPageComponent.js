@@ -88,6 +88,7 @@ class EventPageComponent extends Component {
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
+    this.toggleMobileCastAttendance = this.toggleMobileCastAttendance.bind(this);
     this.toggleCastAttendanceButton = this.toggleCastAttendanceButton.bind(this);
     this.updateAttendeeComponent = this.updateAttendeeComponent.bind(this);
     this.updateAttendee = this.updateAttendee.bind(this);
@@ -96,6 +97,10 @@ class EventPageComponent extends Component {
 // The below method gets executed after all the components have been successfully rendered on the screen.
   componentDidMount() {
     this.props.dispatch(fetchEvent(this.props.params.eventId));
+    if (document.cookie.indexOf(this.props.params.eventId) > -1) //If cookie got current event ID.. Directly add his name as update attendee name
+    {
+    this.props.dispatch(storeAttendeeName(cookie.load(this.props.params.eventId)));//later we need to add the latest name
+    }
   }
 
 // Store the selected date to the state object.
@@ -106,7 +111,7 @@ class EventPageComponent extends Component {
 
   callAfterSomeTimeUpdateAttendee() {
     this.props.dispatch(updateAttendee(this.props.updateAttendeeId, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
-    cookie.save("name", this.props.attendeeName);
+    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(storeUpdateAttendeeName(''));
     this.props.dispatch(storeUpdateAttendeeId(''));
     this.toggleCastAttendanceButton();
@@ -188,7 +193,7 @@ class EventPageComponent extends Component {
 
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeUpdate() {
-    cookie.save("name", this.props.attendeeName); //save name in cookie
+    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
     this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
     this.props.dispatch(emptyPersonalizedDateSelection()); // Clear all the status entered by the user
@@ -405,6 +410,35 @@ class EventPageComponent extends Component {
     });
   }
 
+// Generate Chips based on status and list
+  MobileAttendeeChips(status,list) {
+
+   switch (status) {
+    case "free":
+        return list.map((name, k) => {
+            return (
+                <Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={< FontIcon className = "material-icons" > panorama_fish_eye < /FontIcon>}/>{name}</Chip>
+            );
+        });
+        break;
+    case "maybe":
+        return list.map((name, k) => {
+            return (
+                <Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={< FontIcon className = "material-icons" > change_history < /FontIcon>}/>{name}</Chip>
+            );
+        });
+        break;
+    case "busy":
+        return list.map((name, k) => {
+            return (
+                <Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={< FontIcon className = "material-icons" > clear < /FontIcon>}/>{name}</Chip>
+            );
+        });
+        break;
+   }
+
+  }
+
   MobiledateToggleSection() {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
@@ -430,27 +464,6 @@ class EventPageComponent extends Component {
         }
       });
 
-      let freelist_chips = function() // Create green chips using the freelist array
-      {
-        return freelist.map((name, k) =>{
-            return(<Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={<FontIcon className="material-icons">panorama_fish_eye</FontIcon>} />{name}</Chip>);
-          });
-      };
-
-      let maybelist_chips = function() // Yellow chips
-      {
-        return maybelist.map((name, k) =>{
-            return(<Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={<FontIcon className="material-icons">change_history</FontIcon>} />{name}</Chip>);
-          });
-      };
-
-      let busylist_chips = function() // Red chips
-      {
-        return busylist.map((name, k) =>{
-            return(<Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={<FontIcon className="material-icons">clear</FontIcon>} />{name}</Chip>);
-          });
-      };
-
       return (
 
 
@@ -464,7 +477,7 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
-            <div style={styles.chipwrapper}>{freelist_chips()}{maybelist_chips()}{busylist_chips()}</div>
+            <div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div>
           </CardText>
         <CardActions>
             <div className='row center-xs'>
@@ -607,7 +620,7 @@ class EventPageComponent extends Component {
       console.log("toggle cast attendance flag: true");
       if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') { {/** fails for first time event page visitor */}
         console.log("Clicked attendee name");
-        if (document.cookie.indexOf('name') > -1 && cookie.load('name') === this.props.updateAttendeeName ) {
+        if (document.cookie.indexOf(this.props.params.eventId) > -1 && cookie.load(this.props.params.eventId) === this.props.updateAttendeeName ) {
           console.log("Attendee name matches with cookie");
           return (
             <div>
@@ -690,7 +703,7 @@ class EventPageComponent extends Component {
   }
 
   toggleMobileCastAttendance() {
-      if (document.cookie.indexOf('name') == -1) { //Cookie not found? display virgin page
+      if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
           return (
               <div>
                 <div className='row center-xs'>
@@ -703,9 +716,27 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                   <div>{this.MobiledateToggleSection()}</div>
+                    <br />
+                    <div className='row center-xs'>
+                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                        <Snackbar
+                           open={this.props.attendeeNameEmptyFlag}
+                           message="Please enter your name"
+                           autoHideDuration={3000}
+                           onRequestClose={this.handleRequestClose_NameEmpty}
+                        />
+                        <Snackbar
+                           open={this.props.attendeeNameExistsFlag}
+                           message="Name already exists. Please enter another name"
+                           autoHideDuration={3000}
+                           onRequestClose={this.handleRequestClose_NameExists}
+                        />
+                    </div>
               </div>
+
           );
       } else { // Cookie found? fill page with cookie data
+
           return (
               <div>
                 <div className='row center-xs'>
@@ -718,6 +749,10 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                 <div>{this.MobiledateToggleSection()}</div>
+                  <br />
+                  <div className='row center-xs'>
+                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                  </div>
               </div>
           );
       }
@@ -730,6 +765,7 @@ class EventPageComponent extends Component {
   handleRequestClose_NameExists() {
       this.props.dispatch(attendeeNameExistsFlag(false));
     }
+
 // Fill the details about the event.
   getEventInformation() {
     let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
@@ -822,22 +858,7 @@ class EventPageComponent extends Component {
               <div>
 
                 {this.toggleMobileCastAttendance()}
-                <br />
-                <div className='row center-xs'>
-                  <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
-                    <Snackbar
-                       open={this.props.attendeeNameEmptyFlag}
-                       message="Please enter your name"
-                       autoHideDuration={3000}
-                       onRequestClose={this.handleRequestClose_NameEmpty}
-                    />
-                    <Snackbar
-                       open={this.props.attendeeNameExistsFlag}
-                       message="Name already exists. Please enter another name"
-                       autoHideDuration={3000}
-                       onRequestClose={this.handleRequestClose_NameExists}
-                    />
-                </div>
+
               </div>
 
           {/*<div> Tablet & Smartphone code ends </div>*/}
