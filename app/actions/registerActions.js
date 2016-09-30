@@ -309,20 +309,27 @@ export function changelanguage(languageJson) {
 }
 
 function storeWeatherJson(json) {
-  console.log('coming here' + JSON.stringify(json));
-  const forecast = json.query.results.channel.item.forecast;
   let modifiedForecast = [];
+  console.log('coming here' + JSON.stringify(json));
+  if (json.query.results === null) {
+    return {
+      type: FETCH_AND_STORE_WEATHER,
+      forecast: modifiedForecast
+    }
+  } else {
+    const forecast = json.query.results.channel.item.forecast;
 
-  for (let i=0; i<forecast.length; i++) {
-    let forecastObj = {};
-    forecastObj["date"] = forecast[i].date;
-    forecastObj["cast"] = forecast[i].text;
-    modifiedForecast.push(forecastObj);
-  }
+    for (let i=0; i<forecast.length; i++) {
+      let forecastObj = {};
+      forecastObj["date"] = forecast[i].date;
+      forecastObj["cast"] = forecast[i].text;
+      modifiedForecast.push(forecastObj);
+    }
 
-  return {
-    type: FETCH_AND_STORE_WEATHER,
-    forecast: modifiedForecast
+    return {
+      type: FETCH_AND_STORE_WEATHER,
+      forecast: modifiedForecast
+    }
   }
 }
 
