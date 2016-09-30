@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import { grey600, red500, blue500, green500, yellow800} from 'material-ui/styles/colors';
+import { grey600, red500, blue500, green500, yellow800, grey900, grey50 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -22,6 +22,9 @@ let styles = {
     text: 'bold',
     fontSize: '25px',
     color: grey600
+  },
+  underlineStyle: {
+    borderColor: grey900,
   },
   formLabel2: {
     text: 'bold',
@@ -588,7 +591,7 @@ class EventPageComponent extends Component {
                   <label style={styles.formLabel}> Name </label>
                 </div>
                 <div className='col-xs'>
-                  <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                  <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />
                   <br />
                   <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                 </div>
@@ -597,7 +600,7 @@ class EventPageComponent extends Component {
               {this.updateDateToggleSection()}
               <br />
               <div className='row center-xs'>
-                <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+                <RaisedButton label='Update' style={buttonStyle} disabled={false} labelColor={grey50} backgroundColor={grey900} onTouchTap={this.updateAttendee} />
               </div>
             </div>
           );
@@ -610,7 +613,7 @@ class EventPageComponent extends Component {
               </div>
               <br />
               <div className='row center-xs'>
-                <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+                <RaisedButton label='Cast Attendance' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.toggleCastAttendanceButton} />
               </div>
             </div>
           );
@@ -627,7 +630,7 @@ class EventPageComponent extends Component {
                 <label style={styles.formLabel}> Name </label>
               </div>
               <div className='col-xs'>
-                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />
                 <br />
                 <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
               </div>
@@ -636,7 +639,7 @@ class EventPageComponent extends Component {
             {this.dateToggleSection()}
             <br />
             <div className='row center-xs'>
-              <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+              <RaisedButton label='Update' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.updateEvent} />
             </div>
           </div>
         );
@@ -650,7 +653,7 @@ class EventPageComponent extends Component {
           </div>
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+            <RaisedButton label='Cast Attendance' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900}  onTouchTap={this.toggleCastAttendanceButton} />
           </div>
         </div>
       );
@@ -664,7 +667,7 @@ class EventPageComponent extends Component {
 
           <div className='row center-xs'>
             <div className='col-xs-10'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -673,7 +676,7 @@ class EventPageComponent extends Component {
           {this.MobiledateToggleSection()}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+            <RaisedButton label='Update' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.updateEvent} />
           </div>
         </div>
       );
@@ -682,7 +685,7 @@ class EventPageComponent extends Component {
         <div>
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
+            <RaisedButton label='Cast Attendance' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.toggleCastAttendanceButton} />
           </div>
         </div>
       );
@@ -781,7 +784,7 @@ class EventPageComponent extends Component {
 
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
@@ -791,7 +794,7 @@ class EventPageComponent extends Component {
                 {this.MobiledateToggleSection()}
                 <br />
                 <div className='row center-xs'>
-                  <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                  <RaisedButton label='Update' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.updateEvent} />
                 </div>
               </div>
 
