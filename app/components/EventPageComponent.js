@@ -15,7 +15,7 @@ import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
+         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag, registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
          storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
 
 let dateStatus;
@@ -85,6 +85,8 @@ class EventPageComponent extends Component {
     this.handleDateToogle = this.handleDateToogle.bind(this);
     this.handleRequestClose_NameEmpty = this.handleRequestClose_NameEmpty.bind(this);
     this.handleRequestClose_NameExists = this.handleRequestClose_NameExists.bind(this);
+    this.handleRequestClose_RegisterSuccess = this.handleRequestClose_RegisterSuccess.bind(this);
+    this.handleRequestClose_UpdateSuccess = this.handleRequestClose_UpdateSuccess.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
@@ -198,6 +200,7 @@ class EventPageComponent extends Component {
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
     this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
     this.props.dispatch(emptyPersonalizedDateSelection()); // Clear all the status entered by the user
+    this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
   }
 
   duplicateCheck() {
@@ -809,11 +812,27 @@ class EventPageComponent extends Component {
                   <br />
                   <div className='row center-xs'>
                     <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                      <Snackbar
+                         open={this.props.registerSuccessFlag}
+                         message="Registered Successfully"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_RegisterSuccess}
+                      />
                   </div>
               </div>
           );
       }
   }
+
+// Handles snackbar (register success)
+  handleRequestClose_RegisterSuccess() {
+      this.props.dispatch(registerSuccessFlag(false));
+    }
+
+// Handles snackbar (update success)
+  handleRequestClose_UpdateSuccess() {
+      this.props.dispatch(updateSuccessFlag(false));
+    }
 
 // Handles snackbar (empty name)
   handleRequestClose_NameEmpty() {
@@ -942,6 +961,8 @@ EventPageComponent.propTypes = {
   toggleCastAttendance: PropTypes.bool.isRequired,
   attendeeNameEmptyFlag: PropTypes.bool.isRequired,
   attendeeNameExistsFlag: PropTypes.bool.isRequired,
+  registerSuccessFlag: PropTypes.bool.isRequired,
+  updateSuccessFlag: PropTypes.bool.isRequired,
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
@@ -957,6 +978,8 @@ export default connect(state => ({
   toggleCastAttendance: state.toggleCastAttendance,
   attendeeNameEmptyFlag: state.attendeeNameEmptyFlag,
   attendeeNameExistsFlag: state.attendeeNameExistsFlag,
+  registerSuccessFlag: state.registerSuccessFlag,
+  updateSuccessFlag: state.updateSuccessFlag,
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,

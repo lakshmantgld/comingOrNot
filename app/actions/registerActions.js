@@ -15,6 +15,8 @@ export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL'
 export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 export const ATTENDEE_NAME_EMPTY_FLAG = 'ATTENDEE_NAME_EMPTY_FLAG';
 export const ATTENDEE_NAME_EXISTS_FLAG = 'ATTENDEE_NAME_EXISTS_FLAG';
+export const REGISTER_SUCCESS_FLAG = 'REGISTER_SUCCESS_FLAG';
+export const UPDATE_SUCCESS_FLAG = 'UPDATE_SUCCESS_FLAG';
 export const STORE_LOCATION = 'STORE_LOCATION';
 export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
 export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
@@ -256,6 +258,24 @@ export function attendeeNameExistsFlag(toggleValue) {
   return dispatch => {
     return dispatch({
       type: ATTENDEE_NAME_EXISTS_FLAG,
+      toggleValue: toggleValue
+    });
+  };
+}
+
+export function registerSuccessFlag(toggleValue) {
+  return dispatch => {
+    return dispatch({
+      type: REGISTER_SUCCESS_FLAG,
+      toggleValue: toggleValue
+    });
+  };
+}
+
+export function updateSuccessFlag(toggleValue) {
+  return dispatch => {
+    return dispatch({
+      type: UPDATE_SUCCESS_FLAG,
       toggleValue: toggleValue
     });
   };
