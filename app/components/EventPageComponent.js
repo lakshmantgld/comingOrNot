@@ -204,17 +204,11 @@ class EventPageComponent extends Component {
     let count = 0;
     let i = 0;
     for (i = 0; i < this.props.eventObj.attendees.length; i++) {
-      if (this.props.attendeeName === this.props.eventObj.attendees[i].attendeeName) {
-        count = 1;
+      if (this.props.attendeeName.toUpperCase() === this.props.eventObj.attendees[i].attendeeName.toUpperCase()) {
+        return true;
       }
     }
-
-    if (count === 1) {
-      return true;
-    } else {
-      return false;
-    }
-    count = 0;
+    return false;
   }
 
 // stores the attendess selection of dates and his name.
@@ -273,7 +267,8 @@ class EventPageComponent extends Component {
     }
   }
 
-  fillFreeStatus() { // Generate column to list free status count for each date
+// Generate column to list free status count for each date
+  fillFreeStatus() {
 
     this.CountStatus(); // Count status for each date and stores in dateStatus array
 
@@ -292,7 +287,8 @@ class EventPageComponent extends Component {
     );
   }
 
-  fillMaybeStatus() { // Generate column to list maybe status count for each date
+// Generate column to list maybe status count for each date
+  fillMaybeStatus() {
 
     let arrMaybe = Object.keys(dateStatus['maybe']).map(function (key) {return dateStatus['maybe'][key]});
 
@@ -310,7 +306,8 @@ class EventPageComponent extends Component {
 
   }
 
-  fillBusyStatus() { // Generate column to list maybe status count for each date
+// Generate column to list maybe status count for each date
+  fillBusyStatus() {
 
     let arrBusy = Object.keys(dateStatus['busy']).map(function (key) {return dateStatus['busy'][key]});
 
@@ -562,6 +559,7 @@ class EventPageComponent extends Component {
     }
   }
 
+// Generate Date toggle based on cookie
   MobiledateToggleSection(cookie_available) {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
@@ -800,7 +798,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' hintText='Name_Cookie' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
@@ -817,10 +815,12 @@ class EventPageComponent extends Component {
       }
   }
 
+// Handles snackbar (empty name)
   handleRequestClose_NameEmpty() {
       this.props.dispatch(attendeeNameEmptyFlag(false));
     }
 
+// Handles snackbar (name already exists)
   handleRequestClose_NameExists() {
       this.props.dispatch(attendeeNameExistsFlag(false));
     }
