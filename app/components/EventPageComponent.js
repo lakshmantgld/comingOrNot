@@ -113,7 +113,8 @@ class EventPageComponent extends Component {
   }
 
   callAfterSomeTimeUpdateAttendee() {
-    this.props.dispatch(updateAttendee(this.props.updateAttendeeId, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
+    let attendee = this.getCookieAttendeeDetails();
+    this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(storeUpdateAttendeeName(''));
     this.props.dispatch(storeUpdateAttendeeId(''));
@@ -122,9 +123,10 @@ class EventPageComponent extends Component {
   }
 
   fillTheLeftOutDatesAttendee() {
+    let attendeeDetails = this.getCookieAttendeeDetails();
     let count = 0;
-    for (let date in this.props.updateAttendeeDate) {
-      if (this.props.updateAttendeeDate.hasOwnProperty(date)) {
+    for (let date in attendeeDetails.personalizedDateSelection) {
+      if (attendeeDetails.personalizedDateSelection.hasOwnProperty(date)) {
         for (let key in this.props.personalizedDateSelection) {
           if (this.props.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key ) {
@@ -133,7 +135,8 @@ class EventPageComponent extends Component {
           }
         }
         if (count === 0) {
-          this.props.dispatch(storePersonalizedDateSelection(date, this.props.updateAttendeeDate[date]));
+          console.log();
+          this.props.dispatch(storePersonalizedDateSelection(date, attendeeDetails.personalizedDateSelection[date]));
         }
         count = 0;
       }
@@ -199,7 +202,7 @@ class EventPageComponent extends Component {
   callAfterSomeTimeUpdate() {
     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
-    this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
+    // this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
     this.props.dispatch(emptyPersonalizedDateSelection()); // Clear all the status entered by the user
     this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
   }
@@ -235,25 +238,20 @@ class EventPageComponent extends Component {
     }
   }
 
-  fillDateWithWeather() {
+  renderWithOrWithoutWeather() {
+    let datesInColumn = [];
     if (this.props.weather.length === 0) {
-
-      return (
-        <Column
-          header={<Cell>Dates</Cell>}
-          cell={props => (
-            <Cell {...props}>
-              {this.props.eventObj.dateArray[props.rowIndex]}
-            </Cell>
-          )}
-          fixed={true}
-          width={180}
-        />
-      );
+      // when weather information from yahoo is not available. render dates alone.
+      datesInColumn = this.props.eventObj.dateArray;
+      console.log("no weather");
     } else {
+      // After weather info from yahoo, add forecast images to date.
       // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
-      let formattedEnteredDates = this.props.eventObj.dateArray.map((date) => {
+      let formattedEnteredDates = [];
+      for (let i=0; i<this.props.eventObj.dateArray.length; i++) {
+        let date = this.props.eventObj.dateArray[i];
         let formattedDate;
+
         if (date.indexOf("th") !== -1) {
           formattedDate = date.replace("th", "");
         } else if (date.indexOf("st") !== -1){
@@ -263,15 +261,13 @@ class EventPageComponent extends Component {
         } else {
           formattedDate = date.replace("rd", "");
         }
+        formattedEnteredDates[i] = formattedDate.split(",")[1];
+      }
 
-        return formattedDate.split(",")[1];
-      });
-
-      // checks date with weather array and updates the weather If present.
-      let datesInColumn = formattedEnteredDates.map((eDate, i) => {
+      for (let i=0; i<formattedEnteredDates.length; i++) {
         let dateInColumn = '';
         for (let j=0; j<this.props.weather.length; j++) {
-          let enteredDate = new Date(eDate);
+          let enteredDate = new Date(formattedEnteredDates[i]);
           let weatherDate = new Date(this.props.weather[j].date);
           if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
             dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
@@ -279,27 +275,32 @@ class EventPageComponent extends Component {
         }
 
         if (dateInColumn !== '') {
-          return dateInColumn;
+          datesInColumn.push(dateInColumn);
         } else {
-          return this.props.eventObj.dateArray[i];
+          datesInColumn.push(this.props.eventObj.dateArray[i]);
         }
-
-      });
-
-      return (
-        <Column
-          header={<Cell>Dates</Cell>}
-          cell={props => (
-            <Cell {...props}>
-              {datesInColumn[props.rowIndex]}
-            </Cell>
-          )}
-          fixed={true}
-          width={190}
-        />
-      );
+      }
     }
-}
+    return datesInColumn;
+  }
+
+  fillDatesInColumn() {
+    let datesInColumn = this.renderWithOrWithoutWeather();
+
+    return (
+      <Column
+        header={<Cell>Dates</Cell>}
+        cell={props => (
+          <Cell {...props}>
+            {datesInColumn[props.rowIndex]}
+          </Cell>
+        )}
+        fixed={true}
+        width={190}
+      />
+    );
+  }
+
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   CountStatus() {
@@ -829,6 +830,165 @@ class EventPageComponent extends Component {
     }
   }
 
+  getCookieAttendeeDetails() {
+    let cookieAttendee = cookie.load(this.props.params.eventId);
+    console.log("78");
+    console.log(cookieAttendee);
+    for (let i=0; i<this.props.eventObj.attendees.length; i++) {
+      if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
+        return this.props.eventObj.attendees[i];
+      }
+    }
+  }
+
+  individualDateSection(date, status) {
+    console.log(date + "   ," + status);
+    return (
+      <div className='col-xs'>
+        <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
+
+            <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                green500
+            }
+            style = {
+                styles.icon
+            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                styles.icon
+            } > panorama_fish_eye < /FontIcon>}/>
+
+            <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                yellow800
+            }
+            style = {
+                styles.icon
+            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                styles.icon
+            } > change_history < /FontIcon>}/>
+
+            <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                red500
+            }
+            style = {
+                styles.icon
+            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
+                styles.icon
+            } > clear < /FontIcon>}/>
+
+        </RadioButtonGroup>
+      </div>
+    );
+  }
+
+  dateToggleSection2(cookieAvailable) {
+    if (cookieAvailable !== true) {
+      // initially all dates should be under busy
+      console.log("hjk");
+      let selectedDates = this.props.eventObj.dateArray;
+      let datesInColumn = this.renderWithOrWithoutWeather();
+      console.log("printing here");
+      console.log(datesInColumn);
+      let dateToggleElements = [];
+      for (let i=0; i<datesInColumn.length; i++) {
+        console.log(datesInColumn[i]);
+        dateToggleElements[i] = (
+          <div className='row'>
+            <div className='col-xs-3'>
+            </div>
+            <div className='col-xs-offset-1 col-xs-2'>
+              <label style={styles.dateLabel}> {datesInColumn[i]} </label>
+            </div>
+            {this.individualDateSection(selectedDates[i], 'busy')}
+          </div>
+        );
+      }
+      return dateToggleElements;
+    } else {
+      let dateToggleElements = [];
+      let attendeeDetails = this.getCookieAttendeeDetails();
+      console.log("ppp");
+      console.log(attendeeDetails);
+      let datesInColumn = this.renderWithOrWithoutWeather();
+      let selectedDates = this.props.eventObj.dateArray;
+
+      for (let i=0; i<selectedDates.length; i++) {
+        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+            if (attendeeDate === selectedDates[i]) {
+              dateToggleElements[i] = (
+                <div className='row'>
+                  <div className='col-xs-3'>
+                  </div>
+                  <div className='col-xs-offset-1 col-xs-2'>
+                    <label style={styles.dateLabel}> {datesInColumn[i]} </label>
+                  </div>
+                  {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
+                </div>
+              );
+            }
+          }
+        }
+      }
+      return dateToggleElements;
+    }
+  }
+
+  attendeeSubmissionSection() {
+    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
+      // cookie not there, render empty name field and default busy states to dates.
+      return (
+        <div>
+          <div className='row center-xs'>
+            <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
+          </div>
+          <br />
+          <div className='row'>
+            <div className='col-xs-offset-5 col-xs-1'>
+              <label style={styles.formLabel}> Name </label>
+            </div>
+            <div className='col-xs'>
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <br />
+              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+            </div>
+          </div>
+          <br />
+          {this.dateToggleSection2(false)}
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+          </div>
+        </div>
+      );
+    } else {
+      // cookie found, render name and selected dates.
+      return (
+        <div>
+          <div className='row center-xs'>
+            <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
+          </div>
+          <br />
+          <div className='row'>
+            <div className='col-xs-offset-5 col-xs-1'>
+              <label style={styles.formLabel}> Name </label>
+            </div>
+            <div className='col-xs'>
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <br />
+              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
+            </div>
+          </div>
+          <br />
+          {this.dateToggleSection2(true)}
+          <br />
+          <div className='row center-xs'>
+            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+          </div>
+        </div>
+      );
+    }
+  }
+
+
   toggleMobileCastAttendance() {
       if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
           return (
@@ -932,7 +1092,7 @@ class EventPageComponent extends Component {
         </div>
       );
     } else {
-      if ( this.props.weather.length === 0 ) {
+      if ( (this.props.weather.length === 0) && (this.props.eventObj.location !== '')) {
         this.fetchWeather(this.props.eventObj.location);
       }
       let dateArray = this.props.eventObj.dateArray;
@@ -972,7 +1132,7 @@ class EventPageComponent extends Component {
                   containerStyle={{minHeight:tableheight}}
                   headerHeight={50}
                 >
-                  {this.fillDateWithWeather()}
+                  {this.fillDatesInColumn()}
                   {this.fillFreeStatus()}
                   {this.fillMaybeStatus()}
                   {this.fillBusyStatus()}
@@ -981,8 +1141,7 @@ class EventPageComponent extends Component {
               </div>
               </div>
               <br />
-              {this.toggleCastAttendance()}
-
+              {this.attendeeSubmissionSection()}
               {/*<div> PC and Desktop code ends </div>*/}
 
           </MediaQuery>
