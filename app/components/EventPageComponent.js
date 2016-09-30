@@ -444,7 +444,7 @@ class EventPageComponent extends Component {
   MobileToggleButtons(date,cookie_available){
     if(!cookie_available)
     {
-   return (
+   return ( //Cookie unavailable (ALL BUSY)
     <div>
         <MediaQuery minDeviceWidth={420}>
             {/** Tablets and phablets: display label for radio buttons*/}
@@ -516,7 +516,7 @@ class EventPageComponent extends Component {
     </div>);
     }
     else {
-      return (
+      return ( //Cookie available (respective status based on attendee)
         <div>
             <MediaQuery minDeviceWidth={420}>
                 {/** Tablets and phablets: display label for radio buttons*/}
@@ -524,30 +524,16 @@ class EventPageComponent extends Component {
 
                     <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
-                    }
-                    style = {
-                        styles.icon
-                    } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                        styles.icon
-                    } > panorama_fish_eye < /FontIcon>}/>
+                    }> panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
 
                     <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
                     }
-                    style = {
-                        styles.icon
-                    } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                        styles.icon
-                    } > change_history < /FontIcon>}/>
+                     > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
-                    }
-                    style = {
-                        styles.icon
-                    } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                        styles.icon
-                    } > clear < /FontIcon>}/>
+                    } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
                 </RadioButtonGroup>
             </MediaQuery>
@@ -556,16 +542,16 @@ class EventPageComponent extends Component {
                 {/** Smartphones */}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
 
-                    <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
                     }
                      > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
                     } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
                     }> clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
 
