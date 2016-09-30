@@ -15,7 +15,7 @@ import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
+         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId, storeUpdateAttendeeName,
          storeUpdateAttendeeDate, updateAttendee } from './../actions/registerActions';
 
 let dateStatus;
@@ -42,9 +42,8 @@ let styles = {
     color: grey600
   },
   errorLabel: {
-    text: 'bold',
-    fontSize: '22px',
-    color: red500
+    fontSize: '15px',
+    color: 'rgba(244, 67, 54, 0.79)'
   },
   paperStyle: {
     width: '50%'
@@ -86,7 +85,8 @@ class EventPageComponent extends Component {
   constructor(props) {
     super(props);
     this.handleDateToogle = this.handleDateToogle.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleRequestClose_NameEmpty = this.handleRequestClose_NameEmpty.bind(this);
+    this.handleRequestClose_NameExists = this.handleRequestClose_NameExists.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
     this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
@@ -214,12 +214,12 @@ class EventPageComponent extends Component {
 
 // stores the attendess selection of dates and his name.
   updateEvent(e) {
-    this.props.dispatch(attendeeNameEmptyFlag(false)); // Refresh the value of flag so that state value changes and render
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
       this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
+      this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDates();
@@ -699,8 +699,12 @@ class EventPageComponent extends Component {
 
   }
 
-  handleRequestClose() {
+  handleRequestClose_NameEmpty() {
       this.props.dispatch(attendeeNameEmptyFlag(false));
+    }
+
+  handleRequestClose_NameExists() {
+      this.props.dispatch(attendeeNameExistsFlag(false));
     }
 // Fill the details about the event.
   getEventInformation() {
@@ -807,11 +811,17 @@ class EventPageComponent extends Component {
                 <div className='row center-xs'>
                   <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
                     <Snackbar
-                open={this.props.attendeeNameEmptyFlag}
-                message="Please enter your name"
-                autoHideDuration={3000}
-                onRequestClose={this.handleRequestClose}
-              />
+                       open={this.props.attendeeNameEmptyFlag}
+                       message="Please enter your name"
+                       autoHideDuration={3000}
+                       onRequestClose={this.handleRequestClose_NameEmpty}
+                    />
+                    <Snackbar
+                       open={this.props.attendeeNameExistsFlag}
+                       message="Name already exists. Please enter another name"
+                       autoHideDuration={3000}
+                       onRequestClose={this.handleRequestClose_NameExists}
+                    />
                 </div>
               </div>
 
@@ -836,6 +846,7 @@ EventPageComponent.propTypes = {
   personalizedDateSelection: PropTypes.object.isRequired,
   toggleCastAttendance: PropTypes.bool.isRequired,
   attendeeNameEmptyFlag: PropTypes.bool.isRequired,
+  attendeeNameExistsFlag: PropTypes.bool.isRequired,
   updateAttendeeId: PropTypes.string.isRequired,
   updateAttendeeName: PropTypes.string.isRequired,
   updateAttendeeDate: PropTypes.object.isRequired,
@@ -850,6 +861,7 @@ export default connect(state => ({
   personalizedDateSelection: state.personalizedDateSelection,
   toggleCastAttendance: state.toggleCastAttendance,
   attendeeNameEmptyFlag: state.attendeeNameEmptyFlag,
+  attendeeNameExistsFlag: state.attendeeNameExistsFlag,
   updateAttendeeId: state.updateAttendeeId,
   updateAttendeeName: state.updateAttendeeName,
   updateAttendeeDate: state.updateAttendeeDate,

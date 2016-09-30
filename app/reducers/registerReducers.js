@@ -1,7 +1,7 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         TOGGLE_CAST_ATTENDANCE, ATTENDEE_NAME_EMPTY_FLAG, EMPTY_PERSONALIZED_DATE_SELECTION, STORE_LOCATION, STORE_UPDATE_ATTENDEE_ID,
+         TOGGLE_CAST_ATTENDANCE, ATTENDEE_NAME_EMPTY_FLAG, ATTENDEE_NAME_EXISTS_FLAG, EMPTY_PERSONALIZED_DATE_SELECTION, STORE_LOCATION, STORE_UPDATE_ATTENDEE_ID,
           STORE_UPDATE_ATTENDEE_NAME, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE } from './../actions/registerActions';
 
 export function name(state = '', action) {
@@ -142,6 +142,15 @@ export function toggleCastAttendance(state = false, action) {
 export function attendeeNameEmptyFlag(state = false, action) {
   switch(action.type) {
     case ATTENDEE_NAME_EMPTY_FLAG:
+      return action.toggleValue;
+    default:
+      return state;
+  }
+}
+
+export function attendeeNameExistsFlag(state = false, action) {
+  switch(action.type) {
+    case ATTENDEE_NAME_EXISTS_FLAG:
       return action.toggleValue;
     default:
       return state;
