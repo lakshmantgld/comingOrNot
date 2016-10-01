@@ -208,15 +208,28 @@ class EventPageComponent extends Component {
   }
 
   duplicateCheck() {
-    let count = 0;
-    let i = 0;
-    for (i = 0; i < this.props.eventObj.attendees.length; i++) {
-      if (this.props.attendeeName.toUpperCase() === this.props.eventObj.attendees[i].attendeeName.toUpperCase()) {
-        return true;
+    let attendees = this.props.eventObj.attendees;
+    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
+
+      for (let i = 0; i < attendees.length; i++) {
+        if (this.props.attendeeName.toUpperCase() === attendees[i].attendeeName.toUpperCase()) {
+          return true;
+        }
       }
-    }
-    return false;
+      return false;
+
+    } else {
+      let attendeeDetails = this.getCookieAttendeeDetails();
+
+      for (let j = 0; j < attendees.length; j++) {
+        if (this.props.attendeeName.toUpperCase() === attendees[j].attendeeName.toUpperCase() && (attendeeDetails._id !== attendees[j]._id) ) {
+          return true;
+        }
+      }
+      return false;
+
   }
+}
 
 // stores the attendess selection of dates and his name.
   updateEvent(e) {
