@@ -78,7 +78,7 @@ class EventShareComponent extends Component {
         <br />
         <br />
         <div className='row center-xs'>
-          <Link to={this.getEventPageUrl()}>
+          <Link to={eventShareURL}>
             <RaisedButton label={this.props.languageJson.eventPageButton} primary={true} style={buttonStyle} disabled={false} />
           </Link>
         </div>
