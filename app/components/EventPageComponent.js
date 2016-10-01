@@ -15,9 +15,9 @@ import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         updateEvent, toggleCastAttendance, attendeeNameEmptyFlag, attendeeNameExistsFlag,
-         registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection, storeUpdateAttendeeId,
-         storeUpdateAttendeeName, storeUpdateAttendeeDate, updateAttendee, fetchWeather } from './../actions/registerActions';
+         registerAttendee, attendeeNameEmptyFlag, attendeeNameExistsFlag,
+         registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection,
+         updateAttendee, fetchWeather } from './../actions/registerActions';
 
 let dateStatus;
 
@@ -89,11 +89,8 @@ class EventPageComponent extends Component {
     this.handleRequestClose_RegisterSuccess = this.handleRequestClose_RegisterSuccess.bind(this);
     this.handleRequestClose_UpdateSuccess = this.handleRequestClose_UpdateSuccess.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
-    this.updateEvent = this.updateEvent.bind(this);
-    this.toggleCastAttendance = this.toggleCastAttendance.bind(this);
+    this.registerAttendee = this.registerAttendee.bind(this);
     this.toggleMobileCastAttendance = this.toggleMobileCastAttendance.bind(this);
-    this.toggleCastAttendanceButton = this.toggleCastAttendanceButton.bind(this);
-    this.updateAttendeeComponent = this.updateAttendeeComponent.bind(this);
     this.updateAttendee = this.updateAttendee.bind(this);
   }
 
@@ -106,23 +103,21 @@ class EventPageComponent extends Component {
     }
   }
 
-// Store the selected date to the state object.
+// Store the selected date by the use to the personalizedDateSelection object.
 // dispatch is the one that invokes the action creators.
   handleDateToogle(date, e) {
     this.props.dispatch(storePersonalizedDateSelection(date, e.target.value));
   }
 
   callAfterSomeTimeUpdateAttendee() {
+    // for updating the attendee
     let attendee = this.getCookieAttendeeDetails();
     this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
-    this.props.dispatch(storeUpdateAttendeeName(''));
-    this.props.dispatch(storeUpdateAttendeeId(''));
-    this.toggleCastAttendanceButton();
-    this.props.dispatch(storeAttendeeName(''));
+    this.props.dispatch(storeAttendeeName(this.props.attendeeName));
   }
 
-  fillTheLeftOutDatesAttendee() {
+  fillTheLeftOutDatesUpdateAttendee() {
     let attendeeDetails = this.getCookieAttendeeDetails();
     let count = 0;
     for (let date in attendeeDetails.personalizedDateSelection) {
@@ -150,7 +145,7 @@ class EventPageComponent extends Component {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
-      this.fillTheLeftOutDatesAttendee();
+      this.fillTheLeftOutDatesUpdateAttendee();
       // A timeout has been used, because There will be a little time taken for storing the default values
       // to the left-out dates. So, having a delay will give a consistency in the application.
       setTimeout((function() {
@@ -159,29 +154,42 @@ class EventPageComponent extends Component {
     }
   }
 
-// Attendee name on click on desktop table
-  updateAttendeeComponent(id, name, date, e){
-    this.props.dispatch(storeUpdateAttendeeName(name));
-    this.props.dispatch(storeUpdateAttendeeId(id));
-    this.props.dispatch(storeUpdateAttendeeDate(date));
-    this.props.dispatch(storeAttendeeName(name));
-    this.toggleCastAttendanceButton();
-  }
+  duplicateCheck() {
+    let attendees = this.props.eventObj.attendees;
+    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
+      // In case no cookie, just find if duplicate exists.
+      for (let i = 0; i < attendees.length; i++) {
+        if (this.props.attendeeName.toUpperCase() === attendees[i].attendeeName.toUpperCase()) {
+          return true;
+        }
+      }
+      return false;
 
-// Will store attendeeName and invoke error action in case of failed edge case.
-  storeAttendeeName(e) {
-    if (e.target.value.length >= '40') {
-      this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel))
     } else {
-      this.props.dispatch(storeAttendeeNameErrorLabel(''));
-      this.props.dispatch(storeAttendeeName(e.target.value));
-    }
+      // In case of cookie, add another codition so that it does not compare to same attendee.
+      let attendeeDetails = this.getCookieAttendeeDetails();
+
+      for (let j = 0; j < attendees.length; j++) {
+        if (this.props.attendeeName.toUpperCase() === attendees[j].attendeeName.toUpperCase() && (attendeeDetails._id !== attendees[j]._id) ) {
+          return true;
+        }
+      }
+      return false;
+
+  }
+}
+
+// This cast by attendess will be invoked after an secod for providing delay.
+  callAfterSomeTimeRegisterAttendee() {
+    this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
+    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
+    this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
   }
 
 // This is an helper function to store the dates that have not been selected by the user.
 // for instance, there are six dates, and the user selects the status(free, maybe, busy) for the four and
 // leaves the remaining dates, then the below method will give default values to the unselected dates by the user.
-  fillTheLeftOutDates() {
+  fillTheLeftOutDatesRegisterAttendee() {
     let count = 0;
     this.props.eventObj.dateArray.map((date, i) => {
       for (let key in this.props.personalizedDateSelection) {
@@ -198,41 +206,8 @@ class EventPageComponent extends Component {
     });
   }
 
-// This cast by attendess will be invoked after an secod for providing delay.
-  callAfterSomeTimeUpdate() {
-    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
-    this.props.dispatch(updateEvent(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
-    // this.props.dispatch(toggleCastAttendance(false)); // Show Cast attendance button instead f date toggle selection
-    this.props.dispatch(emptyPersonalizedDateSelection()); // Clear all the status entered by the user
-    this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
-  }
-
-  duplicateCheck() {
-    let attendees = this.props.eventObj.attendees;
-    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
-
-      for (let i = 0; i < attendees.length; i++) {
-        if (this.props.attendeeName.toUpperCase() === attendees[i].attendeeName.toUpperCase()) {
-          return true;
-        }
-      }
-      return false;
-
-    } else {
-      let attendeeDetails = this.getCookieAttendeeDetails();
-
-      for (let j = 0; j < attendees.length; j++) {
-        if (this.props.attendeeName.toUpperCase() === attendees[j].attendeeName.toUpperCase() && (attendeeDetails._id !== attendees[j]._id) ) {
-          return true;
-        }
-      }
-      return false;
-
-  }
-}
-
 // stores the attendess selection of dates and his name.
-  updateEvent(e) {
+  registerAttendee(e) {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
       this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
@@ -241,16 +216,27 @@ class EventPageComponent extends Component {
       this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
-      this.fillTheLeftOutDates();
+      this.fillTheLeftOutDatesRegisterAttendee();
 
       // A timeout has been used, because There will be a little time taken for storing the default values
       // to the left-out dates. So, having a delay will give a consistency in the application.
       setTimeout((function() {
-       this.callAfterSomeTimeUpdate();
+       this.callAfterSomeTimeRegisterAttendee();
      }).bind(this), 1000);
     }
   }
 
+  // Will store attendeeName and invoke error action in case of failed edge case.
+    storeAttendeeName(e) {
+      if (e.target.value.length >= '40') {
+        this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel))
+      } else {
+        this.props.dispatch(storeAttendeeNameErrorLabel(''));
+        this.props.dispatch(storeAttendeeName(e.target.value));
+      }
+    }
+
+  // this is for rendering the dates both in event table and in attendance submission section
   renderWithOrWithoutWeather() {
     let datesInColumn = [];
     if (this.props.weather.length === 0) {
@@ -297,6 +283,7 @@ class EventPageComponent extends Component {
     return datesInColumn;
   }
 
+  // this renders the date in table from the return value of renderWithOrWithoutWeather.
   fillDatesInColumn() {
     let datesInColumn = this.renderWithOrWithoutWeather();
 
@@ -435,7 +422,7 @@ class EventPageComponent extends Component {
         });
         return (
           <Column
-            header={<Cell onTouchTap={this.updateAttendeeComponent.bind(this, attendee._id, attendee.attendeeName, attendee.personalizedDateSelection)}>{attendee.attendeeName}</Cell>}
+            header={<Cell>{attendee.attendeeName}</Cell>}
             cell={props => (
               <Cell {...props}>
                 {orderedDateStausArray[props.rowIndex]}
@@ -449,47 +436,6 @@ class EventPageComponent extends Component {
     } else {
       return null;
     }
-  }
-
-// Renders the date for the event for user selection.
-  dateToggleSection() {
-    let dateArray = this.props.eventObj.dateArray;
-    return dateArray.map((date, i) =>{
-      return (
-        <div className='row'>
-          <div className='col-xs-3'>
-          </div>
-          <div className='col-xs-offset-1 col-xs-2'>
-            <label style={styles.dateLabel}> {date} </label>
-          </div>
-          <div className='col-xs'>
-              <RadioButtonGroup name='shipSpeed' style={{ display: 'flex' }} onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
-                  <RadioButton
-                    value='free'
-                    label='Free'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>panorama_fish_eye</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>panorama_fish_eye</FontIcon>}
-                    style={styles.block}
-                  />
-                  <RadioButton
-                    value='maybe'
-                    label='MayBe'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>change_history</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>change_history</FontIcon>}
-                    style={styles.block1}
-                  />
-                  <RadioButton
-                    value='busy'
-                    label='Busy'
-                    checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>clear</FontIcon>}
-                    uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>clear</FontIcon>}
-                    style={styles.block}
-                  />
-              </RadioButtonGroup>
-          </div>
-        </div>
-      );
-    });
   }
 
 // Generate Chips based on status and list
@@ -704,149 +650,9 @@ class EventPageComponent extends Component {
     });
   }
 
-  toggleCastAttendanceButton() {
-    if (this.props.toggleCastAttendance) {
-      this.props.dispatch(toggleCastAttendance(false));
-    } else {
-      this.props.dispatch(toggleCastAttendance(true));
-    }
-  }
-
-  updateDateToggleSection() {
-    let updateDateCollection = [];
-    let i = 0;
-    for (let key in this.props.updateAttendeeDate) {
-      if (this.props.updateAttendeeDate.hasOwnProperty(key)) {
-          updateDateCollection[i++] = (
-            <div className='row'>
-              <div className='col-xs-3'>
-              </div>
-              <div className='col-xs-offset-1 col-xs-2'>
-                <label style={styles.dateLabel}> {key} </label>
-              </div>
-              <div className='col-xs'>
-                  <RadioButtonGroup name='shipSpeed' style={{ display: 'flex' }} onChange={this.handleDateToogle.bind(this, key)} defaultSelected={this.props.updateAttendeeDate[key]}>
-                      <RadioButton
-                        value='free'
-                        label='Free'
-                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_available</FontIcon>}
-                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_available</FontIcon>}
-                        style={styles.block}
-                      />
-                      <RadioButton
-                        value='maybe'
-                        label='MayBe'
-                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>warning</FontIcon>}
-                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>warning</FontIcon>}
-                        style={styles.block1}
-                      />
-                      <RadioButton
-                        value='busy'
-                        label='Busy'
-                        checkedIcon={<FontIcon className='material-icons' color={red500} style={styles.icon}>event_busy</FontIcon>}
-                        uncheckedIcon={<FontIcon className='material-icons' style={styles.icon}>event_busy</FontIcon>}
-                        style={styles.block}
-                      />
-                  </RadioButtonGroup>
-              </div>
-            </div>
-          );
-        } // if
-      } // for
-      return updateDateCollection;
-  }
-
-  toggleCastAttendance() {
-    if (this.props.toggleCastAttendance) {
-      console.log("toggle cast attendance flag: true");
-      if (this.props.updateAttendeeName !== '' && this.props.updateAttendeeId !== '') { {/** fails for first time event page visitor */}
-        console.log("Clicked attendee name");
-        if (document.cookie.indexOf(this.props.params.eventId) > -1 && cookie.load(this.props.params.eventId) === this.props.updateAttendeeName ) {
-          console.log("Attendee name matches with cookie");
-          return (
-            <div>
-              <div className='row center-xs'>
-                <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
-              </div>
-              <br />
-              <div className='row'>
-                <div className='col-xs-offset-5 col-xs-1'>
-                  <label style={styles.formLabel}> Name </label>
-                </div>
-                <div className='col-xs'>
-                  <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
-                  <br />
-                  <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-                </div>
-              </div>
-              <br />
-              {this.updateDateToggleSection()}
-              <br />
-              <div className='row center-xs'>
-                <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
-              </div>
-            </div>
-          );
-        } else {
-          return (
-            <div>
-              <br />
-              <div className='row center-xs'>
-                <label style={styles.formLabel}> {this.props.languageJson.dateCastSelectionLabel} </label>
-              </div>
-              <br />
-              <div className='row center-xs'>
-                <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
-              </div>
-            </div>
-          );
-        }
-      } else { {/** First time event page visitor - Default date toggle (All busy) */}
-        return (
-          <div>
-            <div className='row center-xs'>
-              <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
-            </div>
-            <br />
-            <div className='row'>
-              <div className='col-xs-offset-5 col-xs-1'>
-                <label style={styles.formLabel}> Name </label>
-              </div>
-              <div className='col-xs'>
-                <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
-                <br />
-                <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-              </div>
-            </div>
-            <br />
-            {this.dateToggleSection()}
-            <br />
-            <div className='row center-xs'>
-              <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
-            </div>
-          </div>
-        );
-      }
-    } else { {/** First time event page visitor - Cast Attendance Button */}
-      return (
-        <div>
-          <br />
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.props.languageJson.dateCastSelectionLabel} </label>
-          </div>
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label='Cast Attendance' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.toggleCastAttendanceButton} />
-          </div>
-        </div>
-      );
-    }
-  }
-
+  // utility function to get information of stored cookie name
   getCookieAttendeeDetails() {
     let cookieAttendee = cookie.load(this.props.params.eventId);
-    console.log("78");
-    console.log(cookieAttendee);
     for (let i=0; i<this.props.eventObj.attendees.length; i++) {
       if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
         return this.props.eventObj.attendees[i];
@@ -854,8 +660,8 @@ class EventPageComponent extends Component {
     }
   }
 
+  // helper to render dates according to status and date.
   individualDateSection(date, status) {
-    console.log(date + "   ," + status);
     return (
       <div className='col-xs'>
         <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
@@ -892,17 +698,14 @@ class EventPageComponent extends Component {
     );
   }
 
-  dateToggleSection2(cookieAvailable) {
+  // render date section based on cookie availability
+  dateToggleSection(cookieAvailable) {
     if (cookieAvailable !== true) {
       // initially all dates should be under busy
-      console.log("hjk");
       let selectedDates = this.props.eventObj.dateArray;
       let datesInColumn = this.renderWithOrWithoutWeather();
-      console.log("printing here");
-      console.log(datesInColumn);
       let dateToggleElements = [];
       for (let i=0; i<datesInColumn.length; i++) {
-        console.log(datesInColumn[i]);
         dateToggleElements[i] = (
           <div className='row'>
             <div className='col-xs-3'>
@@ -916,15 +719,15 @@ class EventPageComponent extends Component {
       }
       return dateToggleElements;
     } else {
+      // render dates based of cookie user selection.
       let dateToggleElements = [];
       let attendeeDetails = this.getCookieAttendeeDetails();
-      console.log("ppp");
-      console.log(attendeeDetails);
       let datesInColumn = this.renderWithOrWithoutWeather();
       let selectedDates = this.props.eventObj.dateArray;
 
       for (let i=0; i<selectedDates.length; i++) {
         for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+          console.log("attendeeDate +" + attendeeDate);
           if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
             if (attendeeDate === selectedDates[i]) {
               dateToggleElements[i] = (
@@ -956,7 +759,7 @@ class EventPageComponent extends Component {
           <br />
           <div className='row'>
             <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> Name </label>
+              <label style={styles.formLabel}> {this.props.languageJson.name} </label>
             </div>
             <div className='col-xs'>
               <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
@@ -965,10 +768,10 @@ class EventPageComponent extends Component {
             </div>
           </div>
           <br />
-          {this.dateToggleSection2(false)}
+          {this.dateToggleSection(false)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+            <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
           </div>
         </div>
       );
@@ -982,7 +785,7 @@ class EventPageComponent extends Component {
           <br />
           <div className='row'>
             <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> Name </label>
+              <label style={styles.formLabel}> {this.props.languageJson.name} </label>
             </div>
             <div className='col-xs'>
               <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
@@ -991,7 +794,7 @@ class EventPageComponent extends Component {
             </div>
           </div>
           <br />
-          {this.dateToggleSection2(true)}
+          {this.dateToggleSection(true)}
           <br />
           <div className='row center-xs'>
             <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
@@ -1000,7 +803,6 @@ class EventPageComponent extends Component {
       );
     }
   }
-
 
   toggleMobileCastAttendance() {
       if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
@@ -1190,33 +992,23 @@ EventPageComponent.propTypes = {
   attendeeName: PropTypes.string.isRequired,
   attendeeNameErrorLabel: PropTypes.string.isRequired,
   personalizedDateSelection: PropTypes.object.isRequired,
-  toggleCastAttendance: PropTypes.bool.isRequired,
   attendeeNameEmptyFlag: PropTypes.bool.isRequired,
   attendeeNameExistsFlag: PropTypes.bool.isRequired,
   registerSuccessFlag: PropTypes.bool.isRequired,
   updateSuccessFlag: PropTypes.bool.isRequired,
-  updateAttendeeId: PropTypes.string.isRequired,
-  updateAttendeeName: PropTypes.string.isRequired,
-  updateAttendeeDate: PropTypes.object.isRequired,
   languageJson: PropTypes.object.isRequired,
   weather: PropTypes.array.isRequired
-
 };
-
 
 export default connect(state => ({
   eventObj: state.eventObj,
   attendeeName: state.attendeeName,
   attendeeNameErrorLabel: state.attendeeNameErrorLabel,
   personalizedDateSelection: state.personalizedDateSelection,
-  toggleCastAttendance: state.toggleCastAttendance,
   attendeeNameEmptyFlag: state.attendeeNameEmptyFlag,
   attendeeNameExistsFlag: state.attendeeNameExistsFlag,
   registerSuccessFlag: state.registerSuccessFlag,
   updateSuccessFlag: state.updateSuccessFlag,
-  updateAttendeeId: state.updateAttendeeId,
-  updateAttendeeName: state.updateAttendeeName,
-  updateAttendeeDate: state.updateAttendeeDate,
   languageJson: state.languageJson,
   weather: state.weather
 }))(EventPageComponent);
