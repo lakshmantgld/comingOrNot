@@ -12,16 +12,11 @@ export const STORE_EVENT = 'STORE_EVENT';
 export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECTION';
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
-export const TOGGLE_CAST_ATTENDANCE = 'TOGGLE_CAST_ATTENDANCE';
 export const ATTENDEE_NAME_EMPTY_FLAG = 'ATTENDEE_NAME_EMPTY_FLAG';
 export const ATTENDEE_NAME_EXISTS_FLAG = 'ATTENDEE_NAME_EXISTS_FLAG';
 export const REGISTER_SUCCESS_FLAG = 'REGISTER_SUCCESS_FLAG';
 export const UPDATE_SUCCESS_FLAG = 'UPDATE_SUCCESS_FLAG';
 export const STORE_LOCATION = 'STORE_LOCATION';
-export const EMPTY_PERSONALIZED_DATE_SELECTION = 'EMPTY_PERSONALIZED_DATE_SELECTION';
-export const STORE_UPDATE_ATTENDEE_ID = 'STORE_UPDATE_ATTENDEE_ID';
-export const STORE_UPDATE_ATTENDEE_NAME = 'STORE_UPDATE_ATTENDEE_NAME';
-export const STORE_UPDATE_ATTENDEE_DATE = 'STORE_UPDATE_ATTENDEE_DATE';
 export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
@@ -30,33 +25,6 @@ export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
-      name: name
-    });
-  };
-}
-
-export function storeUpdateAttendeeId(id) {
-  return dispatch => {
-    return dispatch({
-      type: STORE_UPDATE_ATTENDEE_ID,
-      id: id
-    });
-  };
-}
-
-export function storeUpdateAttendeeDate(date) {
-  return dispatch => {
-    return dispatch({
-      type: STORE_UPDATE_ATTENDEE_DATE,
-      date: date
-    });
-  };
-}
-
-export function storeUpdateAttendeeName(name) {
-  return dispatch => {
-    return dispatch({
-      type: STORE_UPDATE_ATTENDEE_NAME,
       name: name
     });
   };
@@ -195,10 +163,10 @@ export function storeAttendeeNameErrorLabel(errorLabel) {
   };
 }
 
-export function updateEvent(name, personalizedDateSelection, eventId) {
+export function registerAttendee(name, personalizedDateSelection, eventId) {
   console.log('calling upda');
   return dispatch => {
-    return fetch('/api/updateEvent', {credentials: 'include',
+    return fetch('/api/registerAttendee', {credentials: 'include',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -234,15 +202,6 @@ export function updateAttendee(attendeeId, name, personalizedDateSelection, even
         return res.json();
       })
       .then(json => dispatch(storeEvent(json)))
-  };
-}
-
-export function toggleCastAttendance(toggleValue) {
-  return dispatch => {
-    return dispatch({
-      type: TOGGLE_CAST_ATTENDANCE,
-      toggleValue: toggleValue
-    });
   };
 }
 
@@ -289,14 +248,6 @@ export function storeLocation(location) {
       location: location
     });
   }
-}
-
-export function emptyPersonalizedDateSelection() {
-  return dispatch => {
-    return dispatch({
-      type: EMPTY_PERSONALIZED_DATE_SELECTION
-    });
-  };
 }
 
 export function changelanguage(languageJson) {
