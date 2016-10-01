@@ -1,9 +1,9 @@
-import { STORE_NAME, STORE_PURPOSE, STORE_LATLNG, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
+import { STORE_NAME, STORE_PURPOSE, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         TOGGLE_CAST_ATTENDANCE, ATTENDEE_NAME_EMPTY_FLAG, ATTENDEE_NAME_EXISTS_FLAG, REGISTER_SUCCESS_FLAG, UPDATE_SUCCESS_FLAG,
-         EMPTY_PERSONALIZED_DATE_SELECTION, STORE_LOCATION, STORE_UPDATE_ATTENDEE_ID, STORE_UPDATE_ATTENDEE_NAME,
-         STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE, FETCH_AND_STORE_WEATHER } from './../actions/registerActions';
+         ATTENDEE_NAME_EMPTY_FLAG, ATTENDEE_NAME_EXISTS_FLAG, REGISTER_SUCCESS_FLAG, UPDATE_SUCCESS_FLAG,
+         STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
+         FETCH_AND_STORE_WEATHER } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -79,8 +79,6 @@ export function personalizedDateSelection(state = {}, action) {
       return Object.assign({}, state, {
         [action.date]: action.status
       })
-    case EMPTY_PERSONALIZED_DATE_SELECTION:
-      return {};
     default:
       return state;
   }
@@ -95,46 +93,10 @@ export function attendeeName(state = '', action) {
   }
 }
 
-export function updateAttendeeId(state = '', action) {
-  switch(action.type) {
-    case STORE_UPDATE_ATTENDEE_ID:
-      return action.id;
-    default:
-      return state;
-  }
-}
-
-export function updateAttendeeDate(state = {}, action) {
-  switch(action.type) {
-    case STORE_UPDATE_ATTENDEE_DATE:
-      return action.date;
-    default:
-      return state;
-  }
-}
-
- export function updateAttendeeName(state = '', action) {
-   switch(action.type) {
-     case STORE_UPDATE_ATTENDEE_NAME:
-       return action.name;
-     default:
-       return state;
-   }
- }
-
 export function attendeeNameErrorLabel(state = '', action) {
   switch(action.type) {
     case STORE_ATTENDEE_NAME_ERROR_LABEL:
       return action.errorLabel;
-    default:
-      return state;
-  }
-}
-
-export function toggleCastAttendance(state = false, action) {
-  switch(action.type) {
-    case TOGGLE_CAST_ATTENDANCE:
-      return action.toggleValue;
     default:
       return state;
   }
