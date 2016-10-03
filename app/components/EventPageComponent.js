@@ -118,6 +118,7 @@ class EventPageComponent extends Component {
     this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(storeAttendeeName(this.props.attendeeName));
+    this.props.dispatch(updateSuccessFlag(true));
   }
 
   fillTheLeftOutDatesUpdateAttendee() {
@@ -144,8 +145,10 @@ class EventPageComponent extends Component {
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
+      this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
+      this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesUpdateAttendee();
@@ -547,11 +550,22 @@ class EventPageComponent extends Component {
     </div>);
     }
     else {
+      let attendeeDetails = this.getCookieAttendeeDetails();
+      let status='busy'
+      for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+          console.log("attendeeDate +" + attendeeDate);
+          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+              if (attendeeDate === date) {
+                status = attendeeDetails.personalizedDateSelection[attendeeDate];
+              }
+            }
+          }
+
       return ( //Cookie available (respective status based on attendee)
         <div>
             <MediaQuery minDeviceWidth={420}>
                 {/** Tablets and phablets: display label for radio buttons*/}
-                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
                     <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
@@ -571,7 +585,7 @@ class EventPageComponent extends Component {
 
             <MediaQuery maxDeviceWidth={420}>
                 {/** Smartphones */}
-                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
                     <RadioButton className='col-xs-4' value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
@@ -826,7 +840,7 @@ class EventPageComponent extends Component {
                   <div>{this.MobiledateToggleSection(false)}</div>
                     <br />
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.props.attendeeNameEmptyFlag}
                            message="Please enter your name"
@@ -859,12 +873,30 @@ class EventPageComponent extends Component {
                 <div>{this.MobiledateToggleSection(true)}</div>
                   <br />
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.props.registerSuccessFlag}
                          message="Registered Successfully"
                          autoHideDuration={3000}
                          onRequestClose={this.handleRequestClose_RegisterSuccess}
+                      />
+                      <Snackbar
+                         open={this.props.updateSuccessFlag}
+                         message="Updated Successfully"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_UpdateSuccess}
+                      />
+                      <Snackbar
+                         open={this.props.attendeeNameEmptyFlag}
+                         message="Please enter your name"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_NameEmpty}
+                      />
+                      <Snackbar
+                         open={this.props.attendeeNameExistsFlag}
+                         message="Name already exists. Please enter another name"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_NameExists}
                       />
                   </div>
               </div>
