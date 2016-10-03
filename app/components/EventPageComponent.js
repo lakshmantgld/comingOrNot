@@ -656,12 +656,12 @@ class EventPageComponent extends Component {
 
   // utility function to get information of stored cookie name
   getCookieAttendeeDetails() {
-    let cookieAttendee = cookie.load(this.props.params.eventId);
-    for (let i=0; i<this.props.eventObj.attendees.length; i++) {
-      if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
+   let cookieAttendee = cookie.load(this.props.params.eventId);
+   for (let i = 0; i < this.props.eventObj.attendees.length; i++) {
+    if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
         return this.props.eventObj.attendees[i];
-      }
     }
+   }
   }
 
   // helper to render dates according to status and date.
