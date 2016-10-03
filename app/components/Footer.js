@@ -14,26 +14,28 @@ const nearbyIcon = <IconLocationOn />;
  * state (for instance, by the URL).
  */
 class BottomNavigationExampleSimple extends Component {
-  // select = (index) => this.setState({selectedIndex: index});
+
+
+
 
   render() {
     return (
       <Paper zDepth={1}>
-        <BottomNavigation selectedIndex={this.state.selectedIndex}>
+        <BottomNavigation selectedIndex={0}>
           <BottomNavigationItem
             label="Recents"
             icon={recentsIcon}
-            // onTouchTap={() => this.select(0)}
+
           />
           <BottomNavigationItem
             label="Favorites"
             icon={favoritesIcon}
-            // onTouchTap={() => this.select(1)}
+
           />
           <BottomNavigationItem
             label="Nearby"
             icon={nearbyIcon}
-            // onTouchTap={() => this.select(2)}
+
           />
         </BottomNavigation>
       </Paper>
