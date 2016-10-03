@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <div style={styles.robotofont} className='fullPage'>
+        <div className='fullPage'>
           <Header />
           {this.props.children}
 
