@@ -705,51 +705,53 @@ class EventPageComponent extends Component {
   // render date section based on cookie availability
   dateToggleSection(cookieAvailable) {
     if (cookieAvailable !== true) {
-      // initially all dates should be under busy
-      let selectedDates = this.props.eventObj.dateArray;
-      let datesInColumn = this.renderWithOrWithoutWeather();
-      let dateToggleElements = [];
-      for (let i=0; i<datesInColumn.length; i++) {
+    // initially all dates should be under busy
+    let selectedDates = this.props.eventObj.dateArray;
+    let datesInColumn = this.renderWithOrWithoutWeather();
+    let dateToggleElements = [];
+    for (let i = 0; i < datesInColumn.length; i++) {
         dateToggleElements[i] = (
-          <div className='row'>
-            <div className='col-xs-3'>
-            </div>
-            <div className='col-xs-offset-1 col-xs-2'>
-              <label style={styles.dateLabel}> {datesInColumn[i]} </label>
-            </div>
-            {this.individualDateSection(selectedDates[i], 'busy')}
-          </div>
-        );
-      }
-      return dateToggleElements;
-    } else {
-      // render dates based of cookie user selection.
-      let dateToggleElements = [];
-      let attendeeDetails = this.getCookieAttendeeDetails();
-      let datesInColumn = this.renderWithOrWithoutWeather();
-      let selectedDates = this.props.eventObj.dateArray;
-
-      for (let i=0; i<selectedDates.length; i++) {
-        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
-          console.log("attendeeDate +" + attendeeDate);
-          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
-            if (attendeeDate === selectedDates[i]) {
-              dateToggleElements[i] = (
-                <div className='row'>
-                  <div className='col-xs-3'>
-                  </div>
-                  <div className='col-xs-offset-1 col-xs-2'>
-                    <label style={styles.dateLabel}> {datesInColumn[i]} </label>
-                  </div>
-                  {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
+            <div className='row'>
+                <div className='col-xs-3'></div>
+                <div className='col-xs-offset-1 col-xs-2'>
+                    <label style={styles.dateLabel}>
+                        {datesInColumn[i]}
+                    </label>
                 </div>
-              );
-            }
-          }
-        }
-      }
-      return dateToggleElements;
+                {this.individualDateSection(selectedDates[i], 'busy')}
+            </div>
+        );
     }
+    return dateToggleElements;
+    } else {
+    // render dates based of cookie user selection.
+    let dateToggleElements = [];
+    let attendeeDetails = this.getCookieAttendeeDetails();
+    let datesInColumn = this.renderWithOrWithoutWeather();
+    let selectedDates = this.props.eventObj.dateArray;
+
+    for (let i = 0; i < selectedDates.length; i++) {
+        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+            console.log("attendeeDate +" + attendeeDate);
+            if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+                if (attendeeDate === selectedDates[i]) {
+                    dateToggleElements[i] = (
+                        <div className='row'>
+                            <div className='col-xs-3'></div>
+                            <div className='col-xs-offset-1 col-xs-2'>
+                                <label style={styles.dateLabel}>
+                                    {datesInColumn[i]}
+                                </label>
+                            </div>
+                            {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
+                        </div>
+                    );
+                }
+            }
+        }
+    }
+    return dateToggleElements;
+   }
   }
 
   attendeeSubmissionSection() {
