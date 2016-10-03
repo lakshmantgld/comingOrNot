@@ -230,60 +230,61 @@ class EventPageComponent extends Component {
   }
 
   // Will store attendeeName and invoke error action in case of failed edge case.
-    storeAttendeeName(e) {
+  storeAttendeeName(e) {
       if (e.target.value.length >= '40') {
         this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel))
       } else {
         this.props.dispatch(storeAttendeeNameErrorLabel(''));
         this.props.dispatch(storeAttendeeName(e.target.value));
       }
-    }
+  }
 
   // this is for rendering the dates both in event table and in attendance submission section
   renderWithOrWithoutWeather() {
+
     let datesInColumn = [];
     if (this.props.weather.length === 0) {
-      // when weather information from yahoo is not available. render dates alone.
-      datesInColumn = this.props.eventObj.dateArray;
-      console.log("no weather");
+    // when weather information from yahoo is not available. render dates alone.
+    datesInColumn = this.props.eventObj.dateArray;
+    console.log("no weather");
     } else {
-      // After weather info from yahoo, add forecast images to date.
-      // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
-      let formattedEnteredDates = [];
-      for (let i=0; i<this.props.eventObj.dateArray.length; i++) {
+    // After weather info from yahoo, add forecast images to date.
+    // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
+    let formattedEnteredDates = [];
+    for (let i = 0; i < this.props.eventObj.dateArray.length; i++) {
         let date = this.props.eventObj.dateArray[i];
         let formattedDate;
 
         if (date.indexOf("th") !== -1) {
-          formattedDate = date.replace("th", "");
-        } else if (date.indexOf("st") !== -1){
-          formattedDate = date.replace("st", "");
-        } else if (date.indexOf("nd") !== -1){
-          formattedDate = date.replace("nd", "");
+            formattedDate = date.replace("th", "");
+        } else if (date.indexOf("st") !== -1) {
+            formattedDate = date.replace("st", "");
+        } else if (date.indexOf("nd") !== -1) {
+            formattedDate = date.replace("nd", "");
         } else {
-          formattedDate = date.replace("rd", "");
+            formattedDate = date.replace("rd", "");
         }
         formattedEnteredDates[i] = formattedDate.split(",")[1];
-      }
+    }
 
-      for (let i=0; i<formattedEnteredDates.length; i++) {
+    for (let i = 0; i < formattedEnteredDates.length; i++) {
         let dateInColumn = '';
-        for (let j=0; j<this.props.weather.length; j++) {
-          let enteredDate = new Date(formattedEnteredDates[i]);
-          let weatherDate = new Date(this.props.weather[j].date);
-          if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
-            dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
-          }
+        for (let j = 0; j < this.props.weather.length; j++) {
+            let enteredDate = new Date(formattedEnteredDates[i]);
+            let weatherDate = new Date(this.props.weather[j].date);
+            if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
+                dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
+            }
         }
 
         if (dateInColumn !== '') {
-          datesInColumn.push(dateInColumn);
+            datesInColumn.push(dateInColumn);
         } else {
-          datesInColumn.push(this.props.eventObj.dateArray[i]);
+            datesInColumn.push(this.props.eventObj.dateArray[i]);
         }
-      }
     }
-    return datesInColumn;
+   }
+   return datesInColumn;
   }
 
   // this renders the date in table from the return value of renderWithOrWithoutWeather.
