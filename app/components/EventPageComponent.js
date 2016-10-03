@@ -134,7 +134,6 @@ class EventPageComponent extends Component {
           }
         }
         if (count === 0) {
-          console.log();
           this.props.dispatch(storePersonalizedDateSelection(date, attendeeDetails.personalizedDateSelection[date]));
         }
         count = 0;
@@ -553,7 +552,6 @@ class EventPageComponent extends Component {
       let attendeeDetails = this.getCookieAttendeeDetails();
       let status='busy'
       for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
-          console.log("attendeeDate +" + attendeeDate);
           if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
               if (attendeeDate === date) {
                 status = attendeeDetails.personalizedDateSelection[attendeeDate];
@@ -633,6 +631,8 @@ class EventPageComponent extends Component {
         }
       });
 
+      let weatherdates = this.renderWithOrWithoutWeather();
+
       return (
 
 
@@ -641,7 +641,7 @@ class EventPageComponent extends Component {
     <Card expandable={true}>
       <CardHeader
           style={{paddingLeft:"90px"}}
-          title={date}
+          title={weatherdates[i]}
           actAsExpander={true}
           showExpandableButton={true}
           />
@@ -746,7 +746,6 @@ class EventPageComponent extends Component {
 
     for (let i = 0; i < selectedDates.length; i++) {
         for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
-            console.log("attendeeDate +" + attendeeDate);
             if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
                 if (attendeeDate === selectedDates[i]) {
                     dateToggleElements[i] = (
