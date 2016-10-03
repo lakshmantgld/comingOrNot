@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import { grey600, red500, red200, blue500, green500, green200, yellow800, yellow200} from 'material-ui/styles/colors';
+import { grey600, red500, red200, blue500, green500, green200, yellow800, yellow200, grey900, grey50} from 'material-ui/styles/colors';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import Snackbar from 'material-ui/Snackbar';
@@ -26,6 +26,9 @@ let styles = {
     text: 'bold',
     fontSize: '25px',
     color: grey600
+  },
+  underlineStyle: {
+    borderColor: grey900,
   },
   formLabel2: {
     text: 'bold',
@@ -762,7 +765,7 @@ class EventPageComponent extends Component {
               <label style={styles.formLabel}> {this.props.languageJson.name} </label>
             </div>
             <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -771,7 +774,7 @@ class EventPageComponent extends Component {
           {this.dateToggleSection(false)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
+            <RaisedButton label='Register' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerAttendee} />
           </div>
         </div>
       );
@@ -797,7 +800,7 @@ class EventPageComponent extends Component {
           {this.dateToggleSection(true)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+            <RaisedButton label='Update' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.updateAttendee} />
           </div>
         </div>
       );

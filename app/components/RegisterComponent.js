@@ -7,7 +7,7 @@ import { grey600, red500, grey900, grey50 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
-
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import englishJson from '../../en.json';
 
 import InfiniteCalendar from 'react-infinite-calendar';
@@ -38,6 +38,9 @@ let styles = {
   },
   datePush:{
     marginTop: '20px'
+  },
+  cal:{
+    backgroundColor: 'rgba(78, 74, 74, 0.05)'
   }
 };
 
@@ -177,7 +180,8 @@ class RegisterComponent extends Component {
           <div className="row" id='fullRow'>
 
               <div className="col-md-4 col-md-offset-1">
-                    <div className='row'  id='leftBox'>
+                  <Card>
+                    <div className='row'>
                         <br />
 
                         <div className='row'>
@@ -237,6 +241,7 @@ class RegisterComponent extends Component {
                         </div>
 
                 </div>
+              </Card>
               </div>
 
               <div className='col-md-1 col-md-offset-1'>

@@ -14,7 +14,8 @@ import { changelanguage } from './../actions/registerActions';
 
 let styles = {
   icon2: {
-    marginRight: 10
+    marginRight: 10,
+    marginTop: 14
   }
 }
 
@@ -27,7 +28,7 @@ class Header extends Component {
 
   componentDidMount() {
     this.props.dispatch(changelanguage(englishJson));
-  }  
+  }
 
   renderEnglish() {
     console.log("json printing");
