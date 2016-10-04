@@ -275,7 +275,7 @@ class EventPageComponent extends Component {
             let enteredDate = new Date(formattedEnteredDates[i]);
             let weatherDate = new Date(this.props.weather[j].date);
             if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
-                dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
+                dateInColumn = this.props.eventObj.dateArray[i] + ", " + this.props.weather[j].cast;
             }
         }
 
