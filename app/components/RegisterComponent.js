@@ -61,6 +61,7 @@ class RegisterComponent extends Component {
     this.renderChip = this.renderChip.bind(this);
     this.storeLocation = this.storeLocation.bind(this);
     this.suggestLocation = this.suggestLocation.bind(this);
+    this.validateRegisterEvent = this.validateRegisterEvent.bind(this);
   }
 
   componentDidMount() {
@@ -101,7 +102,7 @@ class RegisterComponent extends Component {
        this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
        :console.log("Duplicate date");
     } else {
-      this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayErrorLabel));
+      this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayExcessErrorLabel));
     }
   }
 
@@ -113,13 +114,47 @@ class RegisterComponent extends Component {
     this.props.dispatch(storeLocation(location.label));
   }
 
-  registerEvent(e) {
+  registerEvent() {
+    let formattedEnteredDates = {};
+    for (let i=0; i<this.props.dateArray.length; i++) {
+      let date = this.props.dateArray[i];
+      let formattedDate;
+
+      if (date.indexOf("th") !== -1) {
+        formattedDate = date.replace("th", "");
+      } else if (date.indexOf("st") !== -1){
+        formattedDate = date.replace("st", "");
+      } else if (date.indexOf("nd") !== -1){
+        formattedDate = date.replace("nd", "");
+      } else {
+        formattedDate = date.replace("rd", "");
+      }
+      formattedEnteredDates[formattedDate.split(",")[1]] = date;
+    }
+
+    let unorderedDates = Object.keys(formattedEnteredDates);
+    let intermediateSortedDates = unorderedDates.sort(function(a,b) {
+      return new Date(a) - new Date(b);
+    });
+
+    let sortedDates = [];
+
+    for (let j=0; j<intermediateSortedDates.length; j++) {
+      sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
+    }
+
+    this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
+  }
+
+  validateRegisterEvent(e) {
     if (this.props.name.length === 0) {
       this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
     } else if (this.props.purpose.length === 0) {
       this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
+    } else if (this.props.dateArray.length === 0){
+      this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayEmptyErrorLabel));
     } else {
-      this.props.dispatch(registerEvent(this.props.name, this.props.purpose, this.props.dateArray, this.props.location));
+      this.registerEvent();
     }
   }
 
@@ -234,7 +269,7 @@ class RegisterComponent extends Component {
                         <br />
 
                         <div className='row col-md-offset-2 center-xs' id="regButton">
-                          <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                          <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.validateRegisterEvent} />
                           <br />
                           <br />
                           <br />
