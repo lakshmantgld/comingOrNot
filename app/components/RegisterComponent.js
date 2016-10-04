@@ -133,7 +133,6 @@ class RegisterComponent extends Component {
     }
 
     let unorderedDates = Object.keys(formattedEnteredDates);
-    console.log("After sorting");
     let intermediateSortedDates = unorderedDates.sort(function(a,b) {
       return new Date(a) - new Date(b);
     });
@@ -143,9 +142,6 @@ class RegisterComponent extends Component {
     for (let j=0; j<intermediateSortedDates.length; j++) {
       sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
     }
-
-    console.log(sortedDates);
-    console.log("end sorting");
 
     this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
   }
