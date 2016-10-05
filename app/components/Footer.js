@@ -21,23 +21,8 @@ class BottomNavigationExampleSimple extends Component {
   render() {
     return (
       <Paper zDepth={1}>
-        <BottomNavigation selectedIndex={0}>
-          <BottomNavigationItem
-            label="Recents"
-            icon={recentsIcon}
 
-          />
-          <BottomNavigationItem
-            label="Favorites"
-            icon={favoritesIcon}
 
-          />
-          <BottomNavigationItem
-            label="Nearby"
-            icon={nearbyIcon}
-
-          />
-        </BottomNavigation>
       </Paper>
     );
   }

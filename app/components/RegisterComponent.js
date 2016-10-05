@@ -177,6 +177,7 @@ class RegisterComponent extends Component {
 
     return (
       <div>
+           
           <div className="row" id='fullRow'>
 
               <div className="col-md-4 col-md-offset-1">
