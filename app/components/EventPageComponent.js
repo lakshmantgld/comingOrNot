@@ -245,6 +245,59 @@ class EventPageComponent extends Component {
   renderWithOrWithoutWeather() {
 
     let datesInColumn = [];
+    let weathercode;
+    let weather=
+    {
+      "0" : "wi wi-tornado",
+      "1" : "wi wi-tornado",
+      "2" : "wi wi-tornado",
+      "3" : "wi wi-thunderstorm",
+      "4" : "wi wi-thunderstorm",
+      "5" : "wi wi-snow-wind",
+      "6" : "wi wi-sleet",
+      "7" : "wi wi-snow-wind",
+      "8" : "wi wi-sleet",
+      "9" : "wi wi-sleet",
+      "10" : "wi wi-rain-mix",
+      "11" : "wi wi-showers",
+      "12" : "wi wi-showers",
+      "13" : "wi wi-snow",
+      "14" : "wi wi-snow-wind",
+      "15" : "wi wi-snow-wind",
+      "16" : "wi wi-snow",
+      "17" : "wi wi-snow-wind",
+      "18" : "wi wi-snow-wind",
+      "19" : "wi wi-snow-wind",
+      "20" : "wi wi-fog",
+      "21" : "wi wi-day-haze",
+      "22" : "wi wi-smoke",
+      "23" : "wi wi-strong-wind",
+      "24" : "wi wi-windy",
+      "25" : "wi wi-snowflake-cold",
+      "26" : "wi wi-cloudy",
+      "27" : "wi wi-night-alt-cloudy",
+      "28" : "wi wi-day-cloudy",
+      "29" : "wi wi-night-alt-cloudy",
+      "30" : "wi wi-day-cloudy",
+      "31" : "wi wi-night-clear",
+      "32" : "wi wi-day-sunny",
+      "33" : "wi wi-stars",
+      "34" : "wi wi-day-sunny",
+      "35" : "wi wi-rain-mix",
+      "36" : "wi wi-hot",
+      "37" : "wi wi-lightning",
+      "38" : "wi wi-lightning",
+      "39" : "wi wi-lightning",
+      "40" : "wi wi-showers",
+      "41" : "wi wi-snow",
+      "42" : "wi wi-rain-mix",
+      "43" : "wi wi-snow-wind",
+      "44" : "wi wi-cloud",
+      "45" : "wi wi-storm-showers",
+      "46" : "wi wi-rain-mix",
+      "47" : "wi wi-storm-showers",
+      "3200" : "wi wi-na"
+    };
     if (this.props.weather.length === 0) {
     // when weather information from yahoo is not available. render dates alone.
     datesInColumn = this.props.eventObj.dateArray;
@@ -270,29 +323,25 @@ class EventPageComponent extends Component {
     }
 
     for (let i = 0; i < formattedEnteredDates.length; i++) {
-        let dateInColumn = ''; let weathercode; let weather;
+        let dateInColumn = '';
         for (let j = 0; j < this.props.weather.length; j++) {
             let enteredDate = new Date(formattedEnteredDates[i]);
             let weatherDate = new Date(this.props.weather[j].date);
             if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
                 dateInColumn = this.props.eventObj.dateArray[i]; //+ ", " + this.props.weather[j].code;
                 weathercode = this.props.weather[j].code;
-                if(weathercode =='26')
-                {
-                  weather = "wi wi-night-sleet";
-                }
+                console.log(weathercode);
             }
         }
 
-
-
         if (dateInColumn !== '') {
             datesInColumn.push(
-              <div>{dateInColumn}<i className={weather}></i></div>
+              <div>{dateInColumn}<i className={weather[weathercode]}></i></div>
             );
         } else {
-            datesInColumn.push(<div>{this.props.eventObj.dateArray[i]}<i className={weather}></i></div>);
+            datesInColumn.push(<div>{this.props.eventObj.dateArray[i]}<i className={weather["3200"]}></i></div>);
         }
+        weathercode = '';
     }
    }
    return datesInColumn;
