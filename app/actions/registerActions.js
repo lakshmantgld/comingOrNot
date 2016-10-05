@@ -274,6 +274,7 @@ function storeWeatherJson(json) {
       let forecastObj = {};
       forecastObj["date"] = forecast[i].date;
       forecastObj["cast"] = forecast[i].text;
+      forecastObj["code"] = forecast[i].code;
       modifiedForecast.push(forecastObj);
     }
 

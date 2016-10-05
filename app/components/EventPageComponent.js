@@ -270,19 +270,28 @@ class EventPageComponent extends Component {
     }
 
     for (let i = 0; i < formattedEnteredDates.length; i++) {
-        let dateInColumn = '';
+        let dateInColumn = ''; let weathercode; let weather;
         for (let j = 0; j < this.props.weather.length; j++) {
             let enteredDate = new Date(formattedEnteredDates[i]);
             let weatherDate = new Date(this.props.weather[j].date);
             if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
-                dateInColumn = this.props.eventObj.dateArray[i] + ", " + this.props.weather[j].cast;
+                dateInColumn = this.props.eventObj.dateArray[i]; //+ ", " + this.props.weather[j].code;
+                weathercode = this.props.weather[j].code;
+                if(weathercode =='26')
+                {
+                  weather = "wi wi-night-sleet";
+                }
             }
         }
 
+
+
         if (dateInColumn !== '') {
-            datesInColumn.push(dateInColumn);
+            datesInColumn.push(
+              <div>{dateInColumn}<i className={weather}></i></div>
+            );
         } else {
-            datesInColumn.push(this.props.eventObj.dateArray[i]);
+            datesInColumn.push(<div>{this.props.eventObj.dateArray[i]}<i className={weather}></i></div>);
         }
     }
    }
@@ -306,7 +315,6 @@ class EventPageComponent extends Component {
       />
     );
   }
-
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   CountStatus() {
