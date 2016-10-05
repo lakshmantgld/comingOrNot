@@ -118,6 +118,7 @@ class EventPageComponent extends Component {
     this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(storeAttendeeName(this.props.attendeeName));
+    this.props.dispatch(updateSuccessFlag(true));
   }
 
   fillTheLeftOutDatesUpdateAttendee() {
@@ -133,7 +134,6 @@ class EventPageComponent extends Component {
           }
         }
         if (count === 0) {
-          console.log();
           this.props.dispatch(storePersonalizedDateSelection(date, attendeeDetails.personalizedDateSelection[date]));
         }
         count = 0;
@@ -144,8 +144,10 @@ class EventPageComponent extends Component {
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
+      this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
+      this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesUpdateAttendee();
@@ -230,60 +232,119 @@ class EventPageComponent extends Component {
   }
 
   // Will store attendeeName and invoke error action in case of failed edge case.
-    storeAttendeeName(e) {
+  storeAttendeeName(e) {
       if (e.target.value.length >= '40') {
         this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel))
       } else {
         this.props.dispatch(storeAttendeeNameErrorLabel(''));
         this.props.dispatch(storeAttendeeName(e.target.value));
       }
-    }
+  }
 
   // this is for rendering the dates both in event table and in attendance submission section
   renderWithOrWithoutWeather() {
+
     let datesInColumn = [];
+    let weathercode;
+    let weather=
+    {
+      "0" : "wi wi-tornado",
+      "1" : "wi wi-tornado",
+      "2" : "wi wi-tornado",
+      "3" : "wi wi-thunderstorm",
+      "4" : "wi wi-thunderstorm",
+      "5" : "wi wi-snow-wind",
+      "6" : "wi wi-sleet",
+      "7" : "wi wi-snow-wind",
+      "8" : "wi wi-sleet",
+      "9" : "wi wi-sleet",
+      "10" : "wi wi-rain-mix",
+      "11" : "wi wi-showers",
+      "12" : "wi wi-showers",
+      "13" : "wi wi-snow",
+      "14" : "wi wi-snow-wind",
+      "15" : "wi wi-snow-wind",
+      "16" : "wi wi-snow",
+      "17" : "wi wi-snow-wind",
+      "18" : "wi wi-snow-wind",
+      "19" : "wi wi-snow-wind",
+      "20" : "wi wi-fog",
+      "21" : "wi wi-day-haze",
+      "22" : "wi wi-smoke",
+      "23" : "wi wi-strong-wind",
+      "24" : "wi wi-windy",
+      "25" : "wi wi-snowflake-cold",
+      "26" : "wi wi-cloudy",
+      "27" : "wi wi-night-alt-cloudy",
+      "28" : "wi wi-day-cloudy",
+      "29" : "wi wi-night-alt-cloudy",
+      "30" : "wi wi-day-cloudy",
+      "31" : "wi wi-night-clear",
+      "32" : "wi wi-day-sunny",
+      "33" : "wi wi-stars",
+      "34" : "wi wi-day-sunny",
+      "35" : "wi wi-rain-mix",
+      "36" : "wi wi-hot",
+      "37" : "wi wi-lightning",
+      "38" : "wi wi-lightning",
+      "39" : "wi wi-lightning",
+      "40" : "wi wi-showers",
+      "41" : "wi wi-snow",
+      "42" : "wi wi-rain-mix",
+      "43" : "wi wi-snow-wind",
+      "44" : "wi wi-cloud",
+      "45" : "wi wi-storm-showers",
+      "46" : "wi wi-rain-mix",
+      "47" : "wi wi-storm-showers",
+      "3200" : "wi wi-na"
+    };
     if (this.props.weather.length === 0) {
-      // when weather information from yahoo is not available. render dates alone.
-      datesInColumn = this.props.eventObj.dateArray;
-      console.log("no weather");
+    // when weather information from yahoo is not available. render dates alone.
+    datesInColumn = this.props.eventObj.dateArray;
+    console.log("no weather");
     } else {
-      // After weather info from yahoo, add forecast images to date.
-      // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
-      let formattedEnteredDates = [];
-      for (let i=0; i<this.props.eventObj.dateArray.length; i++) {
+    // After weather info from yahoo, add forecast images to date.
+    // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
+    let formattedEnteredDates = [];
+    for (let i = 0; i < this.props.eventObj.dateArray.length; i++) {
         let date = this.props.eventObj.dateArray[i];
         let formattedDate;
 
         if (date.indexOf("th") !== -1) {
-          formattedDate = date.replace("th", "");
-        } else if (date.indexOf("st") !== -1){
-          formattedDate = date.replace("st", "");
-        } else if (date.indexOf("nd") !== -1){
-          formattedDate = date.replace("nd", "");
+            formattedDate = date.replace("th", "");
+        } else if (date.indexOf("st") !== -1) {
+            formattedDate = date.replace("st", "");
+        } else if (date.indexOf("nd") !== -1) {
+            formattedDate = date.replace("nd", "");
         } else {
-          formattedDate = date.replace("rd", "");
+            formattedDate = date.replace("rd", "");
         }
         formattedEnteredDates[i] = formattedDate.split(",")[1];
-      }
+    }
 
-      for (let i=0; i<formattedEnteredDates.length; i++) {
+    for (let i = 0; i < formattedEnteredDates.length; i++) {
         let dateInColumn = '';
-        for (let j=0; j<this.props.weather.length; j++) {
-          let enteredDate = new Date(formattedEnteredDates[i]);
-          let weatherDate = new Date(this.props.weather[j].date);
-          if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
-            dateInColumn = this.props.eventObj.dateArray[i] + "  ," + this.props.weather[j].cast;
-          }
+        for (let j = 0; j < this.props.weather.length; j++) {
+            let enteredDate = new Date(formattedEnteredDates[i]);
+            let weatherDate = new Date(this.props.weather[j].date);
+            if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
+                dateInColumn = this.props.eventObj.dateArray[i]; //+ ", " + this.props.weather[j].code;
+                weathercode = this.props.weather[j].code;
+                console.log(weathercode);
+            }
         }
 
         if (dateInColumn !== '') {
-          datesInColumn.push(dateInColumn);
+            datesInColumn.push(
+              <div>{dateInColumn}<i className={weather[weathercode]}></i></div>
+            );
         } else {
-          datesInColumn.push(this.props.eventObj.dateArray[i]);
+            datesInColumn.push(<div>{this.props.eventObj.dateArray[i]}<i className={weather["3200"]}></i></div>);
         }
-      }
+        weathercode = '';
     }
-    return datesInColumn;
+   }
+   return datesInColumn;
   }
 
   // this renders the date in table from the return value of renderWithOrWithoutWeather.
@@ -303,7 +364,6 @@ class EventPageComponent extends Component {
       />
     );
   }
-
 
 // This method is responsible for calculating the count of free, maybe and busy for a given date.
   CountStatus() {
@@ -546,11 +606,21 @@ class EventPageComponent extends Component {
     </div>);
     }
     else {
+      let attendeeDetails = this.getCookieAttendeeDetails();
+      let status='busy'
+      for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+              if (attendeeDate === date) {
+                status = attendeeDetails.personalizedDateSelection[attendeeDate];
+              }
+            }
+          }
+
       return ( //Cookie available (respective status based on attendee)
         <div>
             <MediaQuery minDeviceWidth={420}>
                 {/** Tablets and phablets: display label for radio buttons*/}
-                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
                     <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
@@ -570,7 +640,7 @@ class EventPageComponent extends Component {
 
             <MediaQuery maxDeviceWidth={420}>
                 {/** Smartphones */}
-                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+                <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
                     <RadioButton className='col-xs-4' value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
@@ -618,6 +688,8 @@ class EventPageComponent extends Component {
         }
       });
 
+      let weatherdates = this.renderWithOrWithoutWeather();
+
       return (
 
 
@@ -626,7 +698,7 @@ class EventPageComponent extends Component {
     <Card expandable={true}>
       <CardHeader
           style={{paddingLeft:"90px"}}
-          title={date}
+          title={weatherdates[i]}
           actAsExpander={true}
           showExpandableButton={true}
           />
@@ -655,12 +727,12 @@ class EventPageComponent extends Component {
 
   // utility function to get information of stored cookie name
   getCookieAttendeeDetails() {
-    let cookieAttendee = cookie.load(this.props.params.eventId);
-    for (let i=0; i<this.props.eventObj.attendees.length; i++) {
-      if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
+   let cookieAttendee = cookie.load(this.props.params.eventId);
+   for (let i = 0; i < this.props.eventObj.attendees.length; i++) {
+    if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
         return this.props.eventObj.attendees[i];
-      }
     }
+   }
   }
 
   // helper to render dates according to status and date.
@@ -704,51 +776,52 @@ class EventPageComponent extends Component {
   // render date section based on cookie availability
   dateToggleSection(cookieAvailable) {
     if (cookieAvailable !== true) {
-      // initially all dates should be under busy
-      let selectedDates = this.props.eventObj.dateArray;
-      let datesInColumn = this.renderWithOrWithoutWeather();
-      let dateToggleElements = [];
-      for (let i=0; i<datesInColumn.length; i++) {
+    // initially all dates should be under busy
+    let selectedDates = this.props.eventObj.dateArray;
+    let datesInColumn = this.renderWithOrWithoutWeather();
+    let dateToggleElements = [];
+    for (let i = 0; i < datesInColumn.length; i++) {
         dateToggleElements[i] = (
-          <div className='row'>
-            <div className='col-xs-3'>
-            </div>
-            <div className='col-xs-offset-1 col-xs-2'>
-              <label style={styles.dateLabel}> {datesInColumn[i]} </label>
-            </div>
-            {this.individualDateSection(selectedDates[i], 'busy')}
-          </div>
-        );
-      }
-      return dateToggleElements;
-    } else {
-      // render dates based of cookie user selection.
-      let dateToggleElements = [];
-      let attendeeDetails = this.getCookieAttendeeDetails();
-      let datesInColumn = this.renderWithOrWithoutWeather();
-      let selectedDates = this.props.eventObj.dateArray;
-
-      for (let i=0; i<selectedDates.length; i++) {
-        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
-          console.log("attendeeDate +" + attendeeDate);
-          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
-            if (attendeeDate === selectedDates[i]) {
-              dateToggleElements[i] = (
-                <div className='row'>
-                  <div className='col-xs-3'>
-                  </div>
-                  <div className='col-xs-offset-1 col-xs-2'>
-                    <label style={styles.dateLabel}> {datesInColumn[i]} </label>
-                  </div>
-                  {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
+            <div className='row'>
+                <div className='col-xs-3'></div>
+                <div className='col-xs-offset-1 col-xs-2'>
+                    <label style={styles.dateLabel}>
+                        {datesInColumn[i]}
+                    </label>
                 </div>
-              );
-            }
-          }
-        }
-      }
-      return dateToggleElements;
+                {this.individualDateSection(selectedDates[i], 'busy')}
+            </div>
+        );
     }
+    return dateToggleElements;
+    } else {
+    // render dates based of cookie user selection.
+    let dateToggleElements = [];
+    let attendeeDetails = this.getCookieAttendeeDetails();
+    let datesInColumn = this.renderWithOrWithoutWeather();
+    let selectedDates = this.props.eventObj.dateArray;
+
+    for (let i = 0; i < selectedDates.length; i++) {
+        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+            if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+                if (attendeeDate === selectedDates[i]) {
+                    dateToggleElements[i] = (
+                        <div className='row'>
+                            <div className='col-xs-3'></div>
+                            <div className='col-xs-offset-1 col-xs-2'>
+                                <label style={styles.dateLabel}>
+                                    {datesInColumn[i]}
+                                </label>
+                            </div>
+                            {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
+                        </div>
+                    );
+                }
+            }
+        }
+    }
+    return dateToggleElements;
+   }
   }
 
   attendeeSubmissionSection() {
@@ -823,7 +896,7 @@ class EventPageComponent extends Component {
                   <div>{this.MobiledateToggleSection(false)}</div>
                     <br />
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.props.attendeeNameEmptyFlag}
                            message="Please enter your name"
@@ -856,12 +929,30 @@ class EventPageComponent extends Component {
                 <div>{this.MobiledateToggleSection(true)}</div>
                   <br />
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateEvent} />
+                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.props.registerSuccessFlag}
                          message="Registered Successfully"
                          autoHideDuration={3000}
                          onRequestClose={this.handleRequestClose_RegisterSuccess}
+                      />
+                      <Snackbar
+                         open={this.props.updateSuccessFlag}
+                         message="Updated Successfully"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_UpdateSuccess}
+                      />
+                      <Snackbar
+                         open={this.props.attendeeNameEmptyFlag}
+                         message="Please enter your name"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_NameEmpty}
+                      />
+                      <Snackbar
+                         open={this.props.attendeeNameExistsFlag}
+                         message="Name already exists. Please enter another name"
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose_NameExists}
                       />
                   </div>
               </div>
