@@ -98,7 +98,8 @@ let styles = {
 };
 
 let buttonStyle = {
-  margin : 12
+  margin : 12,
+  backgroundColor : "rgb(67, 67, 67)"
 };
 
 
@@ -649,7 +650,8 @@ class EventPageComponent extends Component {
     <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
     <Card expandable={true}>
       <CardHeader
-          style={{textAlign:"center",paddingLeft:"90px"}}
+          style={{textAlign:"center"}}
+          textStyle={{paddingRight:"0px"}}
           title={weatherdates[i]}
           actAsExpander={true}
           showExpandableButton={true}
@@ -846,9 +848,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                   <div>{this.MobiledateToggleSection(false)}</div>
-                    <br />
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.props.attendeeNameEmptyFlag}
                            message="Please enter your name"
@@ -879,9 +880,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                 <div>{this.MobiledateToggleSection(true)}</div>
-                  <br />
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.props.registerSuccessFlag}
                          message="Registered Successfully"
@@ -1021,6 +1021,8 @@ class EventPageComponent extends Component {
               <div>
 
                 {this.toggleMobileCastAttendance()}
+                <br></br>
+                <br></br>
 
               </div>
           {/*<div> Tablet & Smartphone code ends </div>*/}
