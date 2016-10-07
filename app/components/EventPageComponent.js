@@ -554,54 +554,11 @@ class EventPageComponent extends Component {
 
 // Generate mobile toggle buttons
   MobileToggleButtons(date,cookie_available){
-    if(!cookie_available)
+    let status='busy'
+    if(cookie_available)
     {
-   return ( //Cookie unavailable (ALL BUSY)
-    <div>
-      <MediaQuery minDeviceWidth={339}>
-          {/** Tablets and phablets: display label for radio buttons*/}
-          <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={'busy'}>
-
-              <RadioButton className='col-xs-4' style={{}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  green500
-              } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
-
-              <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  yellow800
-              } style={styles.selected_triangle}
-               > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
-
-              <RadioButton className='col-xs-4' value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  red500
-              } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
-
-          </RadioButtonGroup>
-      </MediaQuery>
-
-      <MediaQuery maxDeviceWidth={339}>
-          {/** Small screen Smartphones */}
-          <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={'busy'}>
-
-              <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  green500
-              } style={styles.selected_circle}
-               > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
-
-             <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  yellow800
-              } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
-
-            <RadioButton className='col-xs-3' value='busy' label="Busy" style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
-                  red500
-              } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
-
-          </RadioButtonGroup>
-      </MediaQuery>
-    </div>);
-    }
-    else {
       let attendeeDetails = this.getCookieAttendeeDetails();
-      let status='busy'
+
       for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
           if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
               if (attendeeDate === date) {
@@ -609,6 +566,7 @@ class EventPageComponent extends Component {
               }
             }
           }
+    }
 
       return ( //Cookie available (respective status based on attendee)
         <div>
@@ -653,7 +611,7 @@ class EventPageComponent extends Component {
             </MediaQuery>
         </div>
       );
-    }
+
   }
 
 // Generate Date toggle based on cookie
