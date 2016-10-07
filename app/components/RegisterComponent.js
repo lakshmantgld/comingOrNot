@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Chip from 'material-ui/Chip';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import englishJson from '../../en.json';
-
+import MediaQuery from 'react-responsive';
 import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
 
@@ -43,7 +43,9 @@ let styles = {
     backgroundColor: 'rgba(78, 74, 74, 0.05)'
   }
 };
-
+let datePushResponsive = {
+  marginTop : 30
+}
 let buttonStyle = {
   margin : 12,
   color : 'rgb(255, 255, 255)'
@@ -212,6 +214,211 @@ class RegisterComponent extends Component {
 
     return (
       <div>
+        <MediaQuery maxDeviceWidth={420}>
+         <div className="row" id='fullRow'>
+
+             <div className="col-md-12">
+                 <Card>
+                   <div className='row' style={{'padding':'20px'}}>
+                       <br />
+
+                       <div className='row'>
+
+                         <div className='col-md-6'>
+                           <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
+                           <br />
+                           <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
+                         </div>
+                       </div>
+
+                       <div className='row'>
+
+                         <div className='col-md-6'>
+                           <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+
+                           <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
+                         </div>
+                       </div>
+                       <br />
+                       <br />
+                       <div className='row' style={styles.datePush}>
+                         <div className='col-md-6'>
+                           <Geosuggest
+                             placeholder='Restaurant location'
+                             initialValue=''
+                             country='JP'
+                             fixtures={fixtures}
+                             onSuggestSelect={this.suggestLocation}
+                             onChange={this.storeLocation}
+                             location={new google.maps.LatLng(35.44371, 139.63803)}
+                             radius='40' />
+                         </div>
+                       </div>
+                       <br />
+                       <br />
+                       <br />
+                       <br />
+                       <div className='row' style={styles.datePush}>
+                       <div className='col-md-12'>
+                         <label style={styles.dateSelectLabel}> {this.props.languageJson.calendarLabel} </label>
+
+                       </div><br /><br /></div>
+                       <div>
+
+                         <div className='col-xs-6'>
+                             <InfiniteCalendar
+                             theme={{
+selectionColor: 'rgb(6, 5, 6)',
+textColor: {
+  default: '#333',
+  active: '#FFF'
+},
+weekdayColor: 'rgb(49, 44, 49)',
+headerColor: 'rgb(6, 5, 6)',
+floatingNav: {
+  background: 'rgb(6, 5, 6)',
+  color: '#FFF',
+  chevron: '#FFA726'
+}
+}}
+                                 layout='portrait'
+                                 width={200}
+                                 height={150}
+                                 rowHeight={55}
+                                 minDate={today}
+                                 onSelect={this.storeDate}
+                                 keyboardSupport={true}
+                             />
+                         </div>
+                       </div><br /><br /><br /><br />
+                     <div className="col-xs-12" style={datePushResponsive}>
+                           <div className='row'><div className='col-xs-12'>{ dateArray }</div></div>
+                         <div className='row center-xs'>
+                           <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                         </div>
+                       </div>
+                       <br />
+
+                       <div className='row col-md-offset-2 center-xs' id="regButton">
+                         <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                         <br />
+                         <br />
+                         <br />
+                       </div>
+
+               </div>
+             </Card>
+             </div>
+
+
+              <div className='col-md-12'>
+
+             </div>
+             </div>
+           </MediaQuery>
+        <MediaQuery maxDeviceWidth={1224} minDeviceWidth={421}>
+         <div className="row" id='fullRow'>
+
+             <div className="col-md-12">
+                 <Card>
+                   <div className='row' style={{'padding':'32px'}}>
+                       <br />
+
+                       <div className='row'>
+
+                         <div className='col-md-6'>
+                           <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.name} />
+                           <br />
+                           <label style={styles.errorLabel}> {this.props.nameErrorLabel} </label>
+                         </div>
+                       </div>
+
+                       <div className='row'>
+
+                         <div className='col-md-6'>
+                           <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+
+                           <label style={styles.errorLabel}> {this.props.purposeErrorLabel} </label>
+                         </div>
+                       </div>
+                       <br />
+                       <br />
+                       <div className='row' style={styles.datePush}>
+                         <div className='col-md-6'>
+                           <Geosuggest
+                             placeholder='Restaurant location'
+                             initialValue=''
+                             country='JP'
+                             fixtures={fixtures}
+                             onSuggestSelect={this.suggestLocation}
+                             onChange={this.storeLocation}
+                             location={new google.maps.LatLng(35.44371, 139.63803)}
+                             radius='40' />
+                         </div>
+                       </div>
+                       <br />
+                       <br />
+                       <br />
+                       <br />
+                       <div className='row' style={styles.datePush}>
+                       <div className='col-md-12'>
+                         <label style={styles.dateSelectLabel}> {this.props.languageJson.calendarLabel} </label>
+
+                       </div><br /><br /></div>
+                       <div>
+
+                         <div className='col-xs-6'>
+                             <InfiniteCalendar
+                             theme={{
+selectionColor: 'rgb(6, 5, 6)',
+textColor: {
+  default: '#333',
+  active: '#FFF'
+},
+weekdayColor: 'rgb(49, 44, 49)',
+headerColor: 'rgb(6, 5, 6)',
+floatingNav: {
+  background: 'rgb(6, 5, 6)',
+  color: '#FFF',
+  chevron: '#FFA726'
+}
+}}
+                                 layout='portrait'
+                                 width={300}
+                                 height={200}
+                                 rowHeight={55}
+                                 minDate={today}
+                                 onSelect={this.storeDate}
+                                 keyboardSupport={true}
+                             />
+                         </div>
+                       </div><br /><br /><br /><br />
+                     <div className="col-xs-12" style={datePushResponsive}>
+                           <div className='row'>{ dateArray }</div>
+                         <div className='row center-xs'>
+                           <label style={styles.errorLabel}> {this.props.dateArrayErrorLabel} </label>
+                         </div>
+                       </div>
+                       <br />
+
+                       <div className='row col-md-offset-2 center-xs' id="regButton">
+                         <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent} />
+                         <br />
+                         <br />
+                         <br />
+                       </div>
+
+               </div>
+             </Card>
+             </div>
+
+
+              <div className='col-md-12'>
+
+             </div>
+             </div>
+           </MediaQuery>
+           <MediaQuery minDeviceWidth={1224} orientation='landscape'>
           <div className="row" id='fullRow'>
 
               <div className="col-md-4 col-md-offset-1">
@@ -314,6 +521,7 @@ class RegisterComponent extends Component {
                           </div>
               </div>
               </div>
+          </MediaQuery>
       </div>
     );
   }

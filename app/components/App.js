@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import Footer from './Footer.js';
 import Header from './Header';
 
 let styles = {
@@ -18,7 +18,7 @@ class App extends Component {
         <div className='fullPage'>
           <Header />
           {this.props.children}
-
+          <Footer />
         </div>
       </MuiThemeProvider>
     );
