@@ -34,6 +34,8 @@
   font-style: normal;
   font-weight: normal;
   line-height: 1;
+  color: #727272; /** Added for letsmeetup: color */
+  text-shadow: 0px 0px 1px #a9a8a8; /** Added for letsmeetup: glow */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

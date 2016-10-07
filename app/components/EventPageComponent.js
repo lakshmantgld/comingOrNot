@@ -22,6 +22,28 @@ import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAtt
 let dateStatus;
 
 let styles = {
+  m_label: {
+    text: 'bold',
+    fontSize: '10px',
+    color: 'rgb(173, 173, 173)',
+    position: 'absolute',
+    marginTop: '20px'
+  },
+  tab_label: {
+   marginLeft: "-12px"
+  },
+  m_style: {
+
+  },
+  selected_circle: {
+  textShadow: "rgb(59, 255, 59) 0px 0px 5px"
+  },
+  selected_triangle: {
+  textShadow: "rgb(249, 169, 40) 0px 0px 5px"
+  },
+  selected_cross: {
+  textShadow: "rgb(245, 82, 70) 0px 0px 5px"
+  },
   formLabel: {
     text: 'bold',
     fontSize: '25px',
@@ -76,7 +98,8 @@ let styles = {
 };
 
 let buttonStyle = {
-  margin : 12
+  margin : 12,
+  backgroundColor : "rgb(67, 67, 67)"
 };
 
 
@@ -281,13 +304,13 @@ class EventPageComponent extends Component {
       "30" : "wi wi-day-cloudy",
       "31" : "wi wi-night-clear",
       "32" : "wi wi-day-sunny",
-      "33" : "wi wi-stars",
+      "33" : "wi wi-night-alt-cloudy",
       "34" : "wi wi-day-sunny",
       "35" : "wi wi-rain-mix",
       "36" : "wi wi-hot",
-      "37" : "wi wi-lightning",
-      "38" : "wi wi-lightning",
-      "39" : "wi wi-lightning",
+      "37" : "wi wi-storm-showers",
+      "38" : "wi wi-storm-showers",
+      "39" : "wi wi-storm-showers",
       "40" : "wi wi-showers",
       "41" : "wi wi-snow",
       "42" : "wi wi-rain-mix",
@@ -330,7 +353,6 @@ class EventPageComponent extends Component {
             if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
                 dateInColumn = this.props.eventObj.dateArray[i]; //+ ", " + this.props.weather[j].code;
                 weathercode = this.props.weather[j].code;
-                console.log(weathercode);
             }
         }
 
@@ -532,82 +554,11 @@ class EventPageComponent extends Component {
 
 // Generate mobile toggle buttons
   MobileToggleButtons(date,cookie_available){
-    if(!cookie_available)
+    let status='busy'
+    if(cookie_available)
     {
-   return ( //Cookie unavailable (ALL BUSY)
-    <div>
-        <MediaQuery minDeviceWidth={420}>
-            {/** Tablets and phablets: display label for radio buttons*/}
-            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
-
-                <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    green500
-                }
-                style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>}/>
-
-                <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    yellow800
-                }
-                style = {
-                    styles.icon
-                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > change_history < /FontIcon>}/>
-
-                <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    red500
-                }
-                style = {
-                    styles.icon
-                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > clear < /FontIcon>}/>
-
-            </RadioButtonGroup>
-        </MediaQuery>
-
-        <MediaQuery maxDeviceWidth={420}>
-            {/** Smartphones */}
-            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
-
-                <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    green500
-                }
-                style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>}/>
-
-                <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    yellow800
-                }
-                style = {
-                    styles.icon
-                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > change_history < /FontIcon>}/>
-
-                <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    red500
-                }
-                style = {
-                    styles.icon
-                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > clear < /FontIcon>}/>
-
-            </RadioButtonGroup>
-        </MediaQuery>
-    </div>);
-    }
-    else {
       let attendeeDetails = this.getCookieAttendeeDetails();
-      let status='busy'
+
       for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
           if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
               if (attendeeDate === date) {
@@ -615,51 +566,52 @@ class EventPageComponent extends Component {
               }
             }
           }
+    }
 
       return ( //Cookie available (respective status based on attendee)
         <div>
-            <MediaQuery minDeviceWidth={420}>
+            <MediaQuery minDeviceWidth={339}>
                 {/** Tablets and phablets: display label for radio buttons*/}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
-                    }> panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
+                    } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
-                    }
+                    } style={styles.selected_triangle}
                      > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
-                    } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
+                    } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
                 </RadioButtonGroup>
             </MediaQuery>
 
-            <MediaQuery maxDeviceWidth={420}>
-                {/** Smartphones */}
+            <MediaQuery maxDeviceWidth={339}>
+                {/** Small screen Smartphones */}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-4' value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
-                    }
+                    } style={styles.selected_circle}
                      > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                   <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
-                    } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
+                    } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                  <RadioButton className='col-xs-3' value='busy' label="Busy" style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
-                    }> clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
+                    } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
 
                 </RadioButtonGroup>
             </MediaQuery>
         </div>
       );
-    }
+
   }
 
 // Generate Date toggle based on cookie
@@ -667,20 +619,25 @@ class EventPageComponent extends Component {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
 
+
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
+    let free_count=0,maybe_count=0,busy_count=0;
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
 
               if (attendee.personalizedDateSelection[key] === 'free') {
+                free_count++;
               freelist.push(attendee.attendeeName); // If attendee is free, push in freelist array
               }
               if (attendee.personalizedDateSelection[key] === 'maybe') {
+                maybe_count++;
               maybelist.push(attendee.attendeeName);
               }
               if (attendee.personalizedDateSelection[key] === 'busy') {
+                busy_count++;
               busylist.push(attendee.attendeeName);
               }
             }
@@ -688,16 +645,22 @@ class EventPageComponent extends Component {
         }
       });
 
+      let total = attendees.length;
+      free_count=String((free_count*100)/total) + "%";
+      maybe_count=String((maybe_count*100)/total)+ "%";
+      busy_count=String((busy_count*100)/total)+ "%";
+
       let weatherdates = this.renderWithOrWithoutWeather();
 
       return (
 
 
-    <div className = 'row center-xs'>
-    <div className='col-sm-8 col-xs-12'>
+    <div className = 'row'>
+    <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
     <Card expandable={true}>
       <CardHeader
-          style={{paddingLeft:"90px"}}
+          style={{textAlign:"center"}}
+          textStyle={{paddingRight:"0px"}}
           title={weatherdates[i]}
           actAsExpander={true}
           showExpandableButton={true}
@@ -706,9 +669,20 @@ class EventPageComponent extends Component {
             <div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div>
           </CardText>
         <CardActions>
-            <div className='row center-xs'>
-              <br></br>
-              <br></br>
+          <div className='row '>
+
+              <div className='col-xs-12'>
+               <div style={{display:"flex"}}>
+              <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              <div style={{backgroundColor: "#fac452",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px #fac452",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              </div>
+              </div>
+
+          </div>
+  <br></br>
+            <div className='row '>
+
                 <div className='col-xs-12'>
 
                 {this.MobileToggleButtons(date,cookie_available)}
@@ -894,9 +868,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                   <div>{this.MobiledateToggleSection(false)}</div>
-                    <br />
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.props.attendeeNameEmptyFlag}
                            message="Please enter your name"
@@ -927,9 +900,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                 <div>{this.MobiledateToggleSection(true)}</div>
-                  <br />
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' primary={true} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.props.registerSuccessFlag}
                          message="Registered Successfully"
@@ -1069,6 +1041,8 @@ class EventPageComponent extends Component {
               <div>
 
                 {this.toggleMobileCastAttendance()}
+                <br></br>
+                <br></br>
 
               </div>
           {/*<div> Tablet & Smartphone code ends </div>*/}
