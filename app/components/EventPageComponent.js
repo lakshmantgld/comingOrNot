@@ -210,8 +210,11 @@ class EventPageComponent extends Component {
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeRegisterAttendee() {
     this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
-    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
     this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
+  //   setTimeout((function() {
+  //     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
+  //  }).bind(this), 800);
+    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
   }
 
 // This is an helper function to store the dates that have not been selected by the user.
@@ -555,7 +558,7 @@ class EventPageComponent extends Component {
 // Generate mobile toggle buttons
   MobileToggleButtons(date,cookie_available){
     let status='busy'
-    if(cookie_available)
+    if(cookie_available && this.getCookieAttendeeDetails())
     {
       let attendeeDetails = this.getCookieAttendeeDetails();
 
@@ -768,7 +771,7 @@ class EventPageComponent extends Component {
         );
     }
     return dateToggleElements;
-    } else {
+  } else if (cookieAvailable && (this.getCookieAttendeeDetails())) {
     // render dates based of cookie user selection.
     let dateToggleElements = [];
     let attendeeDetails = this.getCookieAttendeeDetails();
@@ -795,7 +798,12 @@ class EventPageComponent extends Component {
         }
     }
     return dateToggleElements;
-   }
+  } else {
+    return (
+      <div>
+      </div>
+    );
+  }
   }
 
   attendeeSubmissionSection() {
