@@ -22,6 +22,28 @@ import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAtt
 let dateStatus;
 
 let styles = {
+  m_label: {
+    text: 'bold',
+    fontSize: '10px',
+    color: 'rgb(173, 173, 173)',
+    position: 'absolute',
+    marginTop: '20px'
+  },
+  tab_label: {
+   marginLeft: "-15px"
+  },
+  m_style: {
+
+  },
+  selected_circle: {
+  textShadow: "rgb(59, 255, 59) 0px 0px 5px"
+  },
+  selected_triangle: {
+  textShadow: "rgb(249, 169, 40) 0px 0px 5px"
+  },
+  selected_cross: {
+  textShadow: "rgb(245, 82, 70) 0px 0px 5px"
+  },
   formLabel: {
     text: 'bold',
     fontSize: '25px',
@@ -536,73 +558,45 @@ class EventPageComponent extends Component {
     {
    return ( //Cookie unavailable (ALL BUSY)
     <div>
-        <MediaQuery minDeviceWidth={420}>
-            {/** Tablets and phablets: display label for radio buttons*/}
-            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+      <MediaQuery minDeviceWidth={339}>
+          {/** Tablets and phablets: display label for radio buttons*/}
+          <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={'busy'}>
 
-                <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    green500
-                }
-                style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>}/>
+              <RadioButton className='col-xs-4' style={{}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  green500
+              } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
 
-                <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    yellow800
-                }
-                style = {
-                    styles.icon
-                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > change_history < /FontIcon>}/>
+              <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  yellow800
+              } style={styles.selected_triangle}
+               > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    red500
-                }
-                style = {
-                    styles.icon
-                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > clear < /FontIcon>}/>
+              <RadioButton className='col-xs-4' value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  red500
+              } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
-            </RadioButtonGroup>
-        </MediaQuery>
+          </RadioButtonGroup>
+      </MediaQuery>
 
-        <MediaQuery maxDeviceWidth={420}>
-            {/** Smartphones */}
-            <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected='busy'>
+      <MediaQuery maxDeviceWidth={339}>
+          {/** Small screen Smartphones */}
+          <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={'busy'}>
 
-                <RadioButton className='col-xs-4' style={{}} value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    green500
-                }
-                style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > panorama_fish_eye < /FontIcon>}/>
+              <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  green500
+              } style={styles.selected_circle}
+               > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
-                <RadioButton className='col-xs-4' style={{}} value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    yellow800
-                }
-                style = {
-                    styles.icon
-                } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > change_history < /FontIcon>}/>
+             <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  yellow800
+              } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                <RadioButton className='col-xs-4' style={{}} value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
-                    red500
-                }
-                style = {
-                    styles.icon
-                } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                    styles.icon
-                } > clear < /FontIcon>}/>
+            <RadioButton className='col-xs-3' value='busy' label="Busy" style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  red500
+              } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
 
-            </RadioButtonGroup>
-        </MediaQuery>
+          </RadioButtonGroup>
+      </MediaQuery>
     </div>);
     }
     else {
@@ -618,42 +612,42 @@ class EventPageComponent extends Component {
 
       return ( //Cookie available (respective status based on attendee)
         <div>
-            <MediaQuery minDeviceWidth={420}>
+            <MediaQuery minDeviceWidth={339}>
                 {/** Tablets and phablets: display label for radio buttons*/}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
-                    }> panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
+                    } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
-                    }
+                    } style={styles.selected_triangle}
                      > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
-                    } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
+                    } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
                 </RadioButtonGroup>
             </MediaQuery>
 
-            <MediaQuery maxDeviceWidth={420}>
-                {/** Smartphones */}
+            <MediaQuery maxDeviceWidth={339}>
+                {/** Small screen Smartphones */}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-4' value='free' checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
-                    }
+                    } style={styles.selected_circle}
                      > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
+                   <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
-                    } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
+                    } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='busy' checkedIcon={< FontIcon className = 'material-icons' color = {
+                  <RadioButton className='col-xs-3' value='busy' label="Busy" style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
-                    }> clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
+                    } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
 
                 </RadioButtonGroup>
             </MediaQuery>
@@ -693,11 +687,11 @@ class EventPageComponent extends Component {
       return (
 
 
-    <div className = 'row center-xs'>
-    <div className='col-sm-8 col-xs-12'>
+    <div className = 'row'>
+    <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
     <Card expandable={true}>
       <CardHeader
-          style={{paddingLeft:"90px"}}
+          style={{textAlign:"center",paddingLeft:"90px"}}
           title={weatherdates[i]}
           actAsExpander={true}
           showExpandableButton={true}
@@ -706,7 +700,7 @@ class EventPageComponent extends Component {
             <div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div>
           </CardText>
         <CardActions>
-            <div className='row center-xs'>
+            <div className='row '>
               <br></br>
               <br></br>
                 <div className='col-xs-12'>
