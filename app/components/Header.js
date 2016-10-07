@@ -6,7 +6,7 @@ import { grey50 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
-
+import MediaQuery from 'react-responsive';
 import englishJson from '../../en.json';
 import japaneseJson from '../../jp.json';
 
@@ -18,6 +18,7 @@ let styles = {
     marginTop: 14
   }
 }
+
 
 class Header extends Component {
   constructor(props) {
@@ -44,22 +45,24 @@ class Header extends Component {
 
   render() {
     return (
-
+      <div>
+      <MediaQuery maxDeviceWidth={1224}>
       <header>
         <AppBar
           className='headerBar'
           style={{backgroundColor: 'black'}}
           title={<a href='/'>
-                  <center> {this.props.languageJson.header} </center>
+                  <center className='col-md-offset-2' style={{'position':'absolute'}}> {this.props.languageJson.header} </center>
                 </a>}
           showMenuIconButton={false}
           iconElementRight={
+
             <IconMenu
 
               iconButtonElement={
                 <div>
 
-                  <iframe src="https://ghbtns.com/github-btn.html?user=twbs&repo=bootstrap&type=star&count=false" frameborder="0" scrolling="0" width="170px" height="20px"style={{'border':'none'}}></iframe>
+                   <iframe src="https://ghbtns.com/github-btn.html?user=twbs&repo=bootstrap&type=star&count=false" frameborder="0" scrolling="0" width="70px" height="20px" style={{'border':'none'}}></iframe>
 
                   <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
 
@@ -74,7 +77,40 @@ class Header extends Component {
           }
         />
       </header>
+    </MediaQuery>
+    <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+     <header>
+       <AppBar
+         className='headerBar'
+         style={{backgroundColor: 'black'}}
+         title={<a href='/'>
+                 <center className='col-md-offset-2'> {this.props.languageJson.header} </center>
+               </a>}
+         showMenuIconButton={false}
+         iconElementRight={
 
+           <IconMenu
+
+             iconButtonElement={
+               <div>
+
+                  <iframe src="https://ghbtns.com/github-btn.html?user=twbs&repo=bootstrap&type=star&count=false" frameborder="0" scrolling="0" width="100px" height="20px"style={{'border':'none'}}></iframe>
+
+                 <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
+
+               </div>
+             }
+             targetOrigin={{horizontal: 'right', vertical: 'top'}}
+             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+           >
+             <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese} />
+             <MenuItem primaryText="English" onTouchTap={this.renderEnglish} />
+           </IconMenu>
+         }
+       />
+     </header>
+   </MediaQuery>
+ </div>
     );
   }
 }
