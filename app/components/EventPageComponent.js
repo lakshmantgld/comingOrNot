@@ -30,7 +30,7 @@ let styles = {
     marginTop: '20px'
   },
   tab_label: {
-   marginLeft: "-15px"
+   marginLeft: "-12px"
   },
   m_style: {
 
