@@ -353,7 +353,6 @@ class EventPageComponent extends Component {
             if ((enteredDate.getDate() === weatherDate.getDate()) && (enteredDate.getMonth() === weatherDate.getMonth()) && (enteredDate.getYear() === weatherDate.getYear())) {
                 dateInColumn = this.props.eventObj.dateArray[i]; //+ ", " + this.props.weather[j].code;
                 weathercode = this.props.weather[j].code;
-                console.log(weathercode);
             }
         }
 
@@ -620,26 +619,36 @@ class EventPageComponent extends Component {
     let dateArray = this.props.eventObj.dateArray; //  Get date list
     let attendees = this.props.eventObj.attendees; //  Get attendees list
 
+
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
+    let free_count=0,maybe_count=0,busy_count=0;
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
 
               if (attendee.personalizedDateSelection[key] === 'free') {
+                free_count++;
               freelist.push(attendee.attendeeName); // If attendee is free, push in freelist array
               }
               if (attendee.personalizedDateSelection[key] === 'maybe') {
+                maybe_count++;
               maybelist.push(attendee.attendeeName);
               }
               if (attendee.personalizedDateSelection[key] === 'busy') {
+                busy_count++;
               busylist.push(attendee.attendeeName);
               }
             }
           }
         }
       });
+
+      let total = attendees.length;
+      free_count=String((free_count*100)/total) + "%";
+      maybe_count=String((maybe_count*100)/total)+ "%";
+      busy_count=String((busy_count*100)/total)+ "%";
 
       let weatherdates = this.renderWithOrWithoutWeather();
 
@@ -660,9 +669,20 @@ class EventPageComponent extends Component {
             <div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div>
           </CardText>
         <CardActions>
+          <div className='row '>
+
+              <div className='col-xs-12'>
+               <div style={{display:"flex"}}>
+              <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              <div style={{backgroundColor: "#fac452",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px #fac452",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              </div>
+              </div>
+
+          </div>
+  <br></br>
             <div className='row '>
-              <br></br>
-              <br></br>
+
                 <div className='col-xs-12'>
 
                 {this.MobileToggleButtons(date,cookie_available)}
