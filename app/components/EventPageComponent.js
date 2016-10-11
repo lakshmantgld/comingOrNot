@@ -138,7 +138,9 @@ class EventPageComponent extends Component {
     // for updating the attendee
     let attendee = this.getCookieAttendeeDetails();
     this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
-    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
+    let opt={};
+    opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+    cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
     this.props.dispatch(storeAttendeeName(this.props.attendeeName));
     this.props.dispatch(updateSuccessFlag(true));
   }
@@ -213,7 +215,9 @@ class EventPageComponent extends Component {
   //   setTimeout((function() {
   //     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
   //  }).bind(this), 800);
-    cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
+    let opt={};
+    opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+    cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
   }
 
 // This is an helper function to store the dates that have not been selected by the user.
