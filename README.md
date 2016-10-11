@@ -24,13 +24,13 @@ node_modules/.bin/webpack/ -d --watch
 - Perform the below steps for all CRUD functions of the app.
 - Select **webhook + API** and **javascript** language as shown below:
 
-![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/master/readmeImages/firstStep.png)
+![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/fxdev/readmeImages/firstStep.png)
 - Insert the code from **serverless/** directory into the Code area and note down the function **URL** as shown below.
 
-![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/master/readmeImages/SecondStep.png)
+![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/fxdev/readmeImages/secondStep.png)
 - Perform bindings with documentDB under **Integrate section** in the browser as shown below.
 
-![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/master/readmeImages/ThirdStep.png)
+![LetsMeetUp](https://raw.githubusercontent.com/Lakshman-LD/LetsMeetUp/fxdev/readmeImages/thirdStep.png)
 - Under local, the web app will be powered by nodeJS. For making it serverless, change the restful API's in **actions/registerActions.js** file.
 - Performing the above will give a serverless app.
 
