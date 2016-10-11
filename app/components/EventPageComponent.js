@@ -11,7 +11,6 @@ import FontIcon from 'material-ui/FontIcon';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table-2';
 import MediaQuery from 'react-responsive';
-import ResponsiveFixedDataTable from 'responsive-fixed-data-table';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
@@ -1013,12 +1012,12 @@ class EventPageComponent extends Component {
               </div>
               <br />
               <div className='row center-xs'>
-                <div className='col-sm-12 col-md-10 col-lg-10 col-xs-12'>
-                <ResponsiveFixedDataTable
+
+                <Table
                   rowsCount={dateArray.length}
                   width={800}
                   rowHeight={35}
-                  containerStyle={{minHeight:tableheight}}
+                  height={35 * (dateArray.length + 2)}
                   headerHeight={50}
                 >
                   {this.fillDatesInColumn()}
@@ -1026,8 +1025,8 @@ class EventPageComponent extends Component {
                   {this.fillMaybeStatus()}
                   {this.fillBusyStatus()}
                   {this.fillAttendeeDetails()}
-                </ResponsiveFixedDataTable>
-              </div>
+                </Table>
+
               </div>
               <br />
               {this.attendeeSubmissionSection()}
