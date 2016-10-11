@@ -662,6 +662,7 @@ class EventPageComponent extends Component {
     <Card expandable={true}>
       <CardHeader
           style={{textAlign:"center"}}
+          titleStyle={{fontSize:"20px",fontWeight:"bolder"}}
           textStyle={{paddingRight:"0px"}}
           title={weatherdates[i]}
           actAsExpander={true}
