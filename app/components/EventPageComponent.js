@@ -714,7 +714,7 @@ class EventPageComponent extends Component {
   // helper to render dates according to status and date.
   individualDateSection(date, status) {
     return (
-      <div className='col-xs'>
+      <div className='col-xs-3'>
         <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
             <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
@@ -758,15 +758,14 @@ class EventPageComponent extends Component {
     let dateToggleElements = [];
     for (let i = 0; i < datesInColumn.length; i++) {
         dateToggleElements[i] = (
-            <div className='row'>
-                <div className='col-xs-3'></div>
-                <div className='col-xs-offset-1 col-xs-2'>
+          <div><div className='row center-xs'>
+                <div className='col-xs-3'>
                     <label style={styles.dateLabel}>
                         {datesInColumn[i]}
                     </label>
                 </div>
                 {this.individualDateSection(selectedDates[i], 'busy')}
-            </div>
+            </div><br></br></div>
         );
     }
     return dateToggleElements;
@@ -782,15 +781,15 @@ class EventPageComponent extends Component {
             if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
                 if (attendeeDate === selectedDates[i]) {
                     dateToggleElements[i] = (
-                        <div className='row'>
-                            <div className='col-xs-3'></div>
-                            <div className='col-xs-offset-1 col-xs-2'>
+                        <div><div className='row center-xs'>
+
+                            <div className='col-xs-3'>
                                 <label style={styles.dateLabel}>
                                     {datesInColumn[i]}
                                 </label>
                             </div>
                             {this.individualDateSection(selectedDates[i], attendeeDetails.personalizedDateSelection[attendeeDate])}
-                        </div>
+                        </div><br></br></div>
                     );
                 }
             }
@@ -810,6 +809,7 @@ class EventPageComponent extends Component {
       // cookie not there, render empty name field and default busy states to dates.
       return (
         <div>
+          <br></br>
           <div className='row center-xs'>
             <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
           </div>
