@@ -14,8 +14,7 @@ import MediaQuery from 'react-responsive';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
-         registerAttendee, attendeeNameEmptyFlag, attendeeNameExistsFlag,
-         registerSuccessFlag, updateSuccessFlag, emptyPersonalizedDateSelection,
+         registerAttendee, updateNotificationFlag, emptyPersonalizedDateSelection,
          updateAttendee, fetchWeather } from './../actions/registerActions';
 
 let dateStatus;
@@ -109,10 +108,7 @@ class EventPageComponent extends Component {
     super(props);
     this.CountStatus = this.CountStatus.bind(this);
     this.handleDateToogle = this.handleDateToogle.bind(this);
-    this.handleRequestClose_NameEmpty = this.handleRequestClose_NameEmpty.bind(this);
-    this.handleRequestClose_NameExists = this.handleRequestClose_NameExists.bind(this);
-    this.handleRequestClose_RegisterSuccess = this.handleRequestClose_RegisterSuccess.bind(this);
-    this.handleRequestClose_UpdateSuccess = this.handleRequestClose_UpdateSuccess.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.storeAttendeeName = this.storeAttendeeName.bind(this);
     this.registerAttendee = this.registerAttendee.bind(this);
     this.toggleMobileCastAttendance = this.toggleMobileCastAttendance.bind(this);
@@ -142,7 +138,7 @@ class EventPageComponent extends Component {
     opt.expires=new Date(2020, 1, 1, 0, 0, 1);
     cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
     this.props.dispatch(storeAttendeeName(this.props.attendeeName));
-    this.props.dispatch(updateSuccessFlag(true));
+    this.props.dispatch(updateNotificationFlag('updateSuccess'));
   }
 
   fillTheLeftOutDatesUpdateAttendee() {
@@ -168,10 +164,10 @@ class EventPageComponent extends Component {
   updateAttendee() {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
-      this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
+      this.props.dispatch(updateNotificationFlag('attendeeNameEmpty')); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
-      this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
+      this.props.dispatch(updateNotificationFlag('attendeeNameExists')); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesUpdateAttendee();
@@ -211,7 +207,7 @@ class EventPageComponent extends Component {
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeRegisterAttendee() {
     this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
-    this.props.dispatch(registerSuccessFlag(true)); //If name is empty, bring snackbar
+    this.props.dispatch(updateNotificationFlag('registerSuccess')); //If name is empty, bring snackbar
   //   setTimeout((function() {
   //     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
   //  }).bind(this), 800);
@@ -244,10 +240,10 @@ class EventPageComponent extends Component {
   registerAttendee(e) {
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
-      this.props.dispatch(attendeeNameEmptyFlag(true)); //If name is empty, bring snackbar
+      this.props.dispatch(updateNotificationFlag('attendeeNameEmpty')); //If name is empty, bring snackbar
     } else if (this.duplicateCheck()) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
-      this.props.dispatch(attendeeNameExistsFlag(true)); //If name is duplicate entry, bring snackbar
+      this.props.dispatch(updateNotificationFlag('attendeeNameExists')); //If name is duplicate entry, bring snackbar
     } else {
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesRegisterAttendee();
@@ -866,6 +862,39 @@ class EventPageComponent extends Component {
     }
   }
 
+  // To check whether the flag exists for snack bar
+  checkRegisterSuccessFlag() {
+    if (this.props.notificationFlag === 'registerSuccess') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkUpdateSuccessFlag() {
+    if (this.props.notificationFlag === 'updateSuccess') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkAttendeeNameEmptyFlag() {
+    if (this.props.notificationFlag === 'attendeeNameEmpty') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkAttendeeNameExistsFlag() {
+    if (this.props.notificationFlag === 'attendeeNameExists') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   toggleMobileCastAttendance() {
       if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
           return (
@@ -883,16 +912,16 @@ class EventPageComponent extends Component {
                     <div className='row center-xs'>
                       <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
-                           open={this.props.attendeeNameEmptyFlag}
+                           open={this.checkAttendeeNameEmptyFlag()}
                            message="Please enter your name"
                            autoHideDuration={3000}
-                           onRequestClose={this.handleRequestClose_NameEmpty}
+                           onRequestClose={this.handleRequestClose}
                         />
                         <Snackbar
-                           open={this.props.attendeeNameExistsFlag}
+                           open={this.checkAttendeeNameExistsFlag()}
                            message="Name already exists. Please enter another name"
                            autoHideDuration={3000}
-                           onRequestClose={this.handleRequestClose_NameExists}
+                           onRequestClose={this.handleRequestClose}
                         />
                     </div>
               </div>
@@ -915,28 +944,28 @@ class EventPageComponent extends Component {
                   <div className='row center-xs'>
                     <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
-                         open={this.props.registerSuccessFlag}
+                         open={this.checkRegisterSuccessFlag()}
                          message="Registered Successfully"
                          autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose_RegisterSuccess}
+                         onRequestClose={this.handleRequestClose}
                       />
                       <Snackbar
-                         open={this.props.updateSuccessFlag}
+                         open={this.checkUpdateSuccessFlag()}
                          message="Updated Successfully"
                          autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose_UpdateSuccess}
+                         onRequestClose={this.handleRequestClose}
                       />
                       <Snackbar
-                         open={this.props.attendeeNameEmptyFlag}
+                         open={this.checkAttendeeNameEmptyFlag()}
                          message="Please enter your name"
                          autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose_NameEmpty}
+                         onRequestClose={this.handleRequestClose}
                       />
                       <Snackbar
-                         open={this.props.attendeeNameExistsFlag}
+                         open={this.checkAttendeeNameExistsFlag()}
                          message="Name already exists. Please enter another name"
                          autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose_NameExists}
+                         onRequestClose={this.handleRequestClose}
                       />
                   </div>
               </div>
@@ -944,24 +973,9 @@ class EventPageComponent extends Component {
       }
   }
 
-// Handles snackbar (register success)
-  handleRequestClose_RegisterSuccess() {
-      this.props.dispatch(registerSuccessFlag(false));
-    }
-
-// Handles snackbar (update success)
-  handleRequestClose_UpdateSuccess() {
-      this.props.dispatch(updateSuccessFlag(false));
-    }
-
-// Handles snackbar (empty name)
-  handleRequestClose_NameEmpty() {
-      this.props.dispatch(attendeeNameEmptyFlag(false));
-    }
-
-// Handles snackbar (name already exists)
-  handleRequestClose_NameExists() {
-      this.props.dispatch(attendeeNameExistsFlag(false));
+// Handles snackbar, In case of timeout oand screen touch
+  handleRequestClose() {
+      this.props.dispatch(updateNotificationFlag(''));
     }
 
   fetchWeather(location) {
@@ -1072,12 +1086,9 @@ EventPageComponent.propTypes = {
   attendeeName: PropTypes.string.isRequired,
   attendeeNameErrorLabel: PropTypes.string.isRequired,
   personalizedDateSelection: PropTypes.object.isRequired,
-  attendeeNameEmptyFlag: PropTypes.bool.isRequired,
-  attendeeNameExistsFlag: PropTypes.bool.isRequired,
-  registerSuccessFlag: PropTypes.bool.isRequired,
-  updateSuccessFlag: PropTypes.bool.isRequired,
   languageJson: PropTypes.object.isRequired,
-  weather: PropTypes.array.isRequired
+  weather: PropTypes.array.isRequired,
+  notificationFlag: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -1085,10 +1096,7 @@ export default connect(state => ({
   attendeeName: state.attendeeName,
   attendeeNameErrorLabel: state.attendeeNameErrorLabel,
   personalizedDateSelection: state.personalizedDateSelection,
-  attendeeNameEmptyFlag: state.attendeeNameEmptyFlag,
-  attendeeNameExistsFlag: state.attendeeNameExistsFlag,
-  registerSuccessFlag: state.registerSuccessFlag,
-  updateSuccessFlag: state.updateSuccessFlag,
   languageJson: state.languageJson,
-  weather: state.weather
+  weather: state.weather,
+  notificationFlag: state.notificationFlag
 }))(EventPageComponent);
