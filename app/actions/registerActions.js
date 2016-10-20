@@ -12,10 +12,7 @@ export const STORE_EVENT = 'STORE_EVENT';
 export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECTION';
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
-export const ATTENDEE_NAME_EMPTY_FLAG = 'ATTENDEE_NAME_EMPTY_FLAG';
-export const ATTENDEE_NAME_EXISTS_FLAG = 'ATTENDEE_NAME_EXISTS_FLAG';
-export const REGISTER_SUCCESS_FLAG = 'REGISTER_SUCCESS_FLAG';
-export const UPDATE_SUCCESS_FLAG = 'UPDATE_SUCCESS_FLAG';
+export const UPDATE_NOTIFICATION_FLAG = 'UPDATE_NOTIFICATION_FLAG';
 export const STORE_LOCATION = 'STORE_LOCATION';
 export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
@@ -205,38 +202,11 @@ export function updateAttendee(attendeeId, name, personalizedDateSelection, even
   };
 }
 
-export function attendeeNameEmptyFlag(toggleValue) {
+export function updateNotificationFlag(flagValue) {
   return dispatch => {
     return dispatch({
-      type: ATTENDEE_NAME_EMPTY_FLAG,
-      toggleValue: toggleValue
-    });
-  };
-}
-
-export function attendeeNameExistsFlag(toggleValue) {
-  return dispatch => {
-    return dispatch({
-      type: ATTENDEE_NAME_EXISTS_FLAG,
-      toggleValue: toggleValue
-    });
-  };
-}
-
-export function registerSuccessFlag(toggleValue) {
-  return dispatch => {
-    return dispatch({
-      type: REGISTER_SUCCESS_FLAG,
-      toggleValue: toggleValue
-    });
-  };
-}
-
-export function updateSuccessFlag(toggleValue) {
-  return dispatch => {
-    return dispatch({
-      type: UPDATE_SUCCESS_FLAG,
-      toggleValue: toggleValue
+      type: UPDATE_NOTIFICATION_FLAG,
+      flagValue: flagValue
     });
   };
 }

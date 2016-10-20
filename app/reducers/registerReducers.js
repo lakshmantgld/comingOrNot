@@ -1,8 +1,7 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
-         ATTENDEE_NAME_EMPTY_FLAG, ATTENDEE_NAME_EXISTS_FLAG, REGISTER_SUCCESS_FLAG, UPDATE_SUCCESS_FLAG,
-         STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
+         UPDATE_NOTIFICATION_FLAG, STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
          FETCH_AND_STORE_WEATHER } from './../actions/registerActions';
 
 export function name(state = '', action) {
@@ -102,37 +101,10 @@ export function attendeeNameErrorLabel(state = '', action) {
   }
 }
 
-export function attendeeNameEmptyFlag(state = false, action) {
+export function notificationFlag(state = '', action) {
   switch(action.type) {
-    case ATTENDEE_NAME_EMPTY_FLAG:
-      return action.toggleValue;
-    default:
-      return state;
-  }
-}
-
-export function attendeeNameExistsFlag(state = false, action) {
-  switch(action.type) {
-    case ATTENDEE_NAME_EXISTS_FLAG:
-      return action.toggleValue;
-    default:
-      return state;
-  }
-}
-
-export function registerSuccessFlag(state = false, action) {
-  switch(action.type) {
-    case REGISTER_SUCCESS_FLAG:
-      return action.toggleValue;
-    default:
-      return state;
-  }
-}
-
-export function updateSuccessFlag(state = false, action) {
-  switch(action.type) {
-    case UPDATE_SUCCESS_FLAG:
-      return action.toggleValue;
+    case UPDATE_NOTIFICATION_FLAG:
+      return action.flagValue;
     default:
       return state;
   }

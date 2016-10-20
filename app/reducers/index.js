@@ -3,8 +3,7 @@ import { routerReducer } from 'react-router-redux';
 
 import { name, purpose, latlngs, sourceLabel, destinationLabel, dateArray, dateArrayErrorLabel,
         nameErrorLabel, purposeErrorLabel, eventObj, personalizedDateSelection, attendeeName,
-        attendeeNameErrorLabel, attendeeNameEmptyFlag, attendeeNameExistsFlag,
-        registerSuccessFlag, updateSuccessFlag, location, languageJson,
+        attendeeNameErrorLabel, location, languageJson, notificationFlag,
         weather } from './registerReducers';
 
 const reducers = combineReducers({
@@ -18,10 +17,7 @@ const reducers = combineReducers({
   personalizedDateSelection,
   attendeeName,
   attendeeNameErrorLabel,
-  attendeeNameEmptyFlag,
-  attendeeNameExistsFlag,
-  registerSuccessFlag,
-  updateSuccessFlag,
+  notificationFlag,
   location,
   languageJson,
   weather,
