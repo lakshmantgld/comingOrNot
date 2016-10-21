@@ -12,6 +12,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Table, Column, Cell} from 'fixed-data-table-2';
 import MediaQuery from 'react-responsive';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          registerAttendee, updateNotificationFlag, emptyPersonalizedDateSelection,
@@ -862,39 +863,6 @@ class EventPageComponent extends Component {
     }
   }
 
-  // To check whether the flag exists for snack bar
-  checkRegisterSuccessFlag() {
-    if (this.props.notificationFlag === 'registerSuccess') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  checkUpdateSuccessFlag() {
-    if (this.props.notificationFlag === 'updateSuccess') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  checkAttendeeNameEmptyFlag() {
-    if (this.props.notificationFlag === 'attendeeNameEmpty') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  checkAttendeeNameExistsFlag() {
-    if (this.props.notificationFlag === 'attendeeNameExists') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   toggleMobileCastAttendance() {
       if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
           return (
@@ -912,14 +880,8 @@ class EventPageComponent extends Component {
                     <div className='row center-xs'>
                       <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
                         <Snackbar
-                           open={this.checkAttendeeNameEmptyFlag()}
-                           message="Please enter your name"
-                           autoHideDuration={3000}
-                           onRequestClose={this.handleRequestClose}
-                        />
-                        <Snackbar
-                           open={this.checkAttendeeNameExistsFlag()}
-                           message="Name already exists. Please enter another name"
+                           open={this.checkNotificationFlag()}
+                           message={this.props.notificationFlag}
                            autoHideDuration={3000}
                            onRequestClose={this.handleRequestClose}
                         />
@@ -944,26 +906,8 @@ class EventPageComponent extends Component {
                   <div className='row center-xs'>
                     <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
                       <Snackbar
-                         open={this.checkRegisterSuccessFlag()}
-                         message="Registered Successfully"
-                         autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose}
-                      />
-                      <Snackbar
-                         open={this.checkUpdateSuccessFlag()}
-                         message="Updated Successfully"
-                         autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose}
-                      />
-                      <Snackbar
-                         open={this.checkAttendeeNameEmptyFlag()}
-                         message="Please enter your name"
-                         autoHideDuration={3000}
-                         onRequestClose={this.handleRequestClose}
-                      />
-                      <Snackbar
-                         open={this.checkAttendeeNameExistsFlag()}
-                         message="Name already exists. Please enter another name"
+                         open={this.checkNotificationFlag()}
+                         message={this.props.notificationFlag}
                          autoHideDuration={3000}
                          onRequestClose={this.handleRequestClose}
                       />
@@ -971,6 +915,34 @@ class EventPageComponent extends Component {
               </div>
           );
       }
+  }
+
+  // To check whether the flag exists for Modal - Desktop
+  checkDesktopNotificationFlag() {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // To check whether the flag exists for snack bar - Mobile
+  checkNotificationFlag() {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'attendeeNameEmpty' || this.props.notificationFlag === 'attendeeNameExists') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getNotificationTitle(){
+    if (this.props.notificationFlag === 'registerSuccess') {
+      return "Registered Successfully";
+    } else if(this.props.notificationFlag === 'updateSuccess'){
+      return "Updated Successfully";
+    } else {
+      return false;
+    }
   }
 
 // Handles snackbar, In case of timeout oand screen touch
@@ -1031,6 +1003,21 @@ class EventPageComponent extends Component {
               </div>
               <br />
               <div className='row center-xs'>
+              <Dialog
+                title={this.getNotificationTitle()}
+                actions={
+                  <RaisedButton label='Ok'
+                   backgroundColor={"rgb(67, 67, 67)"}
+                   labelColor={"white"}
+                   style={buttonStyle}
+                   disabled={false}
+                   onTouchTap={this.handleRequestClose}
+                  />
+                }
+                modal={true}
+                open={this.checkDesktopNotificationFlag()}
+              >
+              </Dialog>
 
                 <Table
                   rowsCount={dateArray.length}
