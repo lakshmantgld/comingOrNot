@@ -1,0 +1,153 @@
+
+@font-face { font-family: roboto; src: url('../fonts/Roboto/Roboto-Thin.ttf'); }
+body {
+  margin: 0;
+}
+.fullPage{
+  font-family: 'roboto';
+
+}
+.headerBar a,
+.headerBar a:link,
+.headerBar a:visited,
+.headerBar a:hover {
+  text-decoration: none;
+  color: #FFFFFF;
+
+}
+
+.headerMenu {
+  margin-top: 0;
+}
+
+#leftBox{
+      border: 1px solid black;
+          border-radius: 12px;
+
+}
+
+@media only screen and (min-width: 48em) {
+  .headerMenu {
+    margin-top: 8px;
+  }
+}
+#regButton{
+
+
+}
+.verticalLine {
+    border-left: 1px solid #635c5c;
+    height :500px;
+
+}
+.headerMenu span {
+  color: #FFFFFF;
+}
+
+a.accountListItem, a.playbookListItem {
+  text-decoration: none;
+}
+
+.accountValue {
+  padding-left: 24px;
+}
+#fullRow{
+  margin-top: 90px;
+
+}
+.row {
+  width: 100%;
+  margin: 0;
+}
+
+/**
+ * The geosuggest module
+ */
+.geosuggest {
+  font-size: 18px;
+  font-size: 1rem;
+  position: relative;
+  width: 50%;
+
+  text-align: left;
+}
+.geosuggest__input {
+
+  border: 2px solid transparent;
+      box-shadow: 0 0 1px #3d464d;
+      padding: .5em 1em;
+      -webkit-transition: border 0.2s, box-shadow 0.2s;
+      transition: border 0.2s, box-shadow 0.2s;
+      height: 34px;
+      /* width: 164%; */
+      resize: none;
+      font-style: inherit;
+      font-variant: inherit;
+      font-weight: inherit;
+      font-stretch: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      font-family: inherit;
+      /* padding: 0px; */
+      cursor: initial;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      position: relative;
+      border: none;
+      outline: none;
+      background-color: rgba(0, 0, 0, 0);
+      color: rgba(0, 0, 0, 0.870588);
+      margin-top: 12px;
+      margin-bottom: -12px;
+      box-sizing: border-box;
+
+}
+.geosuggest__input:focus {
+  border-color: #267dc0;
+  box-shadow: 0 0 0 transparent;
+}
+.geosuggest__suggests {
+  position: absolute;
+      width: 187px;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 25em;
+  padding: 0;
+  margin-top: -1px;
+  background: #fff;
+  border: 2px solid #267dc0;
+  border-top-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  list-style: none;
+  z-index: 5;
+  -webkit-transition: max-height 0.2s, border 0.2s;
+          transition: max-height 0.2s, border 0.2s;
+}
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+
+/**
+ * A geosuggest item
+ */
+.geosuggest-item {
+  font-size: 18px;
+  font-size: 1rem;
+  padding: .5em .65em;
+  cursor: pointer;
+}
+.geosuggest-item:hover,
+.geosuggest-item:focus {
+  background: #f5f5f5;
+}
+.geosuggest-item--active {
+  background: #267dc0;
+  color: #fff;
+}
+.geosuggest-item--active:hover,
+.geosuggest-item--active:focus {
+  background: #ccc;
+}

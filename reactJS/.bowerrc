@@ -1,0 +1,4 @@
+{
+    "proxy":"http://proxy.fujixerox.co.jp:8080",
+    "https-proxy":"http://proxy.fujixerox.co.jp:8080"
+}
