@@ -1,7 +1,10 @@
-bower_components
 .DS_Store
-npm-debug.log
-public/js/app.js
-public/js/app.js.map
-.bowerrc
+reactJS/public/js/app.js
+reactJS/public/js/app.js.map
+reactJS/node_modules
+serverless/node_modules
 node_modules
+reactJS/npm-debug.log
+serverless/npm-debug.log
+npm-debug.log
+serverless/.serverless

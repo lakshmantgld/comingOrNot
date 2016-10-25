@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-// Babel ES6/JSX Compiler
-require('babel-register');
-require('../app');
