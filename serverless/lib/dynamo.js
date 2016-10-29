@@ -3,9 +3,9 @@ import AWS from 'aws-sdk';
 import moment from 'moment';
 
 AWS.config.update({
-  accessKeyId: 'AKIAIJ63MR2PIAW4LSPQ',
-  secretAccessKey: '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',
-  region: 'ap-northeast-1'
+  accessKeyId: '',
+  secretAccessKey: '',
+  region: ''
 });
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
