@@ -66,7 +66,7 @@ export function purposeErrorLabel(state = '', action) {
 export function eventObj(state = {}, action) {
   switch(action.type) {
     case STORE_EVENT:
-      return action.json;
+      return action.eventObj;
     default:
       return state;
   }

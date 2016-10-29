@@ -207,7 +207,7 @@ class EventPageComponent extends Component {
 
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeRegisterAttendee() {
-    this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.eventObj._id)); // Update in DB
+    this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId)); // Update in DB
     this.props.dispatch(updateNotificationFlag('registerSuccess')); //If name is empty, bring snackbar
   //   setTimeout((function() {
   //     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID

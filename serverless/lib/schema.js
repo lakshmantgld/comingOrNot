@@ -44,6 +44,7 @@ const PersonalizedDateSelection = new GraphQLScalarType({
 const EventAttendee = new GraphQLObjectType({
   name: 'EventAttendee',
   fields: () => ({
+    attendeeId: {type: GraphQLString},
     attendeeName: {type: GraphQLString},
     personalizedDateSelection: {type: PersonalizedDateSelection}
   })
@@ -52,6 +53,7 @@ const EventAttendee = new GraphQLObjectType({
 const EventInputAttendee = new GraphQLInputObjectType({
   name: 'EventInputAttendee',
   fields: () => ({
+    attendeeId: {type: GraphQLString},
     attendeeName: {type: GraphQLString},
     personalizedDateSelection: {type: PersonalizedDateSelection}
   })

@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { browserHistory } from 'react-router';
+import config from '../../config/config.json';
 
 export const STORE_NAME = 'STORE_NAME';
 export const STORE_PURPOSE = 'STORE_PURPOSE';
@@ -82,20 +83,55 @@ export function storePurposeErrorLabel(errorLabel) {
 }
 
 function storeEventId(json) {
-  const eventId = json['eventId'];
+  const eventId = json.data.createEvent['eventId'];
 
   return browserHistory.push('/eventCreated/eventId=' + eventId);
 }
 
 export function registerEvent(name, purpose, dateArray, location) {
   return dispatch => {
-    return fetch('/api/registerEvent', {credentials: 'include',
+    return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'name' : name, 'purpose' : purpose, 'dateArray': dateArray, 'location': location})})
+      body: JSON.stringify({
+        "query": `
+          mutation createEvent(
+            $name: String!,
+            $purpose: String!,
+            $location: String!,
+            $dateArray: [String]!,
+            $attendees: [EventInputAttendee]!
+          ) {
+            createEvent(
+              name: $name,
+              purpose: $purpose,
+              location: $location,
+              dateArray: $dateArray,
+              attendees: $attendees
+            ) {
+              eventId
+              name
+              purpose
+              location
+              dateArray
+              attendees{
+                attendeeName
+                personalizedDateSelection
+              }
+            }
+          }
+        `,
+        "variables": {
+          "name": name,
+          "purpose": purpose,
+          "location": location,
+          "dateArray": dateArray,
+          "attendees": []
+        }
+      })})
       .then(res => {
         if (res.status !== 200) {
           let status = res.status;
@@ -111,13 +147,42 @@ function storeEvent(json) {
   //console.log('coming here' + JSON.stringify(json));
   return {
     type: STORE_EVENT,
-    json
+    eventObj: json.data.event
   }
 }
 
 export function fetchEvent(eventId) {
   return dispatch => {
-    return fetch('/api/fetchEvent/?eventId=' + eventId, {credentials: 'include'})
+    return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "query": `
+          query(
+            $eventId: String!,
+          ) {
+            event(
+              eventId: $eventId
+            ) {
+              eventId
+              name
+              purpose
+              location
+              dateArray
+              attendees{
+                attendeeName
+                personalizedDateSelection
+              }
+            }
+          }
+        `,
+        "variables": {
+          "eventId": eventId
+        }
+      })})
       .then(res => {
         if (res.status !== 200) {
           let status = res.status;
@@ -160,16 +225,51 @@ export function storeAttendeeNameErrorLabel(errorLabel) {
   };
 }
 
-export function registerAttendee(name, personalizedDateSelection, eventId) {
-  console.log('calling upda');
+function storeEventAfterRegisterAttendee(json) {
+  return {
+    type: STORE_EVENT,
+    eventObj: json.data.registerAttendee
+  }
+}
+
+export function registerAttendee(attendeeName, personalizedDateSelection, eventId) {
   return dispatch => {
-    return fetch('/api/registerAttendee', {credentials: 'include',
+    return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
+      body: JSON.stringify({
+        "query": `
+          mutation registerAttendee(
+            $eventId: String!,
+            $attendeeName: String!,
+            $personalizedDateSelection: PersonalizedDateSelection!
+          ) {
+            registerAttendee(
+              eventId: $eventId,
+              attendeeName: $attendeeName,
+              personalizedDateSelection: $personalizedDateSelection
+            ) {
+              eventId
+              name
+              purpose
+              location
+              dateArray
+              attendees{
+                attendeeName
+                personalizedDateSelection
+              }
+            }
+          }
+        `,
+        "variables": {
+          "eventId": eventId,
+          "attendeeName": attendeeName,
+          "personalizedDateSelection": personalizedDateSelection
+        }
+      })})
       .then(res => {
         if (res.status !== 200) {
           let status = res.status;
@@ -177,7 +277,7 @@ export function registerAttendee(name, personalizedDateSelection, eventId) {
         }
         return res.json();
       })
-      .then(json => dispatch(storeEvent(json)))
+      .then(json => dispatch(storeEventAfterRegisterAttendee(json)))
   };
 }
 

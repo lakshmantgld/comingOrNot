@@ -42,6 +42,8 @@ functions:
           path: graphql
           method: post
           integration: lambda
+          memorySize: 256
+          timeout: 10
           cors:
             origins:
               - ${self:custom.cors.origin}

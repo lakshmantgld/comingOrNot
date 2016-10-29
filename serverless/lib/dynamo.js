@@ -1,11 +1,12 @@
 import Promise from 'bluebird';
 import AWS from 'aws-sdk';
 import moment from 'moment';
+import config from '../config.json';
 
 AWS.config.update({
-  accessKeyId: 'AKIAJ5EJECBMOJUNXDUA',
-  secretAccessKey: '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',
-  region: ''
+  accessKeyId: config.aws.accessKeyId,
+  secretAccessKey: config.aws.secretAccessKey,
+  region: config.aws.region
 });
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
@@ -57,6 +58,7 @@ export function registerAttendee(eventAttendee) {
   return new Promise((resolve, reject) => {
 
     const attendee = {
+      "attendeeId": moment().format('YYYYMMDDhmms') + '-' + eventAttendee.attendeeName,
       "attendeeName": eventAttendee.attendeeName,
       "personalizedDateSelection": eventAttendee.personalizedDateSelection
     }

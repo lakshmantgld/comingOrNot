@@ -4,6 +4,7 @@ reactJS/public/js/app.js.map
 reactJS/node_modules
 serverless/node_modules
 serverless/.serverless
+serverless/config.json
 node_modules
 reactJS/npm-debug.log
 serverless/npm-debug.log

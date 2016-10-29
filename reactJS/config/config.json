@@ -5,6 +5,9 @@
     "hostname": "172.27.87.74",
     "port": "27017",
     "path": "LetsMeetup"
-  }
+  },
 
+  "api": {
+    "baseURL": "https://aqd93xv7hg.execute-api.ap-northeast-1.amazonaws.com/development"
+  }
 }
