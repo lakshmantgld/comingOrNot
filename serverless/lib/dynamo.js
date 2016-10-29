@@ -34,7 +34,7 @@ export function fetchEvent(eventId) {
 // creates a new event and sends back the created event with eventID
 export function createEvent(event) {
   console.log("in dynamo");
-  event.eventId = moment().format('YYYYMMDDhmms') + '-' + event.name + '-' + event.purpose;
+  event.eventId = moment().format('YYYYMMDDhmms') + '-' + event.name.replace(/\//g, '') + '-' + event.purpose.replace(/\//g, '');
 
   return new Promise((resolve, reject) => {
     const params = {
