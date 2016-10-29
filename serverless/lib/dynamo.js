@@ -3,8 +3,8 @@ import AWS from 'aws-sdk';
 import moment from 'moment';
 
 AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
+  accessKeyId: 'AKIAJ5EJECBMOJUNXDUA',
+  secretAccessKey: '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',
   region: ''
 });
 
