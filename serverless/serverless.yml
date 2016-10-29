@@ -24,6 +24,9 @@ provider:
       Action:
         - "dynamodb:*"
 
+plugins:
+  - serverless-webpack
+
 # neeed to work on these plugins to enable faster development
 # plugins:
 #   - serverless-dynamodb-local
@@ -32,55 +35,11 @@ provider:
 custom: ${file(./config.yml)}
 
 functions:
-  register:
-    handler: handler.register
+  graphql:
+    handler: handler.graphql
     events:
       - http:
-          path: register
-          method: post
-          integration: lambda
-          cors:
-            origins:
-              - ${self:custom.cors.origin}
-
-  fetch:
-    handler: handler.fetch
-    events:
-      - http:
-          path: fetch
-          method: get
-          integration: lambda
-          cors:
-            origins:
-              - ${self:custom.cors.origin}
-
-  update:
-    handler: handler.update
-    events:
-      - http:
-          path: update
-          method: put
-          integration: lambda
-          cors:
-            origins:
-              - ${self:custom.cors.origin}
-
-  fetchUserEvents:
-    handler: handler.fetchUserEvents
-    events:
-      - http:
-          path: fetchUserEvents
-          method: get
-          integration: lambda
-          cors:
-            origins:
-              - ${self:custom.cors.origin}
-
-  postDcpfId:
-    handler: handler.postDcpfId
-    events:
-      - http:
-          path: postDcpfId
+          path: graphql
           method: post
           integration: lambda
           cors:
@@ -95,18 +54,6 @@ resources:
         AttributeDefinitions:
           - AttributeName: "eventId"
             AttributeType: "S"
-          - AttributeName: "googleUserName"
-            AttributeType: "S"
-        GlobalSecondaryIndexes:
-          - IndexName: "googleUserName-index"
-            KeySchema:
-              - AttributeName: googleUserName
-                KeyType: "HASH"
-            Projection:
-              ProjectionType: "ALL"
-            ProvisionedThroughput:
-              ReadCapacityUnits: 2
-              WriteCapacityUnits: 2
         KeySchema:
           - AttributeName: "eventId"
             KeyType: "HASH"

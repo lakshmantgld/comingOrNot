@@ -1,6 +1,6 @@
 cors:
   origin: 'http://localhost:3000'
 aws:
-  accessKey: ''
-  secretKey: ''
+  accessKey: 'AKIAIJ63MR2PIAW4LSPQ'
+  secretKey: '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'
   cognitoIdentityPoolId: ''
