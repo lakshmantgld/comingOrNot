@@ -1,8 +1,8 @@
 {
   "aws": {
-    "accessKeyId": "AKIAJ5EJECBMOJUNXDUA",
-    "secretAccessKey": "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",
-    "region": "ap-northeast-1"
+    "accessKeyId": "",
+    "secretAccessKey": "",
+    "region": ""
   }
 
 }
