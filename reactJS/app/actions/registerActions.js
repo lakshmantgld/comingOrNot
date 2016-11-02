@@ -10,6 +10,8 @@ export const STORE_DATE_ARRAY_ERROR_LABEL = 'STORE_DATE_ARRAY_ERROR_LABEL';
 export const STORE_NAME_ERROR_LABEL = 'STORE_NAME_ERROR_LABEL';
 export const STORE_PURPOSE_ERROR_LABEL = 'STORE_PURPOSE_ERROR_LABEL';
 export const STORE_EVENT = 'STORE_EVENT';
+export const STEPPER_INCREASE = 'STEPPER_INCREASE';
+export const STEPPER_DECREASE = 'STEPPER_DECREASE';
 export const STORE_PERSONALIZED_DATE_SELECTION = 'STORE_PERSONALIZED_DATE_SELECTION';
 export const ATTENDEE_NAME = 'ATTENDEE_NAME';
 export const STORE_ATTENDEE_NAME_ERROR_LABEL = 'STORE_ATTENDEE_NAME_ERROR_LABEL';
@@ -18,6 +20,7 @@ export const STORE_LOCATION = 'STORE_LOCATION';
 export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
+export const CHECK_DISABLE_FLAG = 'CHECK_DISABLE_FLAG';
 
 export function storeName(name) {
   return dispatch => {
@@ -144,11 +147,29 @@ export function registerEvent(name, purpose, dateArray, location) {
 }
 
 function storeEvent(json) {
-  //console.log('coming here' + JSON.stringify(json));
+  console.log('coming here' + JSON.stringify(json));
   return {
     type: STORE_EVENT,
     eventObj: json.data.event
   }
+}
+
+export function stepIncrease(index) {
+  return dispatch => {
+    return dispatch({
+      type: STEPPER_INCREASE,
+      index: index
+    });
+  };
+}
+
+export function stepDecrease(index) {
+  return dispatch => {
+    return dispatch({
+      type: STEPPER_DECREASE,
+      index: index
+    });
+  };
 }
 
 export function fetchEvent(eventId) {
@@ -372,5 +393,14 @@ export function fetchWeather(location) {
         return res.json();
       })
       .then(json => dispatch(storeWeatherJson(json)))
+  };
+}
+
+export function storeDisableFlag(flag) {
+  return dispatch => {
+    return dispatch({
+      type: CHECK_DISABLE_FLAG,
+      flag: flag
+    });
   };
 }

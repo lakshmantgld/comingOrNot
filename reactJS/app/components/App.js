@@ -11,10 +11,21 @@ let styles = {
     fontFamily: 'sans-serif'
   }
 };
+
+const muiTheme = getMuiTheme({
+  stepper: {
+    iconColor: "black"
+  },
+  raisedButton: {
+    primaryColor: "black",
+  }
+});
+
+
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
           <Header />
           {this.props.children}

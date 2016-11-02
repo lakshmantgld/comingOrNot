@@ -16,7 +16,7 @@ import Dialog from 'material-ui/Dialog';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          registerAttendee, updateNotificationFlag, emptyPersonalizedDateSelection,
-         updateAttendee, fetchWeather } from './../actions/registerActions';
+         updateAttendee, fetchWeather, storeDisableFlag} from './../actions/registerActions';
 
 let dateStatus;
 
@@ -114,6 +114,8 @@ class EventPageComponent extends Component {
     this.registerAttendee = this.registerAttendee.bind(this);
     this.toggleMobileCastAttendance = this.toggleMobileCastAttendance.bind(this);
     this.updateAttendee = this.updateAttendee.bind(this);
+    this.checkDisableFlag = this.checkDisableFlag.bind(this);
+    this.checkDisableUpdateFlag = this.checkDisableUpdateFlag.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -170,6 +172,7 @@ class EventPageComponent extends Component {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
       this.props.dispatch(updateNotificationFlag('attendeeNameExists')); //If name is duplicate entry, bring snackbar
     } else {
+      this.props.dispatch(storeDisableFlag('updateAttendee'));
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesUpdateAttendee();
       // A timeout has been used, because There will be a little time taken for storing the default values
@@ -177,6 +180,17 @@ class EventPageComponent extends Component {
       setTimeout((function() {
        this.callAfterSomeTimeUpdateAttendee();
      }).bind(this), 1000);
+    }
+  }
+
+  checkDisableUpdateFlag(){
+    {
+     if(this.props.disableFlag === 'updateAttendee'){
+       console.log("update disable aairchu");
+       return true;
+     } else {
+       return false;
+     }
     }
   }
 
@@ -246,6 +260,7 @@ class EventPageComponent extends Component {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabelDuplicate));
       this.props.dispatch(updateNotificationFlag('attendeeNameExists')); //If name is duplicate entry, bring snackbar
     } else {
+      this.props.dispatch(storeDisableFlag('registerAttendee'));
       // populating personalizedDateSelection if user has not chosen any status.
       this.fillTheLeftOutDatesRegisterAttendee();
 
@@ -255,6 +270,15 @@ class EventPageComponent extends Component {
        this.callAfterSomeTimeRegisterAttendee();
      }).bind(this), 1000);
     }
+  }
+
+  checkDisableFlag() {
+   if(this.props.disableFlag === 'registerAttendee' || this.props.disableFlag === 'updateAttendee'){
+     console.log("disable aairchu");
+     return true;
+   } else {
+     return false;
+   }
   }
 
   // Will store attendeeName and invoke error action in case of failed edge case.
@@ -830,7 +854,7 @@ class EventPageComponent extends Component {
           {this.dateToggleSection(false)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Register' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerAttendee} />
+            <RaisedButton label='Register' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
           </div>
         </div>
       );
@@ -856,7 +880,7 @@ class EventPageComponent extends Component {
           {this.dateToggleSection(true)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Update' disabled={false} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.updateAttendee} />
+            <RaisedButton label='Update' disabled={this.checkDisableUpdateFlag()} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.updateAttendee} />
           </div>
         </div>
       );
@@ -878,7 +902,7 @@ class EventPageComponent extends Component {
                 <br></br>
                   <div>{this.MobiledateToggleSection(false)}</div>
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
                            message={this.props.notificationFlag}
@@ -904,7 +928,7 @@ class EventPageComponent extends Component {
                 <br></br>
                 <div>{this.MobiledateToggleSection(true)}</div>
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={false} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.checkNotificationFlag()}
                          message={this.props.notificationFlag}
@@ -948,6 +972,7 @@ class EventPageComponent extends Component {
 // Handles snackbar, In case of timeout oand screen touch
   handleRequestClose() {
       this.props.dispatch(updateNotificationFlag(''));
+      this.props.dispatch(storeDisableFlag(''));
     }
 
   fetchWeather(location) {
@@ -1075,7 +1100,8 @@ EventPageComponent.propTypes = {
   personalizedDateSelection: PropTypes.object.isRequired,
   languageJson: PropTypes.object.isRequired,
   weather: PropTypes.array.isRequired,
-  notificationFlag: PropTypes.string.isRequired
+  notificationFlag: PropTypes.string.isRequired,
+  disableFlag: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -1085,5 +1111,6 @@ export default connect(state => ({
   personalizedDateSelection: state.personalizedDateSelection,
   languageJson: state.languageJson,
   weather: state.weather,
-  notificationFlag: state.notificationFlag
+  notificationFlag: state.notificationFlag,
+  disableFlag: state.disableFlag
 }))(EventPageComponent);

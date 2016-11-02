@@ -1,8 +1,8 @@
 import { STORE_NAME, STORE_PURPOSE, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL, STORE_DATE_ARRAY,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
-         STORE_EVENT, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
+         STORE_EVENT, STEPPER_INCREASE, STEPPER_DECREASE, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
          UPDATE_NOTIFICATION_FLAG, STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
-         FETCH_AND_STORE_WEATHER } from './../actions/registerActions';
+         FETCH_AND_STORE_WEATHER, CHECK_DISABLE_FLAG } from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -20,6 +20,19 @@ export function purpose(state = '', action) {
     default:
       return state;
   }
+}
+
+export function stepIndex(state = 0, action) {
+    switch (action.type) {
+        case STEPPER_INCREASE:
+            ++action.index;
+            return action.index;
+        case STEPPER_DECREASE:
+            --action.index;
+            return action.index;
+        default:
+            return state;
+    }
 }
 
 export function dateArray(state = [], action) {
@@ -132,6 +145,15 @@ export function weather(state = [], action) {
   switch(action.type) {
     case FETCH_AND_STORE_WEATHER:
       return action.forecast;
+    default:
+      return state;
+  }
+}
+
+export function disableFlag(state = '', action) {
+  switch(action.type) {
+    case CHECK_DISABLE_FLAG:
+      return action.flag;
     default:
       return state;
   }
