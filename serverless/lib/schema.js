@@ -96,7 +96,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         name: {type: new GraphQLNonNull(GraphQLString)},
         purpose: {type: new GraphQLNonNull(GraphQLString)},
-        location: {type: new GraphQLNonNull(GraphQLString)},
+        location: {type: GraphQLString},
         dateArray: {type: new GraphQLNonNull(new GraphQLList(GraphQLString))},
         attendees: {type: new GraphQLNonNull(new GraphQLList(EventInputAttendee))}
       },

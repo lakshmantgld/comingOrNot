@@ -8,5 +8,6 @@ serverless/config.json
 node_modules
 reactJS/npm-debug.log
 serverless/npm-debug.log
+serverless/.webpack
 npm-debug.log
 serverless/.serverless

@@ -13,6 +13,8 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import Geosuggest from 'react-geosuggest';
 import {Step, Stepper, StepLabel, StepContent} from 'material-ui/Stepper';
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
+import Snackbar from 'material-ui/Snackbar';
 
 import {
     storeName,
@@ -27,7 +29,8 @@ import {
     storePurposeErrorLabel,
     storeLocation,
     changelanguage,
-    storeDisableFlag
+    storeDisableFlag,
+    updateNotificationFlag
 } from './../actions/registerActions';
 
 let styles = {
@@ -82,6 +85,7 @@ class RegisterComponent extends Component {
         this.stepIncrease = this.stepIncrease.bind(this);
         this.stepDecrease = this.stepDecrease.bind(this);
         this.checkDisableFlag = this.checkDisableFlag.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
     componentDidMount() {}
@@ -228,7 +232,6 @@ class RegisterComponent extends Component {
 
     renderStepActions(step) {
       const stepIndex = this.props.stepIndex;
-      console.log("stepIndex" + stepIndex);
 
       return (
       <div style={{margin: '12px 0'}}>
@@ -251,6 +254,19 @@ class RegisterComponent extends Component {
         )}
       </div>
     );
+    }
+
+    handleRequestClose() {
+        this.props.dispatch(updateNotificationFlag(''));
+        this.props.dispatch(storeDisableFlag(''));
+    }
+
+    checkNotificationFlag() {
+      if (this.props.notificationFlag === 'registerEventServerError') {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     render() {
@@ -359,6 +375,12 @@ class RegisterComponent extends Component {
                                                       <label style={styles.errorLabel}>
                                                           {this.props.dateArrayErrorLabel}
                                                       </label>
+                                                      <Snackbar
+                                                         open={this.checkNotificationFlag()}
+                                                         message={"Server Error!!"}
+                                                         autoHideDuration={3000}
+                                                         onRequestClose={this.handleRequestClose}
+                                                      />
                                                   </div>
                                               </div>
                                           </div>
@@ -450,6 +472,22 @@ class RegisterComponent extends Component {
 
                                 </div>
                             </Card>
+                            <Dialog
+                              title={"Error in Server!! Please Try again after some time!!"}
+                              actions={
+                                <RaisedButton label='Ok'
+                                 backgroundColor={"rgb(67, 67, 67)"}
+                                 labelColor={"white"}
+                                 style={buttonStyle}
+                                 disabled={false}
+                                 onTouchTap={this.handleRequestClose}
+                                />
+                              }
+                              modal={true}
+                              open={this.checkNotificationFlag()}
+                            >
+                            </Dialog>
+
                         </div>
 
                         <div className='col-md-1 col-md-offset-1'>
@@ -493,7 +531,8 @@ RegisterComponent.propTypes = {
     stepIndex: PropTypes.number.isRequired,
     location: PropTypes.string.isRequired,
     languageJson: PropTypes.object.isRequired,
-    disableFlag: PropTypes.string.isRequired
+    disableFlag: PropTypes.string.isRequired,
+    notificationFlag: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -506,5 +545,6 @@ export default connect(state => ({
     stepIndex: state.stepIndex,
     location: state.location,
     languageJson: state.languageJson,
-    disableFlag: state.disableFlag
+    disableFlag: state.disableFlag,
+    notificationFlag: state.notificationFlag
 }))(RegisterComponent);

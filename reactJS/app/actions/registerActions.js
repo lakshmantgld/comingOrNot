@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { browserHistory } from 'react-router';
 import config from '../../config/config.json';
+import cookie from 'react-cookie';
 
 export const STORE_NAME = 'STORE_NAME';
 export const STORE_PURPOSE = 'STORE_PURPOSE';
@@ -86,12 +87,17 @@ export function storePurposeErrorLabel(errorLabel) {
 }
 
 function storeEventId(json) {
+  console.log("store event ID: "+JSON.stringify(json));
   const eventId = json.data.createEvent['eventId'];
 
   return browserHistory.push('/eventCreated/eventId=' + eventId);
 }
 
 export function registerEvent(name, purpose, dateArray, location) {
+  if (location === '') {
+    location = '$$$empty';
+  }
+  console.log(location);
   return dispatch => {
     return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
       method: 'POST',
@@ -104,7 +110,7 @@ export function registerEvent(name, purpose, dateArray, location) {
           mutation createEvent(
             $name: String!,
             $purpose: String!,
-            $location: String!,
+            $location: String,
             $dateArray: [String]!,
             $attendees: [EventInputAttendee]!
           ) {
@@ -116,14 +122,6 @@ export function registerEvent(name, purpose, dateArray, location) {
               attendees: $attendees
             ) {
               eventId
-              name
-              purpose
-              location
-              dateArray
-              attendees{
-                attendeeName
-                personalizedDateSelection
-              }
             }
           }
         `,
@@ -137,12 +135,22 @@ export function registerEvent(name, purpose, dateArray, location) {
       })})
       .then(res => {
         if (res.status !== 200) {
-          let status = res.status;
           console.log('error in posting event');
+          return dispatch({
+            type: UPDATE_NOTIFICATION_FLAG,
+            flagValue: 'registerEventServerError'
+          });
+        } else {
+          console.log(JSON.stringify(res));
+          return res.json();
         }
-        return res.json();
       })
-      .then(json => storeEventId(json))
+      .then(json => {
+        console.log(JSON.stringify(json));
+        if (!json.flagValue) {
+          storeEventId(json);
+        }
+      })
   };
 }
 
@@ -293,12 +301,40 @@ export function registerAttendee(attendeeName, personalizedDateSelection, eventI
       })})
       .then(res => {
         if (res.status !== 200) {
-          let status = res.status;
-          console.log('error in updating event object');
+          console.log('error in register attendee event');
+          return dispatch({
+            type: UPDATE_NOTIFICATION_FLAG,
+            flagValue: 'registerAttendeeServerError'
+          });
+        } else {
+          console.log(JSON.stringify(res));
+          return res.json();
         }
-        return res.json();
       })
-      .then(json => dispatch(storeEventAfterRegisterAttendee(json)))
+      .then(json => {
+        console.log(JSON.stringify(json));
+        if (!json.flagValue) {
+          let opt={};
+          opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+          cookie.save(eventId, attendeeName, opt); // Save name in cookie event ID
+
+          dispatch(storeEventAfterRegisterAttendee(json));
+          dispatch({
+            type: UPDATE_NOTIFICATION_FLAG,
+            flagValue: 'registerSuccess'
+          });
+
+        }
+      })
+      // .then(res => {
+      //   if (res.status === 200) {
+      //     console.log('error in updating event object');
+      //
+      //   } else {
+      //     return res.json();
+      //   }
+      // })
+      // .then(json => dispatch(storeEventAfterRegisterAttendee(json)))
   };
 }
 

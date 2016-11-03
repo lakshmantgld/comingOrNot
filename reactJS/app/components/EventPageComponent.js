@@ -222,13 +222,10 @@ class EventPageComponent extends Component {
 // This cast by attendess will be invoked after an secod for providing delay.
   callAfterSomeTimeRegisterAttendee() {
     this.props.dispatch(registerAttendee(this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId)); // Update in DB
-    this.props.dispatch(updateNotificationFlag('registerSuccess')); //If name is empty, bring snackbar
+    // this.props.dispatch(updateNotificationFlag('registerSuccess')); //If name is empty, bring snackbar
   //   setTimeout((function() {
   //     cookie.save(this.props.params.eventId, this.props.attendeeName); // Save name in cookie event ID
   //  }).bind(this), 800);
-    let opt={};
-    opt.expires=new Date(2020, 1, 1, 0, 0, 1);
-    cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
   }
 
 // This is an helper function to store the dates that have not been selected by the user.
@@ -905,7 +902,7 @@ class EventPageComponent extends Component {
                       <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
-                           message={this.props.notificationFlag}
+                           message={this.getNotificationTitle()}
                            autoHideDuration={3000}
                            onRequestClose={this.handleRequestClose}
                         />
@@ -931,7 +928,7 @@ class EventPageComponent extends Component {
                     <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.checkNotificationFlag()}
-                         message={this.props.notificationFlag}
+                         message={this.getNotificationTitle()}
                          autoHideDuration={3000}
                          onRequestClose={this.handleRequestClose}
                       />
@@ -943,7 +940,7 @@ class EventPageComponent extends Component {
 
   // To check whether the flag exists for Modal - Desktop
   checkDesktopNotificationFlag() {
-    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess') {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'registerAttendeeServerError') {
       return true;
     } else {
       return false;
@@ -952,7 +949,7 @@ class EventPageComponent extends Component {
 
   // To check whether the flag exists for snack bar - Mobile
   checkNotificationFlag() {
-    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'attendeeNameEmpty' || this.props.notificationFlag === 'attendeeNameExists') {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'attendeeNameEmpty' || this.props.notificationFlag === 'attendeeNameExists' || this.props.notificationFlag === 'registerAttendeeServerError') {
       return true;
     } else {
       return false;
@@ -964,6 +961,12 @@ class EventPageComponent extends Component {
       return "Registered Successfully";
     } else if(this.props.notificationFlag === 'updateSuccess'){
       return "Updated Successfully";
+    } else if(this.props.notificationFlag === 'attendeeNameExists'){
+      return "Attendee name already Exists!!";
+    } else if(this.props.notificationFlag === 'attendeeNameEmpty'){
+      return "Please enter your name!!";
+    } else if(this.props.notificationFlag === 'registerAttendeeServerError'){
+      return "Server Error!! Please try again after some time!!";
     } else {
       return false;
     }

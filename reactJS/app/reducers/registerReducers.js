@@ -123,7 +123,7 @@ export function notificationFlag(state = '', action) {
   }
 }
 
-export function location(state = '', action) {
+export function location(state = '$$$empty', action) {
   switch(action.type) {
     case STORE_LOCATION:
       return action.location;

@@ -35,7 +35,6 @@ export function fetchEvent(eventId) {
 export function createEvent(event) {
   console.log("in dynamo");
   event.eventId = moment().format('YYYYMMDDhmms') + '-' + event.name.replace(/\//g, '') + '-' + event.purpose.replace(/\//g, '');
-
   return new Promise((resolve, reject) => {
     const params = {
       TableName: "event",
