@@ -347,7 +347,7 @@ class RegisterComponent extends Component {
                                                           color: '#FFF',
                                                           chevron: '#FFA726'
                                                       }
-                                                  }} layout='portrait' width={'100%'} height={300} rowHeight={55} minDate={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                                                  }} layout='portrait' width={'100%'} height={300} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
                                               </div>
                                           </div>
                                           <div className="row">
@@ -379,7 +379,7 @@ class RegisterComponent extends Component {
 
                     </div>
                 </MediaQuery>
-              
+
                 <MediaQuery minDeviceWidth={1224} orientation='landscape'>
                     <div className="row" id='fullRow'>
                         {/**Laptop*/}
@@ -472,7 +472,7 @@ class RegisterComponent extends Component {
                                             color: '#FFF',
                                             chevron: '#FFA726'
                                         }
-                                    }} layout='portrait' width={400} height={300} rowHeight={55} minDate={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                                    }} layout='portrait' width={400} height={300} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
                                 </div>
                             </div>
                         </div>
