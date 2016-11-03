@@ -164,20 +164,20 @@ class RegisterComponent extends Component {
         }
 
         this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
-  }
-
-  validateRegisterEvent(e) {
-    if (this.props.name.length === 0) {
-      this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
-    } else if (this.props.purpose.length === 0) {
-      this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
-    } else if (this.props.dateArray.length === 0){
-      this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayEmptyErrorLabel));
-    } else {
-      this.props.dispatch(storeDisableFlag('registerEvent'));
-      this.registerEvent();
     }
-  }
+
+    validateRegisterEvent() {
+      if (this.props.name.length === 0) {
+        this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
+      } else if (this.props.purpose.length === 0) {
+        this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
+      } else if (this.props.dateArray.length === 0){
+        this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayEmptyErrorLabel));
+      } else {
+        this.props.dispatch(storeDisableFlag('registerEvent'));
+        this.registerEvent();
+      }
+    }
 
     renderChip(data) {
         return (
@@ -191,16 +191,35 @@ class RegisterComponent extends Component {
         );
     }
 
-  checkDisableFlag() {
-   if(this.props.disableFlag === 'registerEvent'){
-     return true;
-   } else {
-     return false;
-   }
-  }
+    checkDisableFlag() {
+     if(this.props.disableFlag === 'registerEvent'){
+       return true;
+     } else {
+       return false;
+     }
+    }
 
     stepIncrease() {
-        this.props.dispatch(stepIncrease(this.props.stepIndex));
+      switch (this.props.stepIndex)
+      {
+        case 0:
+          if (this.props.name.length === 0) {
+            this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
+          } else if (this.props.purpose.length === 0) {
+            this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
+          } else {
+            this.props.dispatch(stepIncrease(this.props.stepIndex));
+          }
+        break;
+        case 1:
+          this.props.dispatch(stepIncrease(this.props.stepIndex));
+        break;
+        case 2:
+          this.validateRegisterEvent();
+        break;
+        default:
+          console.log("default ");
+      }
     }
 
     stepDecrease() {
@@ -208,12 +227,13 @@ class RegisterComponent extends Component {
     }
 
     renderStepActions(step) {
-      const {stepIndex} = this.props.stepIndex;
+      const stepIndex = this.props.stepIndex;
+      console.log("stepIndex" + stepIndex);
 
       return (
       <div style={{margin: '12px 0'}}>
         <RaisedButton
-          label={stepIndex === 2 ? 'Finish' : 'Next'}
+          label={stepIndex === 2 ? 'Register' : 'Next'}
           disableTouchRipple={true}
           disableFocusRipple={true}
           primary={true}
@@ -241,14 +261,14 @@ class RegisterComponent extends Component {
 
         return (
             <div>
-                <MediaQuery maxDeviceWidth={420}>
+                <MediaQuery maxDeviceWidth={1224}>
                     <div>
-                        {/**Mobile*/}
+                        {/**Mobile & Tablet*/}
                         <br></br><br></br>
 
 
                         <div className='row'>
-                            <div className='col-xs-12'>
+                            <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex} orientation="vertical">
                                     <Step>
                                         <StepLabel>Enter your name and events name</StepLabel>
@@ -359,102 +379,7 @@ class RegisterComponent extends Component {
 
                     </div>
                 </MediaQuery>
-                <MediaQuery maxDeviceWidth={1224} minDeviceWidth={421}>
-                    <div className="row" id='fullRow'>
-                        {/**Tablet*/}
-                        <div className="col-md-12">
-                            <Card>
-                                <div className='row' style={{
-                                    'padding': '32px'
-                                }}>
-                                    <br/>
-
-                                    <div className='row'>
-
-                                        <div className='col-md-6'>
-                                            <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
-                                                color: grey900
-                                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
-                                            <br/>
-                                            <label style={styles.errorLabel}>
-                                                {this.props.nameErrorLabel}
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className='row'>
-
-                                        <div className='col-md-6'>
-                                            <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
-                                                color: grey900
-                                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
-
-                                            <label style={styles.errorLabel}>
-                                                {this.props.purposeErrorLabel}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <div className='row' style={styles.datePush}>
-                                        <div className='col-md-6'>
-                                            <Geosuggest placeholder='Restaurant location' initialValue='' country='JP' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation} location={new google.maps.LatLng(35.44371, 139.63803)} radius='40'/>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <div className='row' style={styles.datePush}>
-                                        <div className='col-md-12'>
-                                            <label style={styles.dateSelectLabel}>
-                                                {this.props.languageJson.calendarLabel}
-                                            </label>
-
-                                        </div><br/><br/></div>
-                                    <div>
-
-                                        <div className='col-xs-6'>
-                                            <InfiniteCalendar theme={{
-                                                selectionColor: 'rgb(6, 5, 6)',
-                                                textColor: {
-                                                    default: '#333',
-                                                    active: '#FFF'
-                                                },
-                                                weekdayColor: 'rgb(49, 44, 49)',
-                                                headerColor: 'rgb(6, 5, 6)',
-                                                floatingNav: {
-                                                    background: 'rgb(6, 5, 6)',
-                                                    color: '#FFF',
-                                                    chevron: '#FFA726'
-                                                }
-                                            }} layout='portrait' width={300} height={200} rowHeight={55} minDate={today} onSelect={this.storeDate} keyboardSupport={true}/>
-                                        </div>
-                                    </div><br/><br/><br/><br/>
-                                    <div className="col-xs-12" style={datePushResponsive}>
-                                        <div className='row'>{dateArray}</div>
-                                        <div className='row center-xs'>
-                                            <label style={styles.errorLabel}>
-                                                {this.props.dateArrayErrorLabel}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <br/>
-
-                                    <div className='row col-md-offset-2 center-xs' id="regButton">
-                                        <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.registerEvent}/>
-                                        <br/>
-                                        <br/>
-                                        <br/>
-                                    </div>
-
-                                </div>
-                            </Card>
-                        </div>
-
-                        <div className='col-md-12'></div>
-                    </div>
-                </MediaQuery>
+              
                 <MediaQuery minDeviceWidth={1224} orientation='landscape'>
                     <div className="row" id='fullRow'>
                         {/**Laptop*/}
