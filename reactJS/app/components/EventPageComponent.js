@@ -784,8 +784,8 @@ class EventPageComponent extends Component {
     let dateToggleElements = [];
     for (let i = 0; i < datesInColumn.length; i++) {
         dateToggleElements[i] = (
-          <div><div className='row center-xs'>
-                <div className='col-xs-3'>
+          <div><div className='row'>
+                <div className='col-xs-offset-3 col-xs-3'>
                     <label style={styles.dateLabel}>
                         {datesInColumn[i]}
                     </label>
@@ -807,9 +807,9 @@ class EventPageComponent extends Component {
             if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
                 if (attendeeDate === selectedDates[i]) {
                     dateToggleElements[i] = (
-                        <div><div className='row center-xs'>
+                        <div><div className='row'>
 
-                            <div className='col-xs-3'>
+                            <div className='col-xs-offset-3 col-xs-3'>
                                 <label style={styles.dateLabel}>
                                     {datesInColumn[i]}
                                 </label>
