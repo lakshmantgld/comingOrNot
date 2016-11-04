@@ -26,6 +26,13 @@ const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const history = syncHistoryWithStore(browserHistory, store);
 
+browserHistory.listen(location => {
+  const path = (/#!(\/.*)$/.exec(location.hash) || [])[1];
+  if (path) {
+      history.replace(path);
+   }
+ });
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
