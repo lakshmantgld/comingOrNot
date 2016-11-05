@@ -417,25 +417,6 @@ export function updateAttendee(attendeeId, attendeeName, personalizedDateSelecti
 
         }
       })
-
-
-
-
-    // return fetch('/api/updateAttendee', {credentials: 'include',
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({'attendeeId': attendeeId, 'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
-    //   .then(res => {
-    //     if (res.status !== 200) {
-    //       let status = res.status;
-    //       console.log('error in updating attendee object');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then(json => dispatch(storeEvent(json)))
   };
 }
 
