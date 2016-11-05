@@ -136,12 +136,12 @@ class EventPageComponent extends Component {
   callAfterSomeTimeUpdateAttendee() {
     // for updating the attendee
     let attendee = this.getCookieAttendeeDetails();
-    this.props.dispatch(updateAttendee(attendee._id, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
-    let opt={};
-    opt.expires=new Date(2020, 1, 1, 0, 0, 1);
-    cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
+    this.props.dispatch(updateAttendee(attendee.attendeeId, this.props.attendeeName, this.props.personalizedDateSelection, this.props.params.eventId));
+    // let opt={};
+    // opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+    // cookie.save(this.props.params.eventId, this.props.attendeeName, opt); // Save name in cookie event ID
     this.props.dispatch(storeAttendeeName(this.props.attendeeName));
-    this.props.dispatch(updateNotificationFlag('updateSuccess'));
+    // this.props.dispatch(updateNotificationFlag('updateSuccess'));
   }
 
   fillTheLeftOutDatesUpdateAttendee() {
@@ -940,7 +940,7 @@ class EventPageComponent extends Component {
 
   // To check whether the flag exists for Modal - Desktop
   checkDesktopNotificationFlag() {
-    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'registerAttendeeServerError') {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'registerAttendeeServerError' || this.props.notificationFlag === 'updateAttendeeServerError') {
       return true;
     } else {
       return false;
@@ -949,7 +949,7 @@ class EventPageComponent extends Component {
 
   // To check whether the flag exists for snack bar - Mobile
   checkNotificationFlag() {
-    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'attendeeNameEmpty' || this.props.notificationFlag === 'attendeeNameExists' || this.props.notificationFlag === 'registerAttendeeServerError') {
+    if (this.props.notificationFlag === 'registerSuccess' || this.props.notificationFlag === 'updateSuccess' || this.props.notificationFlag === 'attendeeNameEmpty' || this.props.notificationFlag === 'attendeeNameExists' || this.props.notificationFlag === 'registerAttendeeServerError' || this.props.notificationFlag === 'updateAttendeeServerError') {
       return true;
     } else {
       return false;
@@ -966,6 +966,8 @@ class EventPageComponent extends Component {
     } else if(this.props.notificationFlag === 'attendeeNameEmpty'){
       return "Please enter your name!!";
     } else if(this.props.notificationFlag === 'registerAttendeeServerError'){
+      return "Server Error!! Please try again after some time!!";
+    } else if(this.props.notificationFlag === 'updateAttendeeServerError'){
       return "Server Error!! Please try again after some time!!";
     } else {
       return false;

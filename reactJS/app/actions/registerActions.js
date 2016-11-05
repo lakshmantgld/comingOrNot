@@ -202,6 +202,7 @@ export function fetchEvent(eventId) {
               location
               dateArray
               attendees{
+                attendeeId
                 attendeeName
                 personalizedDateSelection
               }
@@ -287,6 +288,7 @@ export function registerAttendee(attendeeName, personalizedDateSelection, eventI
               location
               dateArray
               attendees{
+                attendeeId
                 attendeeName
                 personalizedDateSelection
               }
@@ -338,24 +340,102 @@ export function registerAttendee(attendeeName, personalizedDateSelection, eventI
   };
 }
 
-export function updateAttendee(attendeeId, name, personalizedDateSelection, eventId) {
+function storeEventAfterUpdateAttendee(json) {
+  return {
+    type: STORE_EVENT,
+    eventObj: json.data.updateAttendee
+  }
+}
+
+export function updateAttendee(attendeeId, attendeeName, personalizedDateSelection, eventId) {
   console.log('calling upda');
   return dispatch => {
-    return fetch('/api/updateAttendee', {credentials: 'include',
+    return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'attendeeId': attendeeId, 'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
+      body: JSON.stringify({
+        "query": `
+          mutation updateAttendee(
+            $eventId: String!,
+            $attendeeId: String!,
+            $attendeeName: String!,
+            $personalizedDateSelection: PersonalizedDateSelection!
+          ) {
+            updateAttendee(
+              eventId: $eventId,
+              attendeeId: $attendeeId,
+              attendeeName: $attendeeName,
+              personalizedDateSelection: $personalizedDateSelection
+            ) {
+              eventId
+              name
+              purpose
+              location
+              dateArray
+              attendees{
+                attendeeId
+                attendeeName
+                personalizedDateSelection
+              }
+            }
+          }
+        `,
+        "variables": {
+          "eventId": eventId,
+          "attendeeId": attendeeId,
+          "attendeeName": attendeeName,
+          "personalizedDateSelection": personalizedDateSelection
+        }
+      })})
       .then(res => {
         if (res.status !== 200) {
-          let status = res.status;
-          console.log('error in updating attendee object');
+          console.log('error in updating attendee');
+          return dispatch({
+            type: UPDATE_NOTIFICATION_FLAG,
+            flagValue: 'updateAttendeeServerError'
+          });
+        } else {
+          console.log(JSON.stringify(res));
+          return res.json();
         }
-        return res.json();
       })
-      .then(json => dispatch(storeEvent(json)))
+      .then(json => {
+        console.log(JSON.stringify(json));
+        if (!json.flagValue) {
+          let opt={};
+          opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+          cookie.save(eventId, attendeeName, opt); // Save name in cookie event ID
+
+          dispatch(storeEventAfterUpdateAttendee(json));
+          dispatch({
+            type: UPDATE_NOTIFICATION_FLAG,
+            flagValue: 'updateSuccess'
+          });
+
+        }
+      })
+
+
+
+
+    // return fetch('/api/updateAttendee', {credentials: 'include',
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({'attendeeId': attendeeId, 'name': name, 'personalizedDateSelection': personalizedDateSelection, 'eventId': eventId})})
+    //   .then(res => {
+    //     if (res.status !== 200) {
+    //       let status = res.status;
+    //       console.log('error in updating attendee object');
+    //     }
+    //     return res.json();
+    //   })
+    //   .then(json => dispatch(storeEvent(json)))
   };
 }
 

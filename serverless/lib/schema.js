@@ -15,7 +15,8 @@ import { Kind } from 'graphql/language';
 import {
   createEvent,
   registerAttendee,
-  fetchEvent
+  fetchEvent,
+  updateAttendee
 } from './dynamo';
 
 const PersonalizedDateSelection = new GraphQLScalarType({
@@ -109,11 +110,24 @@ const Mutation = new GraphQLObjectType({
       description: 'Add a new attendee to the Event',
       args: {
         eventId: {type: new GraphQLNonNull(GraphQLString)},
-        attendeeName: {type: GraphQLString},
-        personalizedDateSelection: {type: PersonalizedDateSelection}
+        attendeeName: {type: new GraphQLNonNull(GraphQLString)},
+        personalizedDateSelection: {type: new GraphQLNonNull(PersonalizedDateSelection)}
       },
       resolve(source, args) {
         return registerAttendee(args);
+      }
+    },
+    updateAttendee: {
+      type: Event,
+      description: 'Update a specific attendee in the Event',
+      args: {
+        eventId: {type: new GraphQLNonNull(GraphQLString)},
+        attendeeId: {type: new GraphQLNonNull(GraphQLString)},
+        attendeeName: {type: new GraphQLNonNull(GraphQLString)},
+        personalizedDateSelection: {type: new GraphQLNonNull(PersonalizedDateSelection)}
+      },
+      resolve(source, args) {
+        return updateAttendee(args);
       }
     }
   }
