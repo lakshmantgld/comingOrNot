@@ -39,18 +39,10 @@ class EventShareComponent extends Component {
   componentDidMount() {
   }
 
-// An Href link to eventPage form eventShare.
-  getEventPageUrl() {
-    const eventId = this.props.params.eventId;
-    const eventURL = 'https://letsmeetupp.herokuapp.com/event/eventId=' + eventId;
-
-    return eventURL;
-  }
-
 // starting point of this component.
   render() {
     let eventId = this.props.params.eventId;
-    let eventShareURL = window.location.origin + '/event/eventId=' + eventId;
+    let eventShareURL = window.location.origin + '/event/' + eventId;
 
     return (
       <div>
