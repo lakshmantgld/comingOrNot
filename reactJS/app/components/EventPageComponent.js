@@ -53,7 +53,7 @@ let styles = {
   },
   formLabel2: {
     text: 'bold',
-    fontSize: '25px',
+    fontSize: '21.5px',
     color: blue500
   },
   formLabel3: {
@@ -1023,13 +1023,9 @@ class EventPageComponent extends Component {
                 <label style={styles.formLabel}> {this.props.languageJson.eventTableLabel} </label>
               </div>
               <br />
-              <div className='row'>
-                <div className='col-xs-offset-2 col-xs-4'>
-                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
-                </div>
-                <div className='col-xs'>
+              <div className='row center-xs'>
+                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label> &nbsp;
                   <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
-                </div>
               </div>
               <br />
               <div className='row center-xs'>
