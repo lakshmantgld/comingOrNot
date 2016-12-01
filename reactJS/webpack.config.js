@@ -45,6 +45,11 @@ var config = {
       'NODE_ENV': JSON.stringify('production')
     }
   })
-], */
+] */
+
+/*
+1. remove entry array and have just **entry: APP_DIR + '/main.js'**
+2. remove devtool: 'inline-source-map'
+*/
 
 module.exports = config;
