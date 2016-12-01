@@ -1024,7 +1024,7 @@ class EventPageComponent extends Component {
                 </div>
                 <br></br>
                   <div className='row center-xs'>
-                <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> Yokohama </label>
+                <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> {this.props.eventObj.location} </label>
                 </div>
               <br />
               <br />
