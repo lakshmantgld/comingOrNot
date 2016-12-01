@@ -846,7 +846,7 @@ class EventPageComponent extends Component {
               <label style={styles.formLabel}> {this.props.languageJson.name} </label>
             </div>
             <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' hintText='Name' style={{'height':'38px'}} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
