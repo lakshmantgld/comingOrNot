@@ -48,6 +48,10 @@ let styles = {
     fontSize: '25px',
     color: grey600
   },
+  LocationLabel: {
+    fontSize: '18px',
+    color: grey600
+  },
   underlineStyle: {
     borderColor: grey900,
   },
@@ -986,7 +990,7 @@ class EventPageComponent extends Component {
 
 // Fill the details about the event.
   getEventInformation() {
-    let eventInformation = this.props.eventObj.name + this.props.languageJson.eventInformationPartOne + this.props.eventObj.purpose + this.props.languageJson.eventInformationPartTwo;
+    let eventInformation = this.props.eventObj.purpose +" by "+ this.props.eventObj.name  ;
     return eventInformation;
   }
 
@@ -1017,11 +1021,12 @@ class EventPageComponent extends Component {
               <br />
               <div className='row center-xs'>
                 <label style={styles.formLabel}> {this.getEventInformation()} </label>
-              </div>
+                </div>
+                <br></br>
+                  <div className='row center-xs'>
+                <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> {this.props.eventObj.location} </label>
+                </div>
               <br />
-              <div className='row center-xs'>
-                <label style={styles.formLabel}> {this.props.languageJson.eventTableLabel} </label>
-              </div>
               <br />
               <div className='row center-xs'>
                   <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label> &nbsp;
