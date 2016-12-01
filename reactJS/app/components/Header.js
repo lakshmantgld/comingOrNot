@@ -78,7 +78,7 @@ class Header extends Component {
         />
       </header>
     </MediaQuery>
-    <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+    <MediaQuery minDeviceWidth={1224}>
      <header>
        <AppBar
          className='headerBar'

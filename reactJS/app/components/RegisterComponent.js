@@ -402,7 +402,7 @@ class RegisterComponent extends Component {
                     </div>
                 </MediaQuery>
 
-                <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+                <MediaQuery minDeviceWidth={1224}>
                     <div className="row" id='fullRow'>
                         {/**Laptop*/}
                         <div className="col-md-4 col-md-offset-1">

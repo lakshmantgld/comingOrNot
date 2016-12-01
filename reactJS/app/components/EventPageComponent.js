@@ -1011,7 +1011,7 @@ class EventPageComponent extends Component {
         <div>
           <div>
 
-          <MediaQuery minDeviceWidth={1224} orientation='landscape'>
+          <MediaQuery minDeviceWidth={1224}>
               {/*<div> PC and Desktop code starts </div>*/}
 
               <br />
