@@ -7,13 +7,12 @@ This web app is powered by the serverless service offered by AWS's Lambda and No
  - [x] Include weather Information
  - [x] Cookie based Updating
  - [x] Mobile UI in eventPage
- - [ ] Mobile UI in eventRegistrationPage
+ - [x] Mobile UI in eventRegistrationPage
  - [ ] Location
- - [ ] Restaurant Selection
- - [ ] Train Information based on Location
+ - [ ] Mail Notification to Organizer
 
 ### Live web app:
-[LetsMeetUp](http://letsmeetupp.azurewebsites.net)
+[ComingOrNot](http://comingornot.com)
 
 ### Inspired from:
 [Chouseisan](https://chouseisan.com/)

@@ -28,15 +28,15 @@
 }
 
 .wi {
-  margin-left: 6px; /** Added for letsmeetup to give space */
+  margin-left: 6px; /** Added for ComingOrNot to give space */
   display: inline-block;
   font-family: 'weathericons';
   font-style: normal;
   font-weight: normal;
   line-height: 1;
   font-size: 17px;
-  color: #727272; /** Added for letsmeetup: color */
-  text-shadow: 0px 0px 1px #a9a8a8; /** Added for letsmeetup: glow */
+  color: #727272; /** Added for ComingOrNot: color */
+  text-shadow: 0px 0px 1px #a9a8a8; /** Added for ComingOrNot: glow */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -1,5 +1,5 @@
 {
-  "name": "LetsMeetUp",
+  "name": "ComingOrNot",
   "version": "0.0.1",
   "description": "A perect event organizer",
   "keywords": [
@@ -8,7 +8,7 @@
     "mongoDB",
     "event organizer"
   ],
-  "homepage": "https://letsmeetupp.herokuapp.com/",
+  "homepage": "https://comingornot.com/",
   "bugs": {
     "email": "diwaakartg@gmail.com"
   },
