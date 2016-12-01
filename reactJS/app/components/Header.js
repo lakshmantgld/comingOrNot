@@ -44,6 +44,9 @@ class Header extends Component {
   }
 
   render() {
+    let currentURL = window.location.href;
+    console.log("fff");
+    console.log(currentURL);
     return (
       <div>
       <MediaQuery maxDeviceWidth={1224}>
@@ -51,7 +54,7 @@ class Header extends Component {
         <AppBar
           className='headerBar'
           style={{backgroundColor: 'black'}}
-          title={<a href='/'>
+          title={<a href='javascript:window.location.reload(true)'>
                   <center className='col-md-offset-2' style={{'position':'absolute'}}> {this.props.languageJson.header} </center>
                 </a>}
           showMenuIconButton={false}
@@ -83,8 +86,8 @@ class Header extends Component {
        <AppBar
          className='headerBar'
          style={{backgroundColor: 'black'}}
-         title={<a href='/'>
-                 <center className='col-md-offset-2'> {this.props.languageJson.header} </center>
+         title={<a href='javascript:window.location.reload(true)'>
+                 <center className='col-md-offset-1' style={{'marginLeft':'120px'}}> {this.props.languageJson.header} </center>
                </a>}
          showMenuIconButton={false}
          iconElementRight={
