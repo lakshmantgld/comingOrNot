@@ -474,7 +474,7 @@ class EventPageComponent extends Component {
 
     return (
       <Column
-        header={<Cell>May be</Cell>}
+        header={<Cell>Maybe</Cell>}
         cell={props => (
           <Cell {...props}>
             {arrMaybe[props.rowIndex]}
