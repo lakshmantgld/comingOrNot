@@ -125,9 +125,9 @@ class EventPageComponent extends Component {
 // The below method gets executed after all the components have been successfully rendered on the screen.
   componentDidMount() {
     this.props.dispatch(fetchEvent(this.props.params.eventId));
-    if (document.cookie.indexOf(this.props.params.eventId) > -1) //If cookie got current event ID.. Directly add his name as update attendee name
+    if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) > -1) //If cookie got current event ID.. Directly add his name as update attendee name
     {
-    this.props.dispatch(storeAttendeeName(cookie.load(this.props.params.eventId)));//later we need to add the latest name
+    this.props.dispatch(storeAttendeeName(cookie.load(encodeURI(this.props.params.eventId))));//later we need to add the latest name
     }
   }
 
@@ -730,7 +730,7 @@ class EventPageComponent extends Component {
 
   // utility function to get information of stored cookie name
   getCookieAttendeeDetails() {
-   let cookieAttendee = cookie.load(this.props.params.eventId);
+   let cookieAttendee = cookie.load(encodeURI(this.props.params.eventId));
    for (let i = 0; i < this.props.eventObj.attendees.length; i++) {
     if (cookieAttendee === this.props.eventObj.attendees[i].attendeeName) {
         return this.props.eventObj.attendees[i];

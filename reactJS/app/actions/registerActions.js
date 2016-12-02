@@ -318,6 +318,7 @@ export function registerAttendee(attendeeName, personalizedDateSelection, eventI
         if (!json.flagValue) {
           let opt={};
           opt.expires=new Date(2020, 1, 1, 0, 0, 1);
+          eventId=encodeURI(eventId);
           cookie.save(eventId, attendeeName, opt); // Save name in cookie event ID
 
           dispatch(storeEventAfterRegisterAttendee(json));
