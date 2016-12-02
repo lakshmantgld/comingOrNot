@@ -63,6 +63,7 @@ let styles = {
   formLabel3: {
     text: 'bold',
     fontSize: '21.5px',
+    marginRight: '5px',
     color: grey600
   },
   dateLabel: {
@@ -843,7 +844,7 @@ class EventPageComponent extends Component {
           <br />
           <div className='row'>
             <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> {this.props.languageJson.name} </label>
+              <label style={styles.formLabel}> {this.props.languageJson.attendeeName} </label>
             </div>
             <div className='col-xs'>
               <TextField id='name' hintText='Name' style={{'height':'38px'}} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
@@ -1029,8 +1030,8 @@ class EventPageComponent extends Component {
               <br />
               <br />
               <div className='row center-xs'>
-                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label> &nbsp;
-                  <label style={styles.formLabel2}> {this.props.eventObj.attendees.length} </label>
+                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
+                  <label style={styles.formLabel2}> {" "+this.props.eventObj.attendees.length} </label>
               </div>
               <br />
               <div className='row center-xs'>
