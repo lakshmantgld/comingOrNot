@@ -201,7 +201,7 @@ class EventPageComponent extends Component {
 
   duplicateCheck() {
     let attendees = this.props.eventObj.attendees;
-    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
+    if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) == -1) {
       // In case no cookie, just find if duplicate exists.
       for (let i = 0; i < attendees.length; i++) {
         if (this.props.attendeeName.toUpperCase() === attendees[i].attendeeName.toUpperCase()) {
@@ -833,7 +833,7 @@ class EventPageComponent extends Component {
   }
 
   attendeeSubmissionSection() {
-    if (document.cookie.indexOf(this.props.params.eventId) == -1) {
+    if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) == -1) {
       // cookie not there, render empty name field and default busy states to dates.
       return (
         <div>
@@ -890,7 +890,7 @@ class EventPageComponent extends Component {
   }
 
   toggleMobileCastAttendance() {
-      if (document.cookie.indexOf(this.props.params.eventId) == -1) { //Cookie not found? display virgin page
+      if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) == -1) { //Cookie not found? display virgin page
           return (
               <div>
                 <div className='row center-xs'>
