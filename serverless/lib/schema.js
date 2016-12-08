@@ -60,13 +60,31 @@ const EventInputAttendee = new GraphQLInputObjectType({
   })
 });
 
+const LocationInput = new GraphQLInputObjectType({
+  name: 'LocationInput',
+  fields: () => ({
+    locationName: {type: GraphQLString},
+    lat: {type: GraphQLString},
+    long: {type: GraphQLString}
+  })
+});
+
+const Location = new GraphQLObjectType({
+  name: 'Location',
+  fields: () => ({
+    locationName: {type: GraphQLString},
+    lat: {type: GraphQLString},
+    long: {type: GraphQLString}
+  })
+});
+
 const Event = new GraphQLObjectType({
   name: 'Event',
   fields: () => ({
     eventId: {type: GraphQLString},
     name: {type: GraphQLString},
     purpose: {type: GraphQLString},
-    location: {type: GraphQLString},
+    location: {type: Location},
     dateArray: {type: new GraphQLList(GraphQLString)},
     attendees: {type: new GraphQLList(EventAttendee)}
   })
@@ -97,7 +115,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         name: {type: new GraphQLNonNull(GraphQLString)},
         purpose: {type: new GraphQLNonNull(GraphQLString)},
-        location: {type: GraphQLString},
+        location: {type: LocationInput},
         dateArray: {type: new GraphQLNonNull(new GraphQLList(GraphQLString))},
         attendees: {type: new GraphQLNonNull(new GraphQLList(EventInputAttendee))}
       },

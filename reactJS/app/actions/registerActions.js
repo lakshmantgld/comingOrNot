@@ -94,9 +94,9 @@ function storeEventId(json) {
 }
 
 export function registerEvent(name, purpose, dateArray, location) {
-  if (location === '') {
-    location = '$$$empty';
-  }
+  // if (location === '') {
+  //   location = '$$$empty';
+  // }
   console.log(location);
   return dispatch => {
     return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',

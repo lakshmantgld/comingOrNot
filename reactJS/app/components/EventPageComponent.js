@@ -1006,7 +1006,11 @@ class EventPageComponent extends Component {
         </div>
       );
     } else {
-      if ( (this.props.weather.length === 0) && (this.props.eventObj.location !== '')) {
+      console.log("printing location length");
+      console.log(this.props.eventObj.location);
+      console.log(Object.keys(this.props.eventObj.location));
+      console.log(Object.keys(this.props.eventObj.location).length);
+      if ( (this.props.weather.length === 0) && (Object.keys(this.props.eventObj.location).length !== 0)) {
         this.fetchWeather(this.props.eventObj.location);
       }
       let dateArray = this.props.eventObj.dateArray;

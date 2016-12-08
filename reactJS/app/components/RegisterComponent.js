@@ -145,7 +145,7 @@ class RegisterComponent extends Component {
     suggestLocation(location) {
       console.log("suggestLocation");
       console.log(location);
-        this.props.dispatch(storeLocation(location.label));
+        this.props.dispatch(storeLocation({ "locationName" : location.label, "lat": location.location.lat, "long": location.location.lng}));
     }
 
     registerEvent() {
@@ -340,7 +340,7 @@ class RegisterComponent extends Component {
                                                       'input': {},
                                                       'suggests': {},
                                                       'suggestItem': {}
-                                                  }} placeholder='Restaurant location' initialValue='' country='JP' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation} location={new google.maps.LatLng(35.44371, 139.63803)} radius='40'/>
+                                                  }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                                               </div>
                                           </div>
@@ -449,7 +449,7 @@ class RegisterComponent extends Component {
                                     <br/>
                                     <div className='row' style={styles.datePush}>
                                         <div className='col-md-6'>
-                                            <Geosuggest placeholder='Restaurant location' initialValue='' country='JP' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation} location={new google.maps.LatLng(35.44371, 139.63803)} radius='40'/>
+                                            <Geosuggest placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation} />
                                         </div>
                                     </div>
                                     <br/>
