@@ -45,8 +45,6 @@ class Header extends Component {
 
   render() {
     let currentURL = window.location.href;
-    console.log("fff");
-    console.log(currentURL);
     return (
       <div>
       <MediaQuery maxDeviceWidth={1224}>

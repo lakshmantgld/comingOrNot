@@ -38,9 +38,13 @@ ReactDOM.render(
     <Router history={history}>
       <Route path='/' component={App}>
         <IndexRoute component={RegisterComponent} />
-        <Route path='eventCreated/:eventId' component={EventShareComponent}>
+        <Route path='eventCreated/' component={EventShareComponent}>
+          <Route path=':eventId' component={EventShareComponent}>
+          </Route>
         </Route>
-        <Route path='event/:eventId' component={EventPageComponent}>
+        <Route path='event/' component={EventPageComponent}>
+          <Route path=':eventId' component={EventPageComponent}>
+          </Route>
         </Route>
       </Route>
     </Router>
