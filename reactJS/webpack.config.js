@@ -8,11 +8,11 @@ var config = {
   devtool: 'inline-source-map',
   entry: [
     'webpack-dev-server/client?http://127.0.0.1:3000/',
-    'webpack/hot/only-dev-server',
     APP_DIR + '/main.js'
   ],
   output: {
-    path: BUILD_DIR,
+    path: path.join(__dirname, 'dist'),
+    publicPath: "http://localhost:3000/dist/",
     filename: 'app.js'
   },
   resolve: {

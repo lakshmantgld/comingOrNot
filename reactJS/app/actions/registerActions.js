@@ -94,9 +94,7 @@ function storeEventId(json) {
 }
 
 export function registerEvent(name, purpose, dateArray, location) {
-  // if (location === '') {
-  //   location = '$$$empty';
-  // }
+  console.log("in action");
   console.log(location);
   return dispatch => {
     return fetch(config.api.baseURL + '/graphql', {credentials: 'omit',
@@ -110,7 +108,7 @@ export function registerEvent(name, purpose, dateArray, location) {
           mutation createEvent(
             $name: String!,
             $purpose: String!,
-            $location: String,
+            $location: LocationInput!,
             $dateArray: [String]!,
             $attendees: [EventInputAttendee]!
           ) {
@@ -199,7 +197,11 @@ export function fetchEvent(eventId) {
               eventId
               name
               purpose
-              location
+              location{
+                locationName
+                lat
+                long
+              }
               dateArray
               attendees{
                 attendeeId

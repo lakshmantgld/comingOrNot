@@ -138,7 +138,7 @@ class RegisterComponent extends Component {
     storeLocation(location) {
       console.log("storeLocation");
       console.log(location);
-        this.props.dispatch(storeLocation(location));
+        this.props.dispatch(storeLocation({ "locationName" : location}));
     }
 
 
