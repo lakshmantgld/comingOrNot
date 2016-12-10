@@ -13,3 +13,4 @@ npm-debug.log
 serverless/.serverless
 reactJS/indexs3.html
 reactJS/webpack.copy.config.js
+reactJS/dist
