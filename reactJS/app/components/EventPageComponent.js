@@ -995,6 +995,29 @@ class EventPageComponent extends Component {
     return eventInformation;
   }
 
+  getGoogleMapsURL() {
+    let x = "http://maps.google.com/?q=" + this.props.eventObj.location.lat + "," + this.props.eventObj.location.long;
+    console.log(x);
+    console.log("maps");
+    return x;
+  }
+
+  renderLocation() {
+    if ((this.props.eventObj.location.locationName !== null)) {
+      return (
+        <div>
+          <div className='row center-xs'>
+            <a target="_blank" href={this.getGoogleMapsURL()}>
+              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> {this.props.eventObj.location.locationName} </label>
+            </a>
+          </div>
+          <br />
+          <br />
+        </div>
+      );
+    }
+  }
+
 // Render the whole EventPage App. Starting point of this component.
   render() {
 
@@ -1006,8 +1029,8 @@ class EventPageComponent extends Component {
         </div>
       );
     } else {
-      if ( (this.props.weather.length === 0) && (this.props.eventObj.location !== '')) {
-        this.fetchWeather(this.props.eventObj.location);
+      if ((this.props.weather.length === 0) && (this.props.eventObj.location.locationName !== null)) {
+        this.fetchWeather(this.props.eventObj.location.locationName);
       }
       let dateArray = this.props.eventObj.dateArray;
       let tableheight= (35 * (dateArray.length + 2)); // Responsive height of the table based no. of dates
@@ -1015,20 +1038,15 @@ class EventPageComponent extends Component {
 
         <div>
           <div>
-
           <MediaQuery minDeviceWidth={1224}>
               {/*<div> PC and Desktop code starts </div>*/}
 
               <br />
               <div className='row center-xs'>
                 <label style={styles.formLabel}> {this.getEventInformation()} </label>
-                </div>
-                <br></br>
-                  <div className='row center-xs'>
-                <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> {this.props.eventObj.location} </label>
-                </div>
-              <br />
-              <br />
+              </div>
+              <br></br>
+                {this.renderLocation()}
               <div className='row center-xs'>
                   <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
                   <label style={styles.formLabel2}> {" "+this.props.eventObj.attendees.length} </label>

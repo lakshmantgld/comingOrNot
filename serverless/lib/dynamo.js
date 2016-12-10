@@ -27,7 +27,7 @@ export function fetchEvent(eventId) {
         return reject(err);
       }
       // so changing it again to [] for sending back to react App.
-      data.Item.attendees = Object.values(data.Item.attendees);      
+      data.Item.attendees = Object.values(data.Item.attendees);
       return resolve(data.Item);
     });
   });
@@ -35,7 +35,8 @@ export function fetchEvent(eventId) {
 
 // creates a new event and sends back the created event with eventID
 export function createEvent(event) {
-  console.log("in dynamo");
+  console.log("in createEvent");
+  console.log(event);
   event.eventId = moment().format('YYYYMMDDhmms') + '-' + event.name.replace(/\//g, '') + '-' + event.purpose.replace(/\//g, '');
   // making attendess as {} in dynamoDB, but in reactJS it is an []
   // This is not fair in software development. But doing, it as DynamoDb is so documentLess and cannot find a way to update JSON array.
