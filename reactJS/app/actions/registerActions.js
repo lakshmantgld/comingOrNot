@@ -287,7 +287,11 @@ export function registerAttendee(attendeeName, personalizedDateSelection, eventI
               eventId
               name
               purpose
-              location
+              location{
+                locationName
+                lat
+                long
+              }
               dateArray
               attendees{
                 attendeeId
@@ -376,7 +380,11 @@ export function updateAttendee(attendeeId, attendeeName, personalizedDateSelecti
               eventId
               name
               purpose
-              location
+              location{
+                locationName
+                lat
+                long
+              }
               dateArray
               attendees{
                 attendeeId
