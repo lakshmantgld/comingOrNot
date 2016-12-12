@@ -870,7 +870,7 @@ class EventPageComponent extends Component {
           <br />
           <div className='row'>
             <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> {this.props.languageJson.name} </label>
+              <label style={styles.formLabel}> {this.props.languageJson.attendeeName} </label>
             </div>
             <div className='col-xs'>
               <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
