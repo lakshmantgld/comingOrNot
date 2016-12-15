@@ -34,7 +34,6 @@ app.use('/dist', proxy(url.parse('http://localhost:3000/dist')));
 app.use('/event/dist', proxy(url.parse('http://localhost:3000/dist')));
 
 app.get('/*', function(req, res) {
-    console.log("coming fucki");
     // console.log(req.route);
     res.setHeader('Content-Type',contentType);
     res.sendFile(__dirname + '/index.html');
