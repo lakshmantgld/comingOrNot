@@ -195,13 +195,11 @@ class RegisterComponent extends Component {
 
     renderChip(data) {
         return (
-
-            <div className='col-xs-6'>
-                <Chip key={data} onRequestDelete={() => this.handleRequestDelete(data)} style={styles.chip}>
-                    {data}
-                </Chip>
-            </div>
-
+             <div className='col-xs-6'>
+                 <Chip key={data} onRequestDelete={() => this.handleRequestDelete(data)} style={styles.chip}>
+                     {data}
+                 </Chip>
+             </div>
         );
     }
 
@@ -265,6 +263,120 @@ class RegisterComponent extends Component {
       </div>
     );
     }
+    getStepContent(stepIndex) {
+      let today = new Date(); // Get today's date to give minimum limit to the calendar
+      let dateArray = this.props.dateArray.map(this.renderChip, this);
+      switch (stepIndex) {
+        case 0:
+          return (
+            <div className='row'>
+
+                                          <div className='row'>
+
+                                              <div className='col-xs-12'>
+                                                  <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
+                                                      color: grey900
+                                                  }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
+                                                  <br/>
+                                                  <label style={styles.errorLabel}>
+                                                      {this.props.nameErrorLabel}
+                                                  </label>
+                                              </div>
+                                          </div>
+
+                                          <div className='row'>
+
+                                              <div className='col-xs-12'>
+                                                  <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
+                                                      color: grey900
+                                                  }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+
+                                                  <label style={styles.errorLabel}>
+                                                      {this.props.purposeErrorLabel}
+                                                  </label>
+                                              </div>
+                                          </div>
+
+            </div>
+          );
+        case 1:
+          return (
+            <div className='row'>
+              <div className='row'>
+                  <div className='col-xs-12'>
+
+                      <Geosuggest style={{
+                          'input': {},
+                          'suggests': {},
+                          'suggestItem': {}
+                      }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+
+                  </div>
+              </div>
+              <br></br>
+            </div>
+          );
+        case 2:
+          return (
+            <div className='row' style={{paddingLeft:"0px",paddingRight:"0px",marginLeft:"0px"}}>
+              {/*<div className='row' style={styles.datePush}>
+                  <div className='col-xs-12'>
+                      <label style={styles.dateSelectLabel}>
+                          {this.props.languageJson.calendarLabel}
+                      </label>
+                  </div><br/><br/></div>*/}
+              <div className='row'>
+
+                  <div className='col-xs-12'>
+                      <InfiniteCalendar theme={{
+                          selectionColor: 'rgb(6, 5, 6)',
+                          textColor: {
+                              default: '#333',
+                              active: '#FFF'
+                          },
+                          weekdayColor: 'rgb(49, 44, 49)',
+                          headerColor: 'rgb(6, 5, 6)',
+                          floatingNav: {
+                              background: 'rgb(6, 5, 6)',
+                              color: '#FFF',
+                              chevron: '#FFA726'
+                          }
+                      }} layout='landscape' width={'100%'} height={270} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-md-12" style={datePushResponsive}>
+                      <div className="row">
+                          {dateArray}
+                      </div>
+                      <div className='row center-xs'>
+                          <label style={styles.errorLabel}>
+                              {this.props.dateArrayErrorLabel}
+                          </label>
+                          <Snackbar
+                             open={this.checkNotificationFlag()}
+                             message={"Server Error!!"}
+                             autoHideDuration={3000}
+                             onRequestClose={this.handleRequestClose}
+                          />
+                      </div>
+                  </div>
+              </div>
+              {/**<br/>
+              <div className='row col-xs-offset-2 center-xs' id="regButton">
+                  <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent}/>
+                  <br/>
+                  <br/>
+                  <br/>
+              </div>*/}
+
+
+            </div>
+          );
+        default:
+          return 'You\'re a long way from home sonny jim!';
+      }
+    }
 
     handleRequestClose() {
         this.props.dispatch(updateNotificationFlag(''));
@@ -283,7 +395,7 @@ class RegisterComponent extends Component {
 
         let today = new Date(); // Get today's date to give minimum limit to the calendar
         let dateArray = this.props.dateArray.map(this.renderChip, this);
-
+          const contentStyle = {margin: '0 16px'};
 
         return (
             <div>
@@ -413,118 +525,54 @@ class RegisterComponent extends Component {
                 </MediaQuery>
 
                 <MediaQuery minDeviceWidth={1224}>
-                    <div className="row" id='fullRow'>
-                        {/**Laptop*/}
-                        <div className="col-md-4 col-md-offset-1">
-                            <Card>
-                                <div className='row'>
-                                    <br/>
+                  <div>
+                      {/*laptop*/}
+                      <br></br><br></br>
 
-                                    <div className='row'>
 
-                                        <div className='col-md-6'>
-                                            <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
-                                                color: grey900
-                                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
-                                            <br/>
-                                            <label style={styles.errorLabel}>
-                                                {this.props.nameErrorLabel}
-                                            </label>
-                                        </div>
+                      <div className='row'>
+                          <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
+                              <Stepper activeStep={this.props.stepIndex}>
+                                  <Step>
+                                      <StepLabel>Enter your name and events name</StepLabel>
+
+                                  </Step>
+                                  <Step>
+                                      <StepLabel style={{marginTop: 17}}>Enter Event location(OPTIONAL)</StepLabel>
+                                      <br></br>
+
+                                  </Step>
+                                  <Step>
+                                      <StepLabel>{this.props.languageJson.calendarLabel}</StepLabel>
+
+                                  </Step>
+                              </Stepper>
+
+                              <div style={contentStyle}>
+
+                                  <div>
+                                    <p>{this.getStepContent(this.props.stepIndex)}</p>
+                                    <br></br>
+                                    <div style={{marginTop: 12}}>
+                                      <FlatButton
+                                        label="Back"
+                                        disabled={this.props.stepIndex === 0}
+                                        onTouchTap={this.stepDecrease}
+                                        style={{marginRight: 12}}
+                                      />
+                                      <RaisedButton
+                                        label={this.props.stepIndex === 2 ? 'Register' : 'Next'}
+                                        primary={true}
+                                        onTouchTap={this.stepIncrease}
+                                      />
                                     </div>
+                                  </div>
 
-                                    <div className='row'>
+                              </div>
+                          </div>
+                      </div>
 
-                                        <div className='col-md-6'>
-                                            <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
-                                                color: grey900
-                                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
-
-                                            <label style={styles.errorLabel}>
-                                                {this.props.purposeErrorLabel}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <div className='row' style={styles.datePush}>
-                                        <div className='col-md-6'>
-                                            <Geosuggest placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation} />
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <div className='row' style={styles.datePush}>
-                                        <div className='col-md-12'>
-                                            <label style={styles.dateSelectLabel}>
-                                                {this.props.languageJson.calendarLabel}
-                                            </label>
-
-                                        </div><br/><br/></div>
-                                    <div className="col-xs-12">
-                                        <div className='row'>{dateArray}</div>
-                                        <div className='row center-xs'>
-                                            <label style={styles.errorLabel}>
-                                                {this.props.dateArrayErrorLabel}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <br/>
-
-                                    <div className='row col-md-offset-2 center-xs' id="regButton">
-                                        <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.validateRegisterEvent}/>
-                                        <br/>
-                                        <br/>
-                                        <br/>
-                                    </div>
-
-                                </div>
-                            </Card>
-                            <Dialog
-                              title={"Error in Server!! Please Try again after some time!!"}
-                              actions={
-                                <RaisedButton label='Ok'
-                                 backgroundColor={"rgb(67, 67, 67)"}
-                                 labelColor={"white"}
-                                 style={buttonStyle}
-                                 disabled={false}
-                                 onTouchTap={this.handleRequestClose}
-                                />
-                              }
-                              modal={true}
-                              open={this.checkNotificationFlag()}
-                            >
-                            </Dialog>
-
-                        </div>
-
-                        <div className='col-md-1 col-md-offset-1'>
-                            <div className='verticalLine'></div>
-                        </div>
-                        <div className='col-md-4'>
-                            <div>
-
-                                <div className='col-xs-6'>
-                                    <InfiniteCalendar theme={{
-                                        selectionColor: 'rgb(6, 5, 6)',
-                                        textColor: {
-                                            default: '#333',
-                                            active: '#FFF'
-                                        },
-                                        weekdayColor: 'rgb(49, 44, 49)',
-                                        headerColor: 'rgb(6, 5, 6)',
-                                        floatingNav: {
-                                            background: 'rgb(6, 5, 6)',
-                                            color: '#FFF',
-                                            chevron: '#FFA726'
-                                        }
-                                    }} layout='portrait' width={400} height={300} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </MediaQuery>
             </div>
         );
