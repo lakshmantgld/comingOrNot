@@ -21,7 +21,5 @@
   "eventInformationPartOne": " is organizing ",
   "eventInformationPartTwo": ". Please cast your available Dates!!",
   "eventTableLabel": "The Event Table",
-  "numberOfPeopleLabel": "No of people casted votes: ",
-  "emailId": "Email id of the organiser",
-  "emailIdErrorLabelInvalid": "Email Id is invalid!!!"
+  "numberOfPeopleLabel": "No of people casted votes: "
 }

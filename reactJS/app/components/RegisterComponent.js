@@ -30,9 +30,7 @@ import {
     storeLocation,
     changelanguage,
     storeDisableFlag,
-    updateNotificationFlag,
-    storeEmailId,
-    storeEmailIdErrorLabel
+    updateNotificationFlag
 } from './../actions/registerActions';
 
 let styles = {
@@ -76,7 +74,6 @@ class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.storeName = this.storeName.bind(this);
-        this.storeEmailId = this.storeEmailId.bind(this);
         this.storePurpose = this.storePurpose.bind(this);
         this.registerEvent = this.registerEvent.bind(this);
         this.storeDate = this.storeDate.bind(this);
@@ -105,15 +102,6 @@ class RegisterComponent extends Component {
     storeName(e) {
         if (e.target.value.length >= '40') {
             this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabel))
-        } else {
-            this.props.dispatch(storeNameErrorLabel(''))
-            this.props.dispatch(storeName(e.target.value));
-        }
-    }
-    // stores the email of the event creator.
-    storeEmailId(e) {
-        if (e.target.value.length >= '40') {
-            this.props.dispatch(storeEmailIdErrorLabel(this.props.languageJson.emailIdErrorLabel))
         } else {
             this.props.dispatch(storeNameErrorLabel(''))
             this.props.dispatch(storeName(e.target.value));
@@ -236,12 +224,7 @@ class RegisterComponent extends Component {
           }
         break;
         case 1:
-        if (this.props.emailId.length === 0) {
-          // write the regex to check emailId
-          this.props.dispatch(storeEmailIdErrorLabel(this.props.languageJson.emailIdErrorLabelRequired));
-        } else {
           this.props.dispatch(stepIncrease(this.props.stepIndex));
-        }
         break;
         case 2:
           this.validateRegisterEvent();
@@ -307,7 +290,7 @@ class RegisterComponent extends Component {
                                                   <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
                                                       color: grey900
                                                   }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
-                                                <br/>
+
                                                   <label style={styles.errorLabel}>
                                                       {this.props.purposeErrorLabel}
                                                   </label>
@@ -329,17 +312,6 @@ class RegisterComponent extends Component {
                       }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                   </div>
-              </div>
-              <div className='row'>
-                <div className='col-xs-12'>
-                  <TextField id='emailId' floatingLabelText={this.props.languageJson.emailId} onChange={this.storeEmailId} floatingLabelFocusStyle={{
-                      color: grey900
-                  }} underlineFocusStyle={styles.underlineStyle} value={this.props.emailId}/>
-                  <br/>
-                  <label style={styles.errorLabel}>
-                      {this.props.emailIdErrorLabel}
-                  </label>
-                </div>
               </div>
               <br></br>
             </div>
@@ -579,7 +551,7 @@ class RegisterComponent extends Component {
                               <div style={contentStyle}>
 
                                   <div>
-                                    <div className='row'>{this.getStepContent(this.props.stepIndex)}</div>
+                                    <p>{this.getStepContent(this.props.stepIndex)}</p>
                                     <br></br>
                                     <div style={{marginTop: 12}}>
                                       <FlatButton
