@@ -4,6 +4,7 @@ import config from '../../config/config.json';
 import cookie from 'react-cookie';
 
 export const STORE_NAME = 'STORE_NAME';
+export const STORE_EMAIL = 'STORE_EMAIL';
 export const STORE_PURPOSE = 'STORE_PURPOSE';
 export const STORE_DATE_ARRAY = 'STORE_DATE_ARRAY';
 export const POP_DATE_ARRAY = 'POP_DATE_ARRAY';
@@ -22,12 +23,22 @@ export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
 export const CHECK_DISABLE_FLAG = 'CHECK_DISABLE_FLAG';
+export const STORE_EMAIL_ERROR_LABEL = 'STORE_EMAIL_ERROR_LABEL';
 
 export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
       name: name
+    });
+  };
+}
+
+export function storeEmail(email) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_EMAIL,
+      email: email
     });
   };
 }
@@ -77,6 +88,15 @@ export function storeNameErrorLabel(errorLabel) {
   };
 }
 
+export function storeEmailErrorLabel(errorLabel) {
+  return dispatch => {
+    return dispatch({
+      type: STORE_EMAIL_ERROR_LABEL,
+      errorLabel: errorLabel
+    });
+  };
+}
+
 export function storePurposeErrorLabel(errorLabel) {
   return dispatch => {
     return dispatch({
@@ -93,7 +113,7 @@ function storeEventId(json) {
   return browserHistory.push('/eventCreated/' + eventId);
 }
 
-export function registerEvent(name, purpose, dateArray, location) {
+export function registerEvent(name, purpose, dateArray, location, email) {
   console.log("in action");
   console.log(location);
   return dispatch => {
@@ -110,14 +130,16 @@ export function registerEvent(name, purpose, dateArray, location) {
             $purpose: String!,
             $location: LocationInput!,
             $dateArray: [String]!,
-            $attendees: [EventInputAttendee]!
+            $attendees: [EventInputAttendee]!,
+            $email: String!
           ) {
             createEvent(
               name: $name,
               purpose: $purpose,
               location: $location,
               dateArray: $dateArray,
-              attendees: $attendees
+              attendees: $attendees,
+              email: $email
             ) {
               eventId
             }
@@ -128,7 +150,8 @@ export function registerEvent(name, purpose, dateArray, location) {
           "purpose": purpose,
           "location": location,
           "dateArray": dateArray,
-          "attendees": []
+          "attendees": [],
+          "email": email
         }
       })})
       .then(res => {

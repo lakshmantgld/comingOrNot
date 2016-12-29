@@ -30,7 +30,9 @@ import {
     storeLocation,
     changelanguage,
     storeDisableFlag,
-    updateNotificationFlag
+    updateNotificationFlag,
+    storeEmail,
+    storeEmailErrorLabel
 } from './../actions/registerActions';
 
 let styles = {
@@ -74,6 +76,7 @@ class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.storeName = this.storeName.bind(this);
+        this.storeEmail = this.storeEmail.bind(this);
         this.storePurpose = this.storePurpose.bind(this);
         this.registerEvent = this.registerEvent.bind(this);
         this.storeDate = this.storeDate.bind(this);
@@ -108,6 +111,15 @@ class RegisterComponent extends Component {
         }
     }
 
+    storeEmail(e) {
+        if (e.target.value.length >= '40') {
+            this.props.dispatch(storeEmailErrorLabel(this.props.languageJson.emailLengthErrorLabel))
+        } else {
+            this.props.dispatch(storeEmailErrorLabel(''))
+            this.props.dispatch(storeEmail(e.target.value));
+        }
+    }
+
     // stores the purpose of the event and throws an error in case of any edge cases failed.
     storePurpose(e) {
         if (e.target.value.length >= '100') {
@@ -120,9 +132,9 @@ class RegisterComponent extends Component {
 
     // Stores the selected date in the state object.
     storeDate(date) {
-      (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
-          ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
-          : console.log("Duplicate date");
+        (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
+            ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
+            : console.log("Duplicate date");
 
         // Limit the date selection as 6
 
@@ -136,16 +148,15 @@ class RegisterComponent extends Component {
     }
 
     storeLocation(location) {
-      console.log("storeLocation");
-      console.log(location);
-        this.props.dispatch(storeLocation({ "locationName" : location}));
+        console.log("storeLocation");
+        console.log(location);
+        this.props.dispatch(storeLocation({"locationName": location}));
     }
 
-
     suggestLocation(location) {
-      console.log("suggestLocation");
-      console.log(location);
-        this.props.dispatch(storeLocation({ "locationName" : location.label, "lat": location.location.lat, "long": location.location.lng}));
+        console.log("suggestLocation");
+        console.log(location);
+        this.props.dispatch(storeLocation({"locationName": location.label, "lat": location.location.lat, "long": location.location.lng}));
     }
 
     registerEvent() {
@@ -177,61 +188,64 @@ class RegisterComponent extends Component {
             sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
         }
 
-        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
+        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location, this.props.email));
     }
 
     validateRegisterEvent() {
-      if (this.props.name.length === 0) {
-        this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
-      } else if (this.props.purpose.length === 0) {
-        this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
-      } else if (this.props.dateArray.length === 0){
-        this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayEmptyErrorLabel));
-      } else {
-        this.props.dispatch(storeDisableFlag('registerEvent'));
-        this.registerEvent();
-      }
+        if (this.props.name.length === 0) {
+            this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
+        } else if (this.props.purpose.length === 0) {
+            this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
+        } else if (this.props.dateArray.length === 0) {
+            this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayEmptyErrorLabel));
+        } else {
+            this.props.dispatch(storeDisableFlag('registerEvent'));
+            this.registerEvent();
+        }
     }
 
     renderChip(data) {
         return (
-             <div className='col-xs-6'>
-                 <Chip key={data} onRequestDelete={() => this.handleRequestDelete(data)} style={styles.chip}>
-                     {data}
-                 </Chip>
-             </div>
+            <div className='col-xs-6'>
+                <Chip key={data} onRequestDelete={() => this.handleRequestDelete(data)} style={styles.chip}>
+                    {data}
+                </Chip>
+            </div>
         );
     }
 
     checkDisableFlag() {
-     if(this.props.disableFlag === 'registerEvent'){
-       return true;
-     } else {
-       return false;
-     }
+        if (this.props.disableFlag === 'registerEvent') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     stepIncrease() {
-      switch (this.props.stepIndex)
-      {
-        case 0:
-          if (this.props.name.length === 0) {
-            this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
-          } else if (this.props.purpose.length === 0) {
-            this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
-          } else {
-            this.props.dispatch(stepIncrease(this.props.stepIndex));
-          }
-        break;
-        case 1:
-          this.props.dispatch(stepIncrease(this.props.stepIndex));
-        break;
-        case 2:
-          this.validateRegisterEvent();
-        break;
-        default:
-          console.log("default ");
-      }
+        switch (this.props.stepIndex) {
+            case 0:
+                if (this.props.name.length === 0) {
+                    this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
+                } else if (this.props.purpose.length === 0) {
+                    this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
+                } else {
+                    this.props.dispatch(stepIncrease(this.props.stepIndex));
+                }
+                break;
+            case 1:
+                if (this.props.email.length === 0) {
+                    this.props.dispatch(storeEmailErrorLabel(this.props.languageJson.emailInvalidateErrorLabel));
+                } else {
+                    this.props.dispatch(stepIncrease(this.props.stepIndex));
+                }
+                break;
+            case 2:
+                this.validateRegisterEvent();
+                break;
+            default:
+                console.log("default ");
+        }
     }
 
     stepDecrease() {
@@ -239,130 +253,122 @@ class RegisterComponent extends Component {
     }
 
     renderStepActions(step) {
-      const stepIndex = this.props.stepIndex;
+        const stepIndex = this.props.stepIndex;
 
-      return (
-      <div style={{margin: '12px 0'}}>
-        <RaisedButton
-          label={stepIndex === 2 ? 'Register' : 'Next'}
-          disableTouchRipple={true}
-          disableFocusRipple={true}
-          primary={true}
-          onTouchTap={this.stepIncrease}
-          style={{marginRight: 12}}
-        />
-        {step > 0 && (
-          <FlatButton
-            label="Back"
-            disabled={stepIndex === 0}
-            disableTouchRipple={true}
-            disableFocusRipple={true}
-            onTouchTap={this.stepDecrease}
-          />
-        )}
-      </div>
-    );
+        return (
+            <div style={{
+                margin: '12px 0'
+            }}>
+                <RaisedButton label={stepIndex === 2
+                    ? 'Register'
+                    : 'Next'} disableTouchRipple={true} disableFocusRipple={true} primary={true} onTouchTap={this.stepIncrease} style={{
+                    marginRight: 12
+                }}/> {step > 0 && (<FlatButton label="Back" disabled={stepIndex === 0} disableTouchRipple={true} disableFocusRipple={true} onTouchTap={this.stepDecrease}/>)}
+            </div>
+        );
     }
     getStepContent(stepIndex) {
-      let today = new Date(); // Get today's date to give minimum limit to the calendar
-      let dateArray = this.props.dateArray.map(this.renderChip, this);
-      switch (stepIndex) {
-        case 0:
-          return (
-            <div className='row'>
+        let today = new Date(); // Get today's date to give minimum limit to the calendar
+        let dateArray = this.props.dateArray.map(this.renderChip, this);
+        switch (stepIndex) {
+            case 0:
+                return (
 
-                                          <div className='row'>
+                    <div className='row center-xs'>
+                        <div className='col-xs-12'>
+                            <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
+                                color: grey900
+                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
+                            <br/>
+                            <label style={styles.errorLabel}>
+                                {this.props.nameErrorLabel}
+                            </label>
+                        </div>
 
-                                              <div className='col-xs-12'>
-                                                  <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
-                                                      color: grey900
-                                                  }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
-                                                  <br/>
-                                                  <label style={styles.errorLabel}>
-                                                      {this.props.nameErrorLabel}
-                                                  </label>
-                                              </div>
-                                          </div>
+                        <div className='col-xs-12'>
+                            <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
+                                color: grey900
+                            }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
 
-                                          <div className='row'>
+                            <label style={styles.errorLabel}>
+                                {this.props.purposeErrorLabel}
+                            </label>
+                        </div>
+                    </div>
 
-                                              <div className='col-xs-12'>
-                                                  <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
-                                                      color: grey900
-                                                  }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+                );
+            case 1:
+                return (
+                    <div className='row center-xs'>
+                            <div className='col-xs-12'>
 
-                                                  <label style={styles.errorLabel}>
-                                                      {this.props.purposeErrorLabel}
-                                                  </label>
-                                              </div>
-                                          </div>
+                                <Geosuggest style={{
+                                    'input': {width: 'initial',
+                                    textAlign: 'inherit'},
+                                    'suggests': {},
+                                    'suggestItem': {}
+                                }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
-            </div>
-          );
-        case 1:
-          return (
-            <div className='row'>
-              <div className='row'>
-                  <div className='col-xs-12'>
+                            </div>
 
-                      <Geosuggest style={{
-                          'input': {},
-                          'suggests': {},
-                          'suggestItem': {}
-                      }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
-
-                  </div>
-              </div>
-              <br></br>
-            </div>
-          );
-        case 2:
-          return (
-            <div className='row' style={{paddingLeft:"0px",paddingRight:"0px",marginLeft:"0px"}}>
-              {/*<div className='row' style={styles.datePush}>
+                            <div className='col-xs-12'>
+                                <TextField id='email' floatingLabelText={this.props.languageJson.email} onChange={this.storeEmail} floatingLabelFocusStyle={{
+                                    color: grey900
+                                }} underlineFocusStyle={styles.underlineStyle} value={this.props.email}/>
+                                <br></br>
+                                <label style={styles.errorLabel}>
+                                    {this.props.nameErrorLabel}
+                                </label>
+                            </div>
+                        <br></br>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className='row' style={{
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                        marginLeft: "0px"
+                    }}>
+                        {/*<div className='row' style={styles.datePush}>
                   <div className='col-xs-12'>
                       <label style={styles.dateSelectLabel}>
                           {this.props.languageJson.calendarLabel}
                       </label>
                   </div><br/><br/></div>*/}
-              <div className='row'>
+                        <div className='row'>
 
-                  <div className='col-xs-12'>
-                      <InfiniteCalendar theme={{
-                          selectionColor: 'rgb(6, 5, 6)',
-                          textColor: {
-                              default: '#333',
-                              active: '#FFF'
-                          },
-                          weekdayColor: 'rgb(49, 44, 49)',
-                          headerColor: 'rgb(6, 5, 6)',
-                          floatingNav: {
-                              background: 'rgb(6, 5, 6)',
-                              color: '#FFF',
-                              chevron: '#FFA726'
-                          }
-                      }} layout='landscape' width={'100%'} height={270} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
-                  </div>
-              </div>
-              <div className="row">
-                  <div className="col-md-12" style={datePushResponsive}>
-                      <div className="row">
-                          {dateArray}
-                      </div>
-                      <div className='row center-xs'>
-                          <label style={styles.errorLabel}>
-                              {this.props.dateArrayErrorLabel}
-                          </label>
-                          <Snackbar
-                             open={this.checkNotificationFlag()}
-                             message={"Server Error!!"}
-                             autoHideDuration={3000}
-                             onRequestClose={this.handleRequestClose}
-                          />
-                      </div>
-                  </div>
-              </div>
-              {/**<br/>
+                            <div className='col-xs-12'>
+                                <InfiniteCalendar theme={{
+                                    selectionColor: 'rgb(6, 5, 6)',
+                                    textColor: {
+                                        default: '#333',
+                                        active: '#FFF'
+                                    },
+                                    weekdayColor: 'rgb(49, 44, 49)',
+                                    headerColor: 'rgb(6, 5, 6)',
+                                    floatingNav: {
+                                        background: 'rgb(6, 5, 6)',
+                                        color: '#FFF',
+                                        chevron: '#FFA726'
+                                    }
+                                }} layout='landscape' width={'100%'} height={270} rowHeight={55} min={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12" style={datePushResponsive}>
+                                <div className="row">
+                                    {dateArray}
+                                </div>
+                                <div className='row center-xs'>
+                                    <label style={styles.errorLabel}>
+                                        {this.props.dateArrayErrorLabel}
+                                    </label>
+                                    <Snackbar open={this.checkNotificationFlag()} message={"Server Error!!"} autoHideDuration={3000} onRequestClose={this.handleRequestClose}/>
+                                </div>
+                            </div>
+                        </div>
+                        {/**<br/>
               <div className='row col-xs-offset-2 center-xs' id="regButton">
                   <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent}/>
                   <br/>
@@ -370,12 +376,11 @@ class RegisterComponent extends Component {
                   <br/>
               </div>*/}
 
-
-            </div>
-          );
-        default:
-          return 'You\'re a long way from home sonny jim!';
-      }
+                    </div>
+                );
+            default:
+                return 'You\'re a long way from home sonny jim!';
+        }
     }
 
     handleRequestClose() {
@@ -384,26 +389,28 @@ class RegisterComponent extends Component {
     }
 
     checkNotificationFlag() {
-      if (this.props.notificationFlag === 'registerEventServerError') {
-        return true;
-      } else {
-        return false;
-      }
+        if (this.props.notificationFlag === 'registerEventServerError') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     render() {
 
         let today = new Date(); // Get today's date to give minimum limit to the calendar
         let dateArray = this.props.dateArray.map(this.renderChip, this);
-          const contentStyle = {margin: '0 16px'};
+        const contentStyle = {
+            margin: '0 16px'
+        };
 
         return (
             <div>
                 <MediaQuery maxDeviceWidth={1224}>
                     <div>
                         {/**Mobile & Tablet*/}
-                        <br></br><br></br>
-
+                        <br></br>
+                        <br></br>
 
                         <div className='row'>
                             <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
@@ -412,31 +419,31 @@ class RegisterComponent extends Component {
                                         <StepLabel>Enter your name and events name</StepLabel>
                                         <StepContent>
 
-                                                                      <div className='row'>
+                                            <div className='row'>
 
-                                                                          <div className='col-xs-12'>
-                                                                              <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
-                                                                                  color: grey900
-                                                                              }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
-                                                                              <br/>
-                                                                              <label style={styles.errorLabel}>
-                                                                                  {this.props.nameErrorLabel}
-                                                                              </label>
-                                                                          </div>
-                                                                      </div>
+                                                <div className='col-xs-12'>
+                                                    <TextField id='name' floatingLabelText={this.props.languageJson.name} onChange={this.storeName} floatingLabelFocusStyle={{
+                                                        color: grey900
+                                                    }} underlineFocusStyle={styles.underlineStyle} value={this.props.name}/>
+                                                    <br/>
+                                                    <label style={styles.errorLabel}>
+                                                        {this.props.nameErrorLabel}
+                                                    </label>
+                                                </div>
+                                            </div>
 
-                                                                      <div className='row'>
+                                            <div className='row'>
 
-                                                                          <div className='col-xs-12'>
-                                                                              <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
-                                                                                  color: grey900
-                                                                              }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
+                                                <div className='col-xs-12'>
+                                                    <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
+                                                        color: grey900
+                                                    }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
 
-                                                                              <label style={styles.errorLabel}>
-                                                                                  {this.props.purposeErrorLabel}
-                                                                              </label>
-                                                                          </div>
-                                                                      </div>
+                                                    <label style={styles.errorLabel}>
+                                                        {this.props.purposeErrorLabel}
+                                                    </label>
+                                                </div>
+                                            </div>
 
                                             {this.renderStepActions(0)}
                                         </StepContent>
@@ -445,68 +452,80 @@ class RegisterComponent extends Component {
                                         <StepLabel>Enter events location (OPTIONAL)</StepLabel>
                                         <br></br>
                                         <StepContent>
-                                          <div className='row'>
-                                              <div className='col-xs-12'>
+                                            <div className='row'>
+                                                <div className='col-xs-12'>
 
-                                                  <Geosuggest style={{
-                                                      'input': {},
-                                                      'suggests': {},
-                                                      'suggestItem': {}
-                                                  }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+                                                    <Geosuggest style={{
+                                                        'input': {},
+                                                        'suggests': {},
+                                                        'suggestItem': {}
+                                                    }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
-                                              </div>
-                                          </div>
-                                          <br></br>
+                                                </div>
+                                            </div>
+                                            <div className='row'>
+
+                                                <div className='col-xs-12'>
+                                                    <TextField id='email' floatingLabelText={this.props.languageJson.email} onChange={this.storeEmail} floatingLabelFocusStyle={{
+                                                        color: grey900
+                                                    }} underlineFocusStyle={styles.underlineStyle} value={this.props.email}/>
+                                                    <br></br>
+                                                    <label style={styles.errorLabel}>
+                                                        {this.props.nameErrorLabel}
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <br></br>
                                             {this.renderStepActions(1)}
                                         </StepContent>
                                     </Step>
                                     <Step>
                                         <StepLabel>{this.props.languageJson.calendarLabel}</StepLabel>
-                                        <StepContent style={{paddingLeft:"0px",paddingRight:"0px",marginLeft:"0px"}}>
-                                          {/*<div className='row' style={styles.datePush}>
+                                        <StepContent style={{
+                                            paddingLeft: "0px",
+                                            paddingRight: "0px",
+                                            marginLeft: "0px"
+                                        }}>
+                                            {/*<div className='row' style={styles.datePush}>
                                               <div className='col-xs-12'>
                                                   <label style={styles.dateSelectLabel}>
                                                       {this.props.languageJson.calendarLabel}
                                                   </label>
                                               </div><br/><br/></div>*/}
-                                          <div className='row'>
+                                            <div className='row'>
 
-                                              <div className='col-xs-12'>
-                                                  <InfiniteCalendar theme={{
-                                                      selectionColor: 'rgb(6, 5, 6)',
-                                                      textColor: {
-                                                          default: '#333',
-                                                          active: '#FFF'
-                                                      },
-                                                      weekdayColor: 'rgb(49, 44, 49)',
-                                                      headerColor: 'rgb(6, 5, 6)',
-                                                      floatingNav: {
-                                                          background: 'rgb(6, 5, 6)',
-                                                          color: '#FFF',
-                                                          chevron: '#FFA726'
-                                                      }
-                                                  }} layout='portrait' width={'100%'} height={300} rowHeight={55}  min={today} onSelect={this.storeDate} keyboardSupport={true}/>
-                                              </div>
-                                          </div>
-                                          <div className="row">
-                                              <div className="col-xs-12" style={datePushResponsive}>
-                                                  <div className='row'>
-                                                      {dateArray}
-                                                  </div>
-                                                  <div className='row center-xs'>
-                                                      <label style={styles.errorLabel}>
-                                                          {this.props.dateArrayErrorLabel}
-                                                      </label>
-                                                      <Snackbar
-                                                         open={this.checkNotificationFlag()}
-                                                         message={"Server Error!!"}
-                                                         autoHideDuration={3000}
-                                                         onRequestClose={this.handleRequestClose}
-                                                      />
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          {/**<br/>
+                                                <div className='col-xs-12'>
+                                                    <InfiniteCalendar theme={{
+                                                        selectionColor: 'rgb(6, 5, 6)',
+                                                        textColor: {
+                                                            default: '#333',
+                                                            active: '#FFF'
+                                                        },
+                                                        weekdayColor: 'rgb(49, 44, 49)',
+                                                        headerColor: 'rgb(6, 5, 6)',
+                                                        floatingNav: {
+                                                            background: 'rgb(6, 5, 6)',
+                                                            color: '#FFF',
+                                                            chevron: '#FFA726'
+                                                        }
+                                                    }} layout='portrait' width={'100%'} height={300} rowHeight={55} min={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-xs-12" style={datePushResponsive}>
+                                                    <div className='row'>
+                                                        {dateArray}
+                                                    </div>
+                                                    <div className='row center-xs'>
+                                                        <label style={styles.errorLabel}>
+                                                            {this.props.dateArrayErrorLabel}
+                                                        </label>
+                                                        <Snackbar open={this.checkNotificationFlag()} message={"Server Error!!"} autoHideDuration={3000} onRequestClose={this.handleRequestClose}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/**<br/>
                                           <div className='row col-xs-offset-2 center-xs' id="regButton">
                                               <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={false} onTouchTap={this.registerEvent}/>
                                               <br/>
@@ -525,54 +544,53 @@ class RegisterComponent extends Component {
                 </MediaQuery>
 
                 <MediaQuery minDeviceWidth={1224}>
-                  <div>
-                      {/*laptop*/}
-                      <br></br><br></br>
+                    <div>
+                        {/*laptop*/}
+                        <br></br>
+                        <br></br>
 
+                        <div className='row'>
+                            <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
+                                <Stepper activeStep={this.props.stepIndex}>
+                                    <Step>
+                                        <StepLabel>Enter your name and events name</StepLabel>
 
-                      <div className='row'>
-                          <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
-                              <Stepper activeStep={this.props.stepIndex}>
-                                  <Step>
-                                      <StepLabel>Enter your name and events name</StepLabel>
+                                    </Step>
+                                    <Step>
+                                        <StepLabel style={{
+                                            marginTop: 17
+                                        }}>Enter Event location(OPTIONAL)</StepLabel>
+                                        <br></br>
 
-                                  </Step>
-                                  <Step>
-                                      <StepLabel style={{marginTop: 17}}>Enter Event location(OPTIONAL)</StepLabel>
-                                      <br></br>
+                                    </Step>
+                                    <Step>
+                                        <StepLabel>{this.props.languageJson.calendarLabel}</StepLabel>
 
-                                  </Step>
-                                  <Step>
-                                      <StepLabel>{this.props.languageJson.calendarLabel}</StepLabel>
+                                    </Step>
+                                </Stepper>
 
-                                  </Step>
-                              </Stepper>
+                                <div style={contentStyle}>
 
-                              <div style={contentStyle}>
-
-                                  <div>
                                     <p>{this.getStepContent(this.props.stepIndex)}</p>
                                     <br></br>
-                                    <div style={{marginTop: 12}}>
-                                      <FlatButton
-                                        label="Back"
-                                        disabled={this.props.stepIndex === 0}
-                                        onTouchTap={this.stepDecrease}
-                                        style={{marginRight: 12}}
-                                      />
-                                      <RaisedButton
-                                        label={this.props.stepIndex === 2 ? 'Register' : 'Next'}
-                                        primary={true}
-                                        onTouchTap={this.stepIncrease}
-                                      />
+                                    <div className='row center-xs'>
+                                        <div className='col-xs-12' style={{
+                                            marginTop: 12
+                                        }}>
+                                            <FlatButton label="Back" disabled={this.props.stepIndex === 0} onTouchTap={this.stepDecrease} style={{
+                                                marginRight: 12
+                                            }}/>
+                                            <RaisedButton label={this.props.stepIndex === 2
+                                                ? 'Register'
+                                                : 'Next'} primary={true} onTouchTap={this.stepIncrease}/>
+                                        </div>
                                     </div>
-                                  </div>
 
-                              </div>
-                          </div>
-                      </div>
+                                </div>
+                            </div>
+                        </div>
 
-                  </div>
+                    </div>
                 </MediaQuery>
             </div>
         );
@@ -590,7 +608,9 @@ RegisterComponent.propTypes = {
     location: PropTypes.string.isRequired,
     languageJson: PropTypes.object.isRequired,
     disableFlag: PropTypes.string.isRequired,
-    notificationFlag: PropTypes.string.isRequired
+    notificationFlag: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    emailErrorLabel: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -604,5 +624,7 @@ export default connect(state => ({
     location: state.location,
     languageJson: state.languageJson,
     disableFlag: state.disableFlag,
-    notificationFlag: state.notificationFlag
+    notificationFlag: state.notificationFlag,
+    email: state.email,
+    emailErrorLabel: state.emailErrorLabel
 }))(RegisterComponent);
