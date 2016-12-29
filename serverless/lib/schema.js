@@ -118,6 +118,7 @@ const Mutation = new GraphQLObjectType({
         location: {type: LocationInput},
         dateArray: {type: new GraphQLNonNull(new GraphQLList(GraphQLString))},
         attendees: {type: new GraphQLNonNull(new GraphQLList(EventInputAttendee))}
+        email: {type: new GraphQLNonNull(GraphQLString)},
       },
       resolve(source, args) {
         return createEvent(args);
