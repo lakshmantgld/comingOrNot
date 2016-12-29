@@ -1101,6 +1101,11 @@ class EventPageComponent extends Component {
 
               <br></br>
 
+              {this.renderLocation()}
+
+              <br></br>
+
+
               <div>
 
                 {this.toggleMobileCastAttendance()}
