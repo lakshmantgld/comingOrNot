@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Footer from './Footer.js';
-import Header from './Header';
 
 let styles = {
   robotofont: {
@@ -22,18 +20,16 @@ const muiTheme = getMuiTheme({
 });
 
 
-class App extends Component {
+class ResumeComponent extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
-          <Header />
-          {this.props.children}
-          <Footer />
+          <h1> resume </h1>
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-export default connect(state => ({}))(App);
+export default connect(state => ({}))(ResumeComponent);

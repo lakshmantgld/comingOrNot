@@ -11,10 +11,7 @@ import thunk from 'redux-thunk';
 
 import reducers from './reducers';
 
-import App from './components/App';
-import RegisterComponent from './components/RegisterComponent';
-import EventShareComponent from './components/EventShareComponent';
-import EventPageComponent from './components/EventPageComponent';
+import ResumeComponent from './components/ResumeComponent';
 
 window.React = React;
 
@@ -36,16 +33,7 @@ browserHistory.listen(location => {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={App}>
-        <IndexRoute component={RegisterComponent} />
-        <Route path='eventCreated/' component={EventShareComponent}>
-          <Route path=':eventId' component={EventShareComponent}>
-          </Route>
-        </Route>
-        <Route path='event/' component={EventPageComponent}>
-          <Route path=':eventId' component={EventPageComponent}>
-          </Route>
-        </Route>
+      <Route path='/' component={ResumeComponent}>
       </Route>
     </Router>
   </Provider>,
