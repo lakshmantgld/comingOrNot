@@ -4,6 +4,14 @@ import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import About from './About';
+import Experience from './Experience';
+import Skills from './Skills';
+import Contact from './Contact';
+import Education from './Education';
+import Awards from './Awards';
+import Projects from './Projects';
+
 let styles = {
   robotofont: {
     fontFamily: 'sans-serif'
@@ -26,6 +34,13 @@ class ResumeComponent extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
           <h1> resume </h1>
+          <About />
+          <Skills />
+          <Education />
+          <Awards />
+          <Projects />
+          <Contact />
+          <Experience />
         </div>
       </MuiThemeProvider>
     );
