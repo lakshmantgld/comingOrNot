@@ -28,7 +28,7 @@ class About extends Component {
             <p className='sideHeading'> About </p>
           </div>
           <div className='col-xs-9'>
-            <p className='contents'> Engineer </p>
+            <p className='contents'> {this.props.abt} </p>
           </div>
         </div>
       </div>
@@ -36,8 +36,4 @@ class About extends Component {
   }
 }
 
-About.propTypes = {
-};
-
-export default connect(state =>({
-}))(About);
+export default About;

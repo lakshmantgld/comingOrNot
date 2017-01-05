@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import resumeJson from '../../resume.json';
+import resume from '../../resume.json';
 
 import About from './About';
 import Experience from './Experience';
@@ -38,9 +38,9 @@ class ResumeComponent extends Component {
         <div className='fullPage'>
           <div className='row col-xs-offset-1 col-md-offset-2'>
             <div className='col-xs-6'>
-             <h1 className='robotoRegFont'> Sharath Vignesh </h1>
-             <h5 className='robotoLightFont' style={{'color' : '#797575'}}>Yokohama, Japan &nbsp;&nbsp;|&nbsp;&nbsp;Email &nbsp;&nbsp;|&nbsp;&nbsp; +81 09092027800</h5>
-          <About />
+             <h1 className='robotoRegFont'>{resume.name}</h1>
+             <h5 className='robotoLightFont' style={{'color' : '#797575'}}>{resume.address} &nbsp;&nbsp;|&nbsp;&nbsp;{resume.email} &nbsp;&nbsp;|&nbsp;&nbsp;{resume.mobile}</h5>
+          <About abt={resume.about}/>
           <Skills />
           <Education />
           <Awards />
