@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import resumeJson from '../../resume.json';
 
 import About from './About';
 import Experience from './Experience';
@@ -27,11 +28,7 @@ const muiTheme = getMuiTheme({
   }
 });
 
-let mainRow = {
-    marginLeft: 100,
-    marginTop: 20,
-    paddingLeft: 120
-}
+
 
 
 class ResumeComponent extends Component {
@@ -39,8 +36,8 @@ class ResumeComponent extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
-          <div className='row' style={mainRow}>
-            <div className='col-md-6'>
+          <div className='row col-xs-offset-1 col-md-offset-2'>
+            <div className='col-xs-6'>
              <h1 className='robotoRegFont'> Sharath Vignesh </h1>
              <h5 className='robotoLightFont' style={{'color' : '#797575'}}>Yokohama, Japan &nbsp;&nbsp;|&nbsp;&nbsp;Email &nbsp;&nbsp;|&nbsp;&nbsp; +81 09092027800</h5>
           <About />

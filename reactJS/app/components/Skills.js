@@ -24,10 +24,10 @@ class Skills extends Component {
     return (
       <div>
         <div className='row'>
-          <div className='col-md-3'>
+          <div className='col-xs-12 col-md-3'>
             <p className='sideHeading'> Skills </p>
           </div>
-          <div className='col-md-9'>
+          <div className='col-xs-12 col-md-9'>
             <p className='skill'>C++ • C • Java • Python • JavaScript • Ruby • C# • Objective-c • Python • CSS • LESS • PHP</p>
             <p className='skill'>NodeJS • AngularJS • ExpressJS • Apache Lucene • JQuery • React • MochaJS • ChaiJS • Django</p>
             <p className='skill'>MySQL • MongoDB • Postgres • MSSQL • Redis</p>

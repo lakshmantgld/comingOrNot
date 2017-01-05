@@ -24,10 +24,10 @@ class About extends Component {
     return (
       <div>
         <div className='row'>
-          <div className='col-md-3'>
+          <div className='col-xs-3'>
             <p className='sideHeading'> About </p>
           </div>
-          <div className='col-md-9'>
+          <div className='col-xs-9'>
             <p className='contents'> Engineer </p>
           </div>
         </div>
