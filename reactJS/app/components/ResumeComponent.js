@@ -33,7 +33,9 @@ class ResumeComponent extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
-          <h1> resume </h1>
+          <div className='row' >
+            <div className='col-md-6'>
+             <h1> resume </h1>
           <About />
           <Skills />
           <Education />
@@ -41,6 +43,8 @@ class ResumeComponent extends Component {
           <Projects />
           <Contact />
           <Experience />
+            </div>
+          </div>
         </div>
       </MuiThemeProvider>
     );
