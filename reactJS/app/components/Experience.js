@@ -23,7 +23,7 @@ class Experience extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> Experience </h1>
+      <h1 className='sideHeading'> Experience </h1>
       </div>
     );
   }

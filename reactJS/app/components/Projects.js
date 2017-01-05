@@ -23,7 +23,7 @@ class Projects extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> Projects </h1>
+      <h1 className='sideHeading'> Projects </h1>
       </div>
     );
   }

@@ -41,7 +41,8 @@ class ResumeComponent extends Component {
         <div className='fullPage'>
           <div className='row' style={mainRow}>
             <div className='col-md-6'>
-             <h1> Name Goes here .. </h1>
+             <h1 className='robotoRegFont'> Sharath Vignesh </h1>
+             <h5 className='robotoLightFont' style={{'color' : '#797575'}}>Yokohama, Japan &nbsp;&nbsp;|&nbsp;&nbsp;Email &nbsp;&nbsp;|&nbsp;&nbsp; +81 09092027800</h5>
           <About />
           <Skills />
           <Education />

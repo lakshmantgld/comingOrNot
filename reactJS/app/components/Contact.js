@@ -23,7 +23,7 @@ class Contact extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> Contact </h1>
+      <h1 className='sideHeading'> Contact </h1>
       </div>
     );
   }

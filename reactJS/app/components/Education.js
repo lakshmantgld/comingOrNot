@@ -23,7 +23,7 @@ class Education extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> Education </h1>
+      <h1 className='sideHeading'> Education </h1>
       </div>
     );
   }

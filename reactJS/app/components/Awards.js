@@ -23,7 +23,7 @@ class Awards extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> Awards </h1>
+      <h1 className='sideHeading'> Awards </h1>
       </div>
     );
   }

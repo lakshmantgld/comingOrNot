@@ -23,7 +23,14 @@ class About extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1> about </h1>
+        <div className='row'>
+          <div className='col-md-3'>
+            <p className='sideHeading'> About </p>
+          </div>
+          <div className='col-md-9'>
+            <p className='contents'> Engineer </p>
+          </div>
+        </div>
       </div>
     );
   }
