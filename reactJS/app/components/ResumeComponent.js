@@ -14,7 +14,7 @@ import Projects from './Projects';
 
 let styles = {
   robotofont: {
-    fontFamily: 'sans-serif'
+    fontFamily: 'roboto'
   }
 };
 
@@ -27,15 +27,21 @@ const muiTheme = getMuiTheme({
   }
 });
 
+let mainRow = {
+    marginLeft: 100,
+    marginTop: 20,
+    paddingLeft: 120
+}
+
 
 class ResumeComponent extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
-          <div className='row' >
+          <div className='row' style={mainRow}>
             <div className='col-md-6'>
-             <h1> resume </h1>
+             <h1> Name Goes here .. </h1>
           <About />
           <Skills />
           <Education />
