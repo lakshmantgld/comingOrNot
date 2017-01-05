@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import resumeJson from '../../resume.json';
 
 import About from './About';
 import Experience from './Experience';
