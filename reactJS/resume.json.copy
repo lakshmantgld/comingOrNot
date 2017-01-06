@@ -13,7 +13,7 @@
   },
   "experience": [
     {
-      "positions" : "",
+      "position" : "",
       "organization" : "",
       "location" : "",
       "year" : "",
@@ -24,7 +24,8 @@
     {
       "name": "",
       "degree": "",
-      "year": ""
+      "year": "",
+      "description": ""
     }
   ],
   "contact": "",
@@ -45,7 +46,6 @@
   ],
   "contacts": {
     "mail": "",
-    "address": "",
     "stackoverflow": "",
     "github": "",
     "twitter": "",

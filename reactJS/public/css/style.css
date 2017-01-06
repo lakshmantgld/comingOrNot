@@ -4,6 +4,10 @@
 body {
   margin: 0;
 }
+
+img {
+  height: 30px;
+}
 .robotoRegFont{
   font-family: 'roboto-reg';
 }
@@ -27,5 +31,32 @@ body {
   font-family: 'roboto-light';
   font-weight: 300;
   font-size: 14px;
-   white-space: nowrap;
+
+}
+.universityName{
+  font-family: 'roboto-light';
+  font-weight: 700;
+  font-size: 14px;
+}
+.degreeName .awardName{
+  font-family: 'roboto-light';
+  font-weight: 500;
+  font-size: 14px;
+}
+.educationYear .awardYear{
+  font-family: 'roboto-light';
+  font-weight: 300;
+  font-size: 14px;
+}
+.educationDescription .awardDescription{
+  font-family: 'roboto-thin';
+  font-weight: 300;
+  font-size: 14px;
+  color: #797575;
+}
+.imgSpace{
+  padding-right: 18px;
+}
+.imagesDiv{
+  padding-top: 10px;
 }

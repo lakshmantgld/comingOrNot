@@ -19,18 +19,39 @@ class Contact extends Component {
 
   }
 
-  render() {
-    let currentURL = window.location.href;
-    return (
-      <div>
-      <h1 className='sideHeading'> Contact </h1>
-      </div>
-    );
+  getImageURL(contactType) {
+    return "/images/" + contactType + ".png";
   }
-}
 
-Contact.propTypes = {
-};
+  renderContact(contact) {
+    let renderedcontact = [];
+      // for looping contact
+      for (let contactType in contact) {
+          if (contact.hasOwnProperty(contactType)) {
+              renderedcontact.push(<a className="imgSpace" href={contact[contactType]}><img src={this.getImageURL(contactType)}></img></a>);
+            }
+      }
+      return renderedcontact;
+  }
 
-export default connect(state =>({
-}))(Contact);
+  render() {
+      let currentURL = window.location.href;
+      return (
+          <div>
+              <div className='row'>
+                  <div className='col-xs-12 col-md-2'>
+                      <p className='sideHeading'>
+                          Contact
+                      </p>
+                  </div>
+                  <div className='col-xs-12 col-md-10 imagesDiv'>
+                      {this.renderContact(this.props.contact)}
+                  </div>
+              </div>
+          </div>
+      );
+  }
+  }
+
+
+export default Contact;

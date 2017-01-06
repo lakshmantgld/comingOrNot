@@ -19,18 +19,39 @@ class Education extends Component {
 
   }
 
+  renderEducation(education) {
+    let renderedEducation = [];
+    for (let i = 0; i < education.length; i++){
+      let educationSet = [];
+      educationSet.push(<p className='universityName'>{education[i]["name"]}</p>);
+      educationSet.push(<p className='degreeName'>{education[i]["degree"]}</p>);
+      educationSet.push(<p className='educationYear'>{education[i]["year"]}</p>);
+      if (education[i]["description"] !== "") {
+        educationSet.push(<p className='educationDescription'>{education[i]["description"]}</p>);
+      }
+      renderedEducation.push(educationSet);
+      renderedEducation.push(<br />);
+    }
+    return renderedEducation;
+  }
+
   render() {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1 className='sideHeading'> Education </h1>
+          <div className='row'>
+              <div className='col-xs-12 col-md-2'>
+                  <p className='sideHeading'>
+                     Education
+                  </p>
+              </div>
+              <div className='col-xs-12 col-md-10'>
+                  {this.renderEducation(this.props.education)}
+              </div>
+          </div>
       </div>
     );
   }
 }
 
-Education.propTypes = {
-};
-
-export default connect(state =>({
-}))(Education);
+export default Education;

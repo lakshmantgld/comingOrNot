@@ -19,18 +19,39 @@ class Awards extends Component {
 
   }
 
+  renderAwards(awards) {
+    let renderedAwards = [];
+    for (let i = 0; i < awards.length; i++){
+      let awardsSet = [];
+      awardsSet.push(<p className='awardName'>{awards[i]["name"]}</p>);
+      awardsSet.push(<p className='awardOrganiser'>{awards[i]["organiser"]}</p>);
+      awardsSet.push(<p className='awardDate'>{awards[i]["date"]}</p>);
+      if (awards[i]["description"] !== "") {
+        awardsSet.push(<p className='awardDescription'>{awards[i]["description"]}</p>);
+      }
+      renderedAwards.push(awardsSet);
+      renderedAwards.push(<br />);
+    }
+    return renderedAwards;
+  }
+
   render() {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1 className='sideHeading'> Awards </h1>
+          <div className='row'>
+              <div className='col-xs-12 col-md-2'>
+                  <p className='sideHeading'>
+                     Awards
+                  </p>
+              </div>
+              <div className='col-xs-12 col-md-10'>
+                  {this.renderAwards(this.props.awards)}
+              </div>
+          </div>
       </div>
     );
   }
 }
 
-Awards.propTypes = {
-};
-
-export default connect(state =>({
-}))(Awards);
+export default Awards;

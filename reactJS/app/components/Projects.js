@@ -19,18 +19,39 @@ class Projects extends Component {
 
   }
 
+  renderProjects(projects) {
+    let renderedprojects = [];
+    for (let i = 0; i < projects.length; i++){
+      let projectsSet = [];
+      projectsSet.push(<p className='projectName'>{projects[i]["name"]}</p>);
+      if (projects[i]["role"] !== "") {
+        projectsSet.push(<p className='projectRole'>{projects[i]["role"]}</p>);
+      }
+      projectsSet.push(<p className='projectDescription'>{projects[i]["description"]}</p>);
+      renderedprojects.push(projectsSet);
+      renderedprojects.push(<br />);
+    }
+    return renderedprojects;
+  }
+
   render() {
     let currentURL = window.location.href;
     return (
       <div>
-      <h1 className='sideHeading'> Projects </h1>
+          <div className='row'>
+              <div className='col-xs-12 col-md-2'>
+                  <p className='sideHeading'>
+                     projects
+                  </p>
+              </div>
+              <div className='col-xs-12 col-md-10'>
+                  {this.renderProjects(this.props.projects)}
+              </div>
+          </div>
       </div>
     );
   }
-}
+  }
 
-Projects.propTypes = {
-};
 
-export default connect(state =>({
-}))(Projects);
+export default Projects;
