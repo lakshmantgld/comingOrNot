@@ -1,6 +1,7 @@
 @font-face { font-family: roboto-reg; src: url('../fonts/Roboto/Roboto-Regular.ttf'); }
 @font-face { font-family: roboto-thin; src: url('../fonts/Roboto/Roboto-Thin.ttf'); }
 @font-face { font-family: roboto-light; src: url('../fonts/Roboto/Roboto-Light.ttf'); }
+@font-face { font-family: roboto-medium; src: url('../fonts/Roboto/Roboto-Medium.ttf'); }
 body {
   margin: 0;
 }
@@ -14,6 +15,9 @@ img {
 .robotoLightFont{
   font-family: 'roboto-thin';
 }
+.robotoMediumFont{
+  font-family: 'roboto-medium';
+}
 .sideHeading{
   font-family: 'roboto-reg';
   color: #973df2;
@@ -22,10 +26,9 @@ img {
   font-size: 14px;
 }
 .contents{
-  font-family: 'roboto-thin';
+  font-family: 'roboto-light';
   font-weight: 300;
   font-size: 14px;
-  color: #797575;
 }
 .skill{
   font-family: 'roboto-light';
@@ -33,22 +36,22 @@ img {
   font-size: 14px;
 
 }
-.universityName{
-  font-family: 'roboto-light';
+.universityName, .awardName, .projectName{
+  font-family: 'roboto-medium';
   font-weight: 700;
   font-size: 14px;
 }
-.degreeName .awardName{
-  font-family: 'roboto-light';
-  font-weight: 500;
+.degreeName, .awardOrganiser, .projectRole{
+  font-family: 'roboto-reg';
+  font-weight: 600;
   font-size: 14px;
 }
-.educationYear .awardYear{
+.educationYear, .awardYear{
   font-family: 'roboto-light';
   font-weight: 300;
   font-size: 14px;
 }
-.educationDescription .awardDescription{
+.educationDescription, .awardDescription, .projectDescription{
   font-family: 'roboto-thin';
   font-weight: 300;
   font-size: 14px;
@@ -59,4 +62,7 @@ img {
 }
 .imagesDiv{
   padding-top: 10px;
+}
+.sideContent{
+  line-height: 7px;
 }

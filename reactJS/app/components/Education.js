@@ -45,7 +45,7 @@ class Education extends Component {
                      Education
                   </p>
               </div>
-              <div className='col-xs-12 col-md-10'>
+              <div className='col-xs-12 col-md-10 sideContent'>
                   {this.renderEducation(this.props.education)}
               </div>
           </div>

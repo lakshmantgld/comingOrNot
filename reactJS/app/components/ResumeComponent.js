@@ -37,9 +37,9 @@ class ResumeComponent extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='fullPage'>
           <div className='row col-xs-offset-1 col-md-offset-2'>
-            <div className='col-xs-12 col-md-10'>
+            <div className='col-xs-12 col-md-10' style={{'paddingTop' : '37px'}}>
              <h1 className='robotoRegFont'>{resume.name}</h1>
-             <h5 className='robotoLightFont' style={{'color' : '#797575'}}>{resume.address} &nbsp;&nbsp;|&nbsp;&nbsp;{resume.email} &nbsp;&nbsp;|&nbsp;&nbsp;{resume.mobile}</h5>
+             <h5 className='robotoLightFont' style={{'color' : '#797575','lineHeight' : '2'}}>{resume.address} &nbsp;&nbsp;|&nbsp;&nbsp;{resume.email} &nbsp;&nbsp;|&nbsp;{resume.mobile}</h5>
           <About abt={resume.about}/>
           <Skills skillSet={resume.skills}/>
           <Education education={resume.education}/>

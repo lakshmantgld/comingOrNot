@@ -25,7 +25,7 @@ class Awards extends Component {
       let awardsSet = [];
       awardsSet.push(<p className='awardName'>{awards[i]["name"]}</p>);
       awardsSet.push(<p className='awardOrganiser'>{awards[i]["organiser"]}</p>);
-      awardsSet.push(<p className='awardDate'>{awards[i]["date"]}</p>);
+      awardsSet.push(<p className='awardYear'>{awards[i]["date"]}</p>);
       if (awards[i]["description"] !== "") {
         awardsSet.push(<p className='awardDescription'>{awards[i]["description"]}</p>);
       }
@@ -45,7 +45,7 @@ class Awards extends Component {
                      Awards
                   </p>
               </div>
-              <div className='col-xs-12 col-md-10'>
+              <div className='col-xs-12 col-md-10 sideContent'>
                   {this.renderAwards(this.props.awards)}
               </div>
           </div>

@@ -44,7 +44,7 @@ class Projects extends Component {
                      projects
                   </p>
               </div>
-              <div className='col-xs-12 col-md-10'>
+              <div className='col-xs-12 col-md-10 sideContent'>
                   {this.renderProjects(this.props.projects)}
               </div>
           </div>

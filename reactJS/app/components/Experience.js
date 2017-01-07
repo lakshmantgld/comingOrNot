@@ -44,7 +44,7 @@ class Experience extends Component {
                      experience
                   </p>
               </div>
-              <div className='col-xs-12 col-md-10'>
+              <div className='col-xs-12 col-md-10 sideContent'>
                   {this.renderExperience(this.props.experience)}
               </div>
           </div>
