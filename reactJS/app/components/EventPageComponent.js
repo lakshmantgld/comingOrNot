@@ -121,6 +121,7 @@ class EventPageComponent extends Component {
     this.updateAttendee = this.updateAttendee.bind(this);
     this.checkDisableFlag = this.checkDisableFlag.bind(this);
     this.checkDisableUpdateFlag = this.checkDisableUpdateFlag.bind(this);
+    this.checkAttendeeDateSelectionWithPresentSelection = this.checkAttendeeDateSelectionWithPresentSelection.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -188,15 +189,46 @@ class EventPageComponent extends Component {
     }
   }
 
-  checkDisableUpdateFlag(){
-    {
-     if(this.props.disableFlag === 'updateAttendee'){
-       console.log("update disable aairchu");
+  checkAttendeeDateSelectionWithPresentSelection() {
+    let attendeeDetails = this.getCookieAttendeeDetails();
+    let presentAttendeeDetails = this.props.personalizedDateSelection;
+    let pastAttendeeDetails = attendeeDetails.personalizedDateSelection;
+    let returnValue = true;
+    let count = 0;
+    let originalLength = Object.keys(presentAttendeeDetails).length;
+    console.log("original length");
+    console.log(originalLength);
+    if (Object.keys(presentAttendeeDetails).length === 0 && presentAttendeeDetails.constructor === Object) {
+      returnValue = true;
+    } else {
+      for (let date in presentAttendeeDetails) {
+        if (presentAttendeeDetails.hasOwnProperty(date)) {
+          if (presentAttendeeDetails[date] === pastAttendeeDetails[date]){
+            count ++;
+          }
+        }
+      }
+      if (count !== originalLength) {
+        returnValue = false;
+      }
+    }
+    return returnValue;
+  }
+
+  checkDisableUpdateFlag() {
+    let cookieAttendee = cookie.load(encodeURI(this.props.params.eventId));
+    console.log(cookieAttendee);
+      if (this.props.disableFlag === 'updateAttendee') {
+        console.log("update disable aairchu");
+        return true;
+      } else if (this.props.attendeeName !== cookieAttendee || this.checkAttendeeDateSelectionWithPresentSelection()) {
+       console.log("empty");
        return true;
+     } else if (this.props.attendeeName !== cookieAttendee) {
+       return false;
      } else {
        return false;
      }
-    }
   }
 
   duplicateCheck() {
