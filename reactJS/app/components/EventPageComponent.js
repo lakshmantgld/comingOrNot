@@ -189,17 +189,16 @@ class EventPageComponent extends Component {
     }
   }
 
+  // this function compares the attendee's date selection with present date selection, which decides the diablitiy of update button.
   checkAttendeeDateSelectionWithPresentSelection() {
     let attendeeDetails = this.getCookieAttendeeDetails();
     let presentAttendeeDetails = this.props.personalizedDateSelection;
     let pastAttendeeDetails = attendeeDetails.personalizedDateSelection;
-    let returnValue = true;
+    let returnValue = false;
     let count = 0;
     let originalLength = Object.keys(presentAttendeeDetails).length;
-    console.log("original length");
-    console.log(originalLength);
     if (Object.keys(presentAttendeeDetails).length === 0 && presentAttendeeDetails.constructor === Object) {
-      returnValue = true;
+      returnValue = false;
     } else {
       for (let date in presentAttendeeDetails) {
         if (presentAttendeeDetails.hasOwnProperty(date)) {
@@ -209,7 +208,7 @@ class EventPageComponent extends Component {
         }
       }
       if (count !== originalLength) {
-        returnValue = false;
+        returnValue = true;
       }
     }
     return returnValue;
@@ -217,18 +216,15 @@ class EventPageComponent extends Component {
 
   checkDisableUpdateFlag() {
     let cookieAttendee = cookie.load(encodeURI(this.props.params.eventId));
-    console.log(cookieAttendee);
-      if (this.props.disableFlag === 'updateAttendee') {
-        console.log("update disable aairchu");
-        return true;
-      } else if (this.props.attendeeName !== cookieAttendee || this.checkAttendeeDateSelectionWithPresentSelection()) {
-       console.log("empty");
-       return true;
-     } else if (this.props.attendeeName !== cookieAttendee) {
-       return false;
-     } else {
-       return false;
-     }
+    if (this.props.disableFlag === 'updateAttendee') {
+      console.log("post update disable condition passes");
+      return true;
+    } else if (this.props.attendeeName !== cookieAttendee || this.checkAttendeeDateSelectionWithPresentSelection()) {
+      console.log("pre update siable condition passes");
+      return false;
+    } else {
+      return true;
+    }
   }
 
   duplicateCheck() {
@@ -1029,8 +1025,6 @@ class EventPageComponent extends Component {
 
   getGoogleMapsURL() {
     let x = "http://maps.google.com/?q=" + this.props.eventObj.location.lat + "," + this.props.eventObj.location.long;
-    console.log(x);
-    console.log("maps");
     return x;
   }
 
