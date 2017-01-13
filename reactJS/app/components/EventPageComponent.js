@@ -121,6 +121,7 @@ class EventPageComponent extends Component {
     this.updateAttendee = this.updateAttendee.bind(this);
     this.checkDisableFlag = this.checkDisableFlag.bind(this);
     this.checkDisableUpdateFlag = this.checkDisableUpdateFlag.bind(this);
+    this.checkAttendeeDateSelectionWithPresentSelection = this.checkAttendeeDateSelectionWithPresentSelection.bind(this);
   }
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
@@ -188,14 +189,41 @@ class EventPageComponent extends Component {
     }
   }
 
-  checkDisableUpdateFlag(){
-    {
-     if(this.props.disableFlag === 'updateAttendee'){
-       console.log("update disable aairchu");
-       return true;
-     } else {
-       return false;
-     }
+  // this function compares the attendee's date selection with present date selection, which decides the diablitiy of update button.
+  checkAttendeeDateSelectionWithPresentSelection() {
+    let attendeeDetails = this.getCookieAttendeeDetails();
+    let presentAttendeeDetails = this.props.personalizedDateSelection;
+    let pastAttendeeDetails = attendeeDetails.personalizedDateSelection;
+    let returnValue = false;
+    let count = 0;
+    let originalLength = Object.keys(presentAttendeeDetails).length;
+    if (Object.keys(presentAttendeeDetails).length === 0 && presentAttendeeDetails.constructor === Object) {
+      returnValue = false;
+    } else {
+      for (let date in presentAttendeeDetails) {
+        if (presentAttendeeDetails.hasOwnProperty(date)) {
+          if (presentAttendeeDetails[date] === pastAttendeeDetails[date]){
+            count ++;
+          }
+        }
+      }
+      if (count !== originalLength) {
+        returnValue = true;
+      }
+    }
+    return returnValue;
+  }
+
+  checkDisableUpdateFlag() {
+    let cookieAttendee = cookie.load(encodeURI(this.props.params.eventId));
+    if (this.props.disableFlag === 'updateAttendee') {
+      console.log("post update disable condition passes");
+      return true;
+    } else if (this.props.attendeeName !== cookieAttendee || this.checkAttendeeDateSelectionWithPresentSelection()) {
+      console.log("pre update siable condition passes");
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -997,8 +1025,6 @@ class EventPageComponent extends Component {
 
   getGoogleMapsURL() {
     let x = "http://maps.google.com/?q=" + this.props.eventObj.location.lat + "," + this.props.eventObj.location.long;
-    console.log(x);
-    console.log("maps");
     return x;
   }
 
