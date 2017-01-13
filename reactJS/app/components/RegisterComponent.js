@@ -131,10 +131,10 @@ class RegisterComponent extends Component {
     }
 
     // Stores the selected date in the state object.
-    storeDate(date) {
+    storeDate(date,isSelected,selectedDates) {
         (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
             ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
-            : console.log("Duplicate date");
+            : this.props.dispatch(popDateArray(date.format('ddd, MMM Do YYYY')));
 
         // Limit the date selection as 6
 
@@ -207,7 +207,7 @@ class RegisterComponent extends Component {
     renderChip(data) {
         return (
             <div className='col-xs-6'>
-                <Chip key={data} onRequestDelete={() => this.handleRequestDelete(data)} style={styles.chip}>
+                <Chip key={data}  style={styles.chip}>
                     {data}
                 </Chip>
             </div>
