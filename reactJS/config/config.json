@@ -8,6 +8,6 @@
   },
 
   "api": {
-    "baseURL": "https://s2tthl2hj6.execute-api.ap-northeast-1.amazonaws.com/development"
+    "baseURL": "https://z3n3irch8g.execute-api.ap-northeast-1.amazonaws.com/development"
   }
 }

@@ -30,9 +30,7 @@ import {
     storeLocation,
     changelanguage,
     storeDisableFlag,
-    updateNotificationFlag,
-    storeEmail,
-    storeEmailErrorLabel
+    updateNotificationFlag
 } from './../actions/registerActions';
 
 let styles = {
@@ -76,7 +74,6 @@ class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.storeName = this.storeName.bind(this);
-        this.storeEmail = this.storeEmail.bind(this);
         this.storePurpose = this.storePurpose.bind(this);
         this.registerEvent = this.registerEvent.bind(this);
         this.storeDate = this.storeDate.bind(this);
@@ -108,15 +105,6 @@ class RegisterComponent extends Component {
         } else {
             this.props.dispatch(storeNameErrorLabel(''))
             this.props.dispatch(storeName(e.target.value));
-        }
-    }
-
-    storeEmail(e) {
-        if (e.target.value.length >= '40') {
-            this.props.dispatch(storeEmailErrorLabel(this.props.languageJson.emailLengthErrorLabel))
-        } else {
-            this.props.dispatch(storeEmailErrorLabel(''))
-            this.props.dispatch(storeEmail(e.target.value));
         }
     }
 
@@ -188,7 +176,7 @@ class RegisterComponent extends Component {
             sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
         }
 
-        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location, this.props.email));
+        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
     }
 
     validateRegisterEvent() {
@@ -234,11 +222,7 @@ class RegisterComponent extends Component {
                 }
                 break;
             case 1:
-                if (this.props.email.length === 0) {
-                    this.props.dispatch(storeEmailErrorLabel(this.props.languageJson.emailInvalidateErrorLabel));
-                } else {
-                    this.props.dispatch(stepIncrease(this.props.stepIndex));
-                }
+                this.props.dispatch(stepIncrease(this.props.stepIndex));
                 break;
             case 2:
                 this.validateRegisterEvent();
@@ -309,16 +293,6 @@ class RegisterComponent extends Component {
                                     'suggestItem': {}
                                 }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
-                            </div>
-
-                            <div className='col-xs-12'>
-                                <TextField id='email' floatingLabelText={this.props.languageJson.email} onChange={this.storeEmail} floatingLabelFocusStyle={{
-                                    color: grey900
-                                }} underlineFocusStyle={styles.underlineStyle} value={this.props.email}/>
-                                <br></br>
-                                <label style={styles.errorLabel}>
-                                    {this.props.nameErrorLabel}
-                                </label>
                             </div>
                         <br></br>
                     </div>
@@ -463,19 +437,6 @@ class RegisterComponent extends Component {
 
                                                 </div>
                                             </div>
-                                            <div className='row'>
-
-                                                <div className='col-xs-12'>
-                                                    <TextField id='email' floatingLabelText={this.props.languageJson.email} onChange={this.storeEmail} floatingLabelFocusStyle={{
-                                                        color: grey900
-                                                    }} underlineFocusStyle={styles.underlineStyle} value={this.props.email}/>
-                                                    <br></br>
-                                                    <label style={styles.errorLabel}>
-                                                        {this.props.nameErrorLabel}
-                                                    </label>
-                                                </div>
-                                            </div>
-
                                             <br></br>
                                             {this.renderStepActions(1)}
                                         </StepContent>
@@ -608,9 +569,7 @@ RegisterComponent.propTypes = {
     location: PropTypes.string.isRequired,
     languageJson: PropTypes.object.isRequired,
     disableFlag: PropTypes.string.isRequired,
-    notificationFlag: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    emailErrorLabel: PropTypes.string.isRequired
+    notificationFlag: PropTypes.string.isRequired
 };
 
 export default connect(state => ({
@@ -624,7 +583,5 @@ export default connect(state => ({
     location: state.location,
     languageJson: state.languageJson,
     disableFlag: state.disableFlag,
-    notificationFlag: state.notificationFlag,
-    email: state.email,
-    emailErrorLabel: state.emailErrorLabel
+    notificationFlag: state.notificationFlag
 }))(RegisterComponent);

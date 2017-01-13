@@ -2,21 +2,12 @@ import { STORE_NAME, STORE_PURPOSE, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STEPPER_INCREASE, STEPPER_DECREASE, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
          UPDATE_NOTIFICATION_FLAG, STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
-         FETCH_AND_STORE_WEATHER, CHECK_DISABLE_FLAG, STORE_EMAIL, STORE_EMAIL_ERROR_LABEL } from './../actions/registerActions';
+         FETCH_AND_STORE_WEATHER, CHECK_DISABLE_FLAG} from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
     case STORE_NAME:
       return action.name;
-    default:
-      return state;
-  }
-}
-
-export function email(state = '', action) {
-  switch(action.type) {
-    case STORE_EMAIL:
-      return action.email;
     default:
       return state;
   }
@@ -70,15 +61,6 @@ export function dateArrayErrorLabel(state = '', action) {
 export function nameErrorLabel(state = '', action) {
   switch(action.type) {
     case STORE_NAME_ERROR_LABEL:
-      return action.errorLabel;
-    default:
-      return state;
-  }
-}
-
-export function emailErrorLabel(state = '', action) {
-  switch(action.type) {
-    case STORE_EMAIL_ERROR_LABEL:
       return action.errorLabel;
     default:
       return state;
