@@ -284,7 +284,7 @@ class RegisterComponent extends Component {
             case 1:
                 return (
                     <div className='row center-xs'>
-                            <div className='col-xs-12'>
+                            <div className='col-xs-12 col-md-6 col-md-offset-2'>
 
                                 <Geosuggest style={{
                                     'input': {width: 'initial',
