@@ -102,12 +102,12 @@ a.accountListItem, a.playbookListItem {
 
 }
 .geosuggest__input:focus {
-  border-color: #267dc0;
-  box-shadow: 0 0 0 transparent;
+
+  border: 1px solid #267dc0;
 }
 .geosuggest__suggests {
   position: absolute;
-      width: 187px;
+      width: 196px;
   top: 100%;
   left: 0;
   right: 0;
