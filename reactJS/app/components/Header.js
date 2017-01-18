@@ -6,7 +6,6 @@ import { grey50 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
-import MediaQuery from 'react-responsive';
 import englishJson from '../../en.json';
 import japaneseJson from '../../jp.json';
 
@@ -47,7 +46,9 @@ class Header extends Component {
     let currentURL = window.location.href;
     return (
       <div>
-      <MediaQuery maxDeviceWidth={1224}>
+
+      {/**Mobile & Tablet code starts*/}
+      <div className=" hidden-md hidden-lg">
       <header>
         <AppBar
           className='headerBar'
@@ -78,9 +79,14 @@ class Header extends Component {
           }
         />
       </header>
-    </MediaQuery>
-    <MediaQuery minDeviceWidth={1224}>
-     <header>
+      </div>
+      {/**Mobile & Tablet code ends*/}
+
+      {/*##########################*/}
+
+      {/**PC & Laptop code starts*/}
+     <div className=" hidden-xs hidden-sm">
+      <header>
        <AppBar
          className='headerBar'
          style={{backgroundColor: 'black'}}
@@ -110,7 +116,9 @@ class Header extends Component {
          }
        />
      </header>
-   </MediaQuery>
+   </div>
+   {/**PC & Laptop code ends*/}
+
  </div>
     );
   }

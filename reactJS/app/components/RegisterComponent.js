@@ -408,9 +408,9 @@ class RegisterComponent extends Component {
 
         return (
             <div>
-                <MediaQuery maxDeviceWidth={1224}>
-                    <div>
-                        {/**Mobile & Tablet*/}
+
+                    {/**Mobile & Tablet code starts*/}
+                    <div className="visible-xs visible-sm hidden-md hidden-lg">
                         <br></br>
                         <br></br>
 
@@ -530,11 +530,12 @@ class RegisterComponent extends Component {
                         </div>
 
                     </div>
-                </MediaQuery>
+                    {/**Mobile & Tablet code ends*/}
 
-                <MediaQuery minDeviceWidth={1224}>
-                    <div>
-                        {/*laptop*/}
+                    {/*##########################*/}
+
+                    {/*PC & Laptop code starts*/}
+                    <div className="visible-md visible-lg hidden-xs hidden-sm">
                         <br></br>
                         <br></br>
 
@@ -580,7 +581,8 @@ class RegisterComponent extends Component {
                         </div>
 
                     </div>
-                </MediaQuery>
+                    {/*PC & Laptop code ends*/}
+
             </div>
         );
     }
