@@ -15,6 +15,7 @@ import {Step, Stepper, StepLabel, StepContent} from 'material-ui/Stepper';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
+import moment from 'moment';
 
 import {
     storeName,
@@ -236,6 +237,35 @@ class RegisterComponent extends Component {
         this.props.dispatch(stepDecrease(this.props.stepIndex));
     }
 
+    /**convertStringToDate(dateArray) {
+      console.log("convertStringToDate");
+      console.log(dateArray);
+      let formattedEnteredDates = [];
+      for (let i = 0; i < dateArray.length; i++) {
+          let date = dateArray[i];
+          let formattedDate;
+
+          if (date.indexOf("th") !== -1) {
+              formattedDate = date.replace("th", "");
+          } else if (date.indexOf("st") !== -1) {
+              formattedDate = date.replace("st", "");
+          } else if (date.indexOf("nd") !== -1) {
+              formattedDate = date.replace("nd", "");
+          } else {
+              formattedDate = date.replace("rd", "");
+          }
+          formattedEnteredDates[i] = formattedDate.split(",")[1];
+      }
+
+      let convertedDatearray = [];
+        for(let date of formattedEnteredDates)
+        {
+          convertedDatearray.push(moment(new Date(date)));
+        }
+        console.log(convertedDatearray);
+        return convertedDatearray;
+    }*/
+
     renderStepActions(step) {
         const stepIndex = this.props.stepIndex;
 
@@ -312,7 +342,7 @@ class RegisterComponent extends Component {
                   </div><br/><br/></div>*/}
                         <div className='row'>
 
-                            <div className='col-xs-12'>
+                            <div className='col-xs-7'>
                                 <InfiniteCalendar theme={{
                                     selectionColor: 'rgb(6, 5, 6)',
                                     textColor: {
@@ -326,11 +356,9 @@ class RegisterComponent extends Component {
                                         color: '#FFF',
                                         chevron: '#FFA726'
                                     }
-                                }} layout='landscape' width={'100%'} height={270} rowHeight={55} min={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                                }} layout='landscape' width={'100%'} height={270} rowHeight={55} onSelect={this.storeDate/* selectedDates={[]/*this.convertStringToDate(this.props.dateArray)}*/}/>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-12" style={datePushResponsive}>
+                            <div className="col-xs-5" style={datePushResponsive}>
                                 <div className="row">
                                     {dateArray}
                                 </div>
@@ -475,9 +503,9 @@ class RegisterComponent extends Component {
                                             </div>
                                             <div className="row">
                                                 <div className="col-xs-12" style={datePushResponsive}>
-                                                    <div className='row'>
+                                                    {/**<div className='row'>
                                                         {dateArray}
-                                                    </div>
+                                                    </div>*/}
                                                     <div className='row center-xs'>
                                                         <label style={styles.errorLabel}>
                                                             {this.props.dateArrayErrorLabel}
@@ -511,7 +539,7 @@ class RegisterComponent extends Component {
                         <br></br>
 
                         <div className='row'>
-                            <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
+                            <div className='col-md-offset-1 col-md-10 col-sm-12 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex}>
                                     <Step>
                                         <StepLabel>Enter your name and events name</StepLabel>
