@@ -46,11 +46,12 @@ let styles = {
   formLabel: {
     text: 'bold',
     fontSize: '25px',
-    color: grey600
+    color: '#000'
   },
   LocationLabel: {
     fontSize: '18px',
-    color: grey600
+    color: '#000',
+    cursor: 'pointer'
   },
   underlineStyle: {
     borderColor: grey900,
@@ -64,12 +65,12 @@ let styles = {
     text: 'bold',
     fontSize: '21.5px',
     marginRight: '5px',
-    color: grey600
+    color: '#000'
   },
   dateLabel: {
     text: 'bold',
     fontSize: '25px',
-    color: grey600
+    color: '#000'
   },
   errorLabel: {
     fontSize: '15px',
@@ -770,7 +771,7 @@ class EventPageComponent extends Component {
   // helper to render dates according to status and date.
   individualDateSection(date, status) {
     return (
-      <div className='col-xs-3'>
+      <div className='col-xs-5'>
         <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
             <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
@@ -815,7 +816,7 @@ class EventPageComponent extends Component {
     for (let i = 0; i < datesInColumn.length; i++) {
         dateToggleElements[i] = (
           <div><div className='row'>
-                <div className='col-xs-offset-3 col-xs-3'>
+                <div className='col-xs-offset-2 col-xs-3'>
                     <label style={styles.dateLabel}>
                         {datesInColumn[i]}
                     </label>
@@ -839,7 +840,7 @@ class EventPageComponent extends Component {
                     dateToggleElements[i] = (
                         <div><div className='row'>
 
-                            <div className='col-xs-offset-3 col-xs-3'>
+                            <div className='col-xs-offset-2 col-xs-3'>
                                 <label style={styles.dateLabel}>
                                     {datesInColumn[i]}
                                 </label>
@@ -869,17 +870,14 @@ class EventPageComponent extends Component {
           <div className='row center-xs'>
             <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
           </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> {this.props.languageJson.attendeeName} </label>
-            </div>
-            <div className='col-xs'>
-              <TextField id='name' hintText='Name' style={{'height':'38px'}} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+          <div className='row center-xs'>
+            <div className='col-xs-12'>
+              <TextField id='name' floatingLabelText={"Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
           </div>
+          <br />
           <br />
           {this.dateToggleSection(false)}
           <br />
@@ -895,17 +893,14 @@ class EventPageComponent extends Component {
           <div className='row center-xs'>
             <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
           </div>
-          <br />
-          <div className='row'>
-            <div className='col-xs-offset-5 col-xs-1'>
-              <label style={styles.formLabel}> {this.props.languageJson.attendeeName} </label>
-            </div>
-            <div className='col-xs'>
-              <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+          <div className='row center-xs'>
+            <div className='col-xs-12'>
+              <TextField id='name' floatingLabelText={"Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
           </div>
+          <br />
           <br />
           {this.dateToggleSection(true)}
           <br />
@@ -1033,9 +1028,11 @@ class EventPageComponent extends Component {
       return (
         <div>
           <div className='row center-xs'>
-            <a target="_blank" href={this.getGoogleMapsURL()}>
-              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'rgb(117, 117, 117)'}}>location_on</FontIcon> {this.props.eventObj.location.locationName} </label>
+            <span style={{'cursor':'pointer'}}>
+            <a target="_blank" href={this.getGoogleMapsURL()} style={{'textDecoration':'none'}}>
+              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'#000'}}>location_on</FontIcon> {this.props.eventObj.location.locationName} </label>
             </a>
+            </span>
           </div>
           <br />
           <br />
@@ -1063,9 +1060,9 @@ class EventPageComponent extends Component {
       result = (
 
         <div>
-          <div>
-          <MediaQuery minDeviceWidth={1224}>
-              {/*<div> PC and Desktop code starts </div>*/}
+
+            {/**PC and Desktop code starts */}
+          <div className="visible-md visible-lg hidden-xs hidden-sm">
 
               <br />
               <div className='row center-xs'>
@@ -1112,13 +1109,15 @@ class EventPageComponent extends Component {
               </div>
               <br />
               {this.attendeeSubmissionSection()}
-              {/*<div> PC and Desktop code ends </div>*/}
 
-          </MediaQuery>
+          </div>
+          {/**PC and Desktop code ends */}
 
-          <MediaQuery maxDeviceWidth={1224} >
+          {/*##########################*/}
 
-            {/*<div> Tablet & Smartphone code starts </div>*/}
+          {/**Mobile & Tablet code starts*/}
+
+          <div  className="visible-xs visible-sm hidden-md hidden-lg">
 
             <br></br>
               <div className='row center-xs'>
@@ -1139,9 +1138,10 @@ class EventPageComponent extends Component {
                 <br></br>
 
               </div>
-          {/*<div> Tablet & Smartphone code ends </div>*/}
-          </MediaQuery>
+
         </div>
+        {/**Mobile & Tablet code ends*/}
+
         </div>
       );
     }
