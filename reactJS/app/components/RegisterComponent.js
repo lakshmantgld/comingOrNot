@@ -556,7 +556,7 @@ class RegisterComponent extends Component {
 
                                 <div style={contentStyle}>
 
-                                    <p>{this.getStepContent(this.props.stepIndex)}</p>
+                                    {this.getStepContent(this.props.stepIndex)}
                                     <br></br>
                                     <div className='row center-xs'>
                                         <div className='col-xs-12' style={{
