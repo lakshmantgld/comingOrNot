@@ -61,9 +61,6 @@ let styles = {
         backgroundColor: 'rgba(78, 74, 74, 0.05)'
     }
 };
-let datePushResponsive = {
-    marginTop: 30
-}
 let buttonStyle = {
     margin: 12,
     color: 'rgb(255, 255, 255)'
@@ -195,11 +192,9 @@ class RegisterComponent extends Component {
 
     renderChip(data) {
         return (
-            <div className='col-xs-6'>
                 <Chip key={data}  style={styles.chip}>
                     {data}
                 </Chip>
-            </div>
         );
     }
 
@@ -314,7 +309,7 @@ class RegisterComponent extends Component {
             case 1:
                 return (
                     <div className='row center-xs'>
-                            <div className='col-xs-12 col-md-6 col-md-offset-2'>
+                            <div className='col-md-6 col-md-offset-3'>
 
                                 <Geosuggest style={{
                                     'input': {width: 'initial',
@@ -349,7 +344,7 @@ class RegisterComponent extends Component {
                                         default: '#333',
                                         active: '#FFF'
                                     },
-                                    weekdayColor: 'rgb(49, 44, 49)',
+                                    weekdayColor: 'rgb(6, 5, 6)',
                                     headerColor: 'rgb(6, 5, 6)',
                                     floatingNav: {
                                         background: 'rgb(6, 5, 6)',
@@ -358,8 +353,8 @@ class RegisterComponent extends Component {
                                     }
                                 }} layout='landscape' width={'100%'} height={270} rowHeight={55} onSelect={this.storeDate/* selectedDates={[]/*this.convertStringToDate(this.props.dateArray)}*/}/>
                             </div>
-                            <div className="col-xs-5" style={datePushResponsive}>
-                                <div className="row">
+                            <div className="col-xs-5" >
+                                <div className="row center-xs" style={{maxHeight: '320px',overflowY: 'scroll'}}>
                                     {dateArray}
                                 </div>
                                 <div className='row center-xs'>
@@ -502,7 +497,7 @@ class RegisterComponent extends Component {
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div className="col-xs-12" style={datePushResponsive}>
+                                                <div className="col-xs-12">
                                                     {/**<div className='row'>
                                                         {dateArray}
                                                     </div>*/}
