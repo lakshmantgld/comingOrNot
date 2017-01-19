@@ -55,7 +55,7 @@ class Header extends Component {
                             'position': 'absolute'
                         }}>
                             {this.props.languageJson.header}
-                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameborder="0" scrolling="0" width="70px" height="20px" style={{
+                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="70px" height="20px" style={{
                             'border': 'none'
                         }}></iframe> < FontIcon className = 'material-icons' color = {
                                 grey50
@@ -82,7 +82,7 @@ class Header extends Component {
                             'marginLeft': '120px'
                         }}>
                             {this.props.languageJson.header}
-                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameborder="0" scrolling="0" width="100px" height="20px" style={{
+                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="100px" height="20px" style={{
                             'border': 'none'
                         }}></iframe> < FontIcon className = 'material-icons' color = {
                                 grey50
