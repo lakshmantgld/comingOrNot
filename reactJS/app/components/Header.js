@@ -49,24 +49,40 @@ class Header extends Component {
                 {/**Mobile & Tablet code starts*/}
                 <div className=" hidden-md hidden-lg">
                     <header>
-                        <AppBar className='headerBar' style={{
-                            backgroundColor: 'black'
-                        }} title={< a href = 'javascript:window.location.reload(true)' > <center className='col-md-offset-2' style={{
-                            'position': 'absolute'
-                        }}>
-                            {this.props.languageJson.header}
-                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="70px" height="20px" style={{
-                            'border': 'none'
-                        }}></iframe> < FontIcon className = 'material-icons' color = {
-                                grey50
-                            }
-                            style = {
-                                styles.icon2
-                            } > language < /FontIcon> </div >
-                        }
-                        targetOrigin = {{horizontal: 'right', vertical: 'top'}}anchorOrigin = {{horizontal: 'right', vertical: 'top'}} > <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese}/> < MenuItem primaryText = "English" onTouchTap = {
-                            this.renderEnglish
-                        } /> </IconMenu>}/>
+                      <AppBar
+className='headerBar'
+style={{backgroundColor: 'black'}}
+title={<a href='javascript:window.location.reload(true)'>
+        <center className='col-md-offset-2' style={{'position':'absolute'}}> {this.props.languageJson.header} </center>
+      </a>}
+showMenuIconButton={false}
+iconElementRight={
+  <div>
+    <IconMenu
+
+      iconButtonElement={
+           <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="75px" height="20px"style={{'border':'none'}}></iframe>
+      }
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    >
+    </IconMenu>
+
+    <IconMenu
+
+      iconButtonElement={
+          <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
+      }
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    >
+      <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese} />
+      <MenuItem primaryText="English" onTouchTap={this.renderEnglish} />
+    </IconMenu>
+  </div>
+}
+/>
+
                     </header>
                 </div>
                 {/**Mobile & Tablet code ends*/}
@@ -76,24 +92,38 @@ class Header extends Component {
                 {/**PC & Laptop code starts*/}
                 <div className=" hidden-xs hidden-sm">
                     <header>
-                        <AppBar className='headerBar' style={{
-                            backgroundColor: 'black'
-                        }} title={< a href = 'javascript:window.location.reload(true)' > <center className='col-md-offset-1' style={{
-                            'marginLeft': '120px'
-                        }}>
-                            {this.props.languageJson.header}
-                        </center> < /a>} showMenuIconButton={false} iconElementRight={< IconMenu iconButtonElement = { < div > <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="100px" height="20px" style={{
-                            'border': 'none'
-                        }}></iframe> < FontIcon className = 'material-icons' color = {
-                                grey50
-                            }
-                            style = {
-                                styles.icon2
-                            } > language < /FontIcon> </div >
-                        }
-                        targetOrigin = {{horizontal: 'right', vertical: 'top'}}anchorOrigin = {{horizontal: 'right', vertical: 'top'}} > <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese}/> < MenuItem primaryText = "English" onTouchTap = {
-                            this.renderEnglish
-                        } /> </IconMenu>}/>
+                      <AppBar className='headerBar' style={{backgroundColor: 'black'}} title={<a href='javascript:window.location.reload(true)'>
+        <center className='col-md-offset-1' style={{'marginLeft':'120px'}}> {this.props.languageJson.header} </center>
+      </a>}
+showMenuIconButton={false}
+iconElementRight={
+<div>
+  <IconMenu
+
+    iconButtonElement={
+         <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="75px" height="20px"style={{'border':'none'}}></iframe>
+
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+  </IconMenu>
+
+  <IconMenu
+
+    iconButtonElement={
+        <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese} />
+    <MenuItem primaryText="English" onTouchTap={this.renderEnglish} />
+  </IconMenu>
+</div>
+}
+/>
+
                     </header>
                 </div>
                 {/**PC & Laptop code ends*/}
