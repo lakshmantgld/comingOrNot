@@ -544,7 +544,7 @@ class RegisterComponent extends Component {
                                     <Step>
                                         <StepLabel style={{
                                             marginTop: 17
-                                        }}>Enter Event location(OPTIONAL)</StepLabel>
+                                        }}>Enter Event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}> (Optional)</span></StepLabel>
                                         <br></br>
 
                                     </Step>
@@ -591,7 +591,7 @@ RegisterComponent.propTypes = {
     nameErrorLabel: PropTypes.string.isRequired,
     purposeErrorLabel: PropTypes.string.isRequired,
     stepIndex: PropTypes.number.isRequired,
-    location: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
     languageJson: PropTypes.object.isRequired,
     disableFlag: PropTypes.string.isRequired,
     notificationFlag: PropTypes.string.isRequired
