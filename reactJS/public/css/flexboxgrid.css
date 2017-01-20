@@ -994,3 +994,62 @@
     order: 1;
   }
 }
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+@media (max-width: 48em) {
+    .visible-xs      { display: block !important; }
+    .row.visible-xs  { display: flex !important;
+                       display: -webkit-flex !important;
+                       display: -ms-flexbox !important;
+                       display: -webkit-box !important;
+                       display: flex!important; }
+    table.visible-xs { display: table !important; }
+    tr.visible-xs    { display: table-row !important; }
+    th.visible-xs,
+    td.visible-xs    { display: table-cell !important; }
+}
+@media (min-width: 48em) and (max-width: 62em) {
+    .visible-sm      { display: block !important; }
+    .row.visible-sm  { display: flex !important;
+                       display: -webkit-flex !important;
+                       display: -ms-flexbox !important;
+                       display: -webkit-box !important;
+                       display: flex!important; }
+    table.visible-sm { display: table !important; }
+    tr.visible-sm    { display: table-row !important; }
+    th.visible-sm,
+    td.visible-sm    { display: table-cell !important; }
+}
+@media (min-width: 62em) and (max-width: 75em) {
+    .visible-md      { display: block !important; }
+    .row.visible-md  { display: flex !important;
+                       display: -webkit-flex !important;
+                       display: -ms-flexbox !important;
+                       display: -webkit-box !important;
+                       display: flex!important; }
+    table.visible-md { display: table !important; }
+    tr.visible-md    { display: table-row !important; }
+    th.visible-md,
+    td.visible-md    { display: table-cell !important; }
+}
+@media (min-width: 75em) {
+    .visible-lg      { display: block !important; }
+    .row.visible-lg  { display: flex !important;
+                       display: -webkit-flex !important;
+                       display: -ms-flexbox !important;
+                       display: -webkit-box !important;
+                       display: flex!important; }
+    table.visible-lg { display: table !important; }
+    tr.visible-lg    { display: table-row !important; }
+    th.visible-lg,
+    td.visible-lg    { display: table-cell !important; }
+}
+@media (max-width: 48em)                       { .hidden-xs { display: none !important; } }
+@media (min-width: 48em) and (max-width: 62em) { .hidden-sm { display: none !important; } }
+@media (min-width: 62em) and (max-width: 75em) { .hidden-md { display: none !important; } }
+@media (min-width: 75em)                       { .hidden-lg { display: none !important; } }
