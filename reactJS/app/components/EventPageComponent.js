@@ -1036,7 +1036,6 @@ class EventPageComponent extends Component {
             </a>
           </span>
           </div>
-          <br />
         </div>
       );
     }
@@ -1125,11 +1124,8 @@ class EventPageComponent extends Component {
                 <label style={styles.formLabel}> {this.props.eventObj.purpose} </label>
               </div>
 
-              <br></br>
 
               {this.renderLocation()}
-
-              <br></br>
 
 
               <div>
