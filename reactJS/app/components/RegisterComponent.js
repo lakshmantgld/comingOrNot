@@ -266,13 +266,15 @@ class RegisterComponent extends Component {
 
         return (
             <div style={{
-                margin: '12px 0'
+                margin: '12px 16px',
+                marginTop: '25px'
             }}>
+            {step > 0 && (<FlatButton label="Back" disabled={stepIndex === 0} disableTouchRipple={true} disableFocusRipple={true} onTouchTap={this.stepDecrease}/>)}
                 <RaisedButton label={stepIndex === 2
                     ? 'Register'
                     : 'Next'} disableTouchRipple={true} disableFocusRipple={true} primary={true} onTouchTap={this.stepIncrease} style={{
                     marginRight: 12
-                }}/> {step > 0 && (<FlatButton label="Back" disabled={stepIndex === 0} disableTouchRipple={true} disableFocusRipple={true} onTouchTap={this.stepDecrease}/>)}
+                }}/>
             </div>
         );
     }
@@ -450,7 +452,7 @@ class RegisterComponent extends Component {
                                         <StepContent>
                                             <div className='row'>
                                                 <div className='col-xs-12'>
-
+                                                    <br></br>
                                                     <Geosuggest style={{
                                                         'input': {},
                                                         'suggests': {},
@@ -479,6 +481,7 @@ class RegisterComponent extends Component {
                                             <div className='row'>
 
                                                 <div className='col-xs-12'>
+                                                  <br></br>
                                                     <InfiniteCalendar theme={{
                                                         selectionColor: 'rgb(6, 5, 6)',
                                                         textColor: {
