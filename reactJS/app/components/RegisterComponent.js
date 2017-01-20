@@ -312,11 +312,10 @@ class RegisterComponent extends Component {
                             <div className='col-md-6 col-md-offset-3'>
 
                                 <Geosuggest style={{
-                                    'input': {width: 'initial',
-                                    textAlign: 'inherit'},
+                                    'input': {width: 'initial', textAlign: 'inherit'},
                                     'suggests': {},
                                     'suggestItem': {}
-                                }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+                                }} queryDelay='0' placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                             </div>
                         <br></br>
@@ -456,7 +455,7 @@ class RegisterComponent extends Component {
                                                         'input': {},
                                                         'suggests': {},
                                                         'suggestItem': {}
-                                                    }} placeholder='Restaurant location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+                                                    }} queryDelay='0' placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                                                 </div>
                                             </div>
