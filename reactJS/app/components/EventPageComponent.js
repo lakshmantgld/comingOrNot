@@ -104,7 +104,7 @@ let styles = {
 
 let buttonStyle = {
   margin : 12,
-  backgroundColor : "rgb(67, 67, 67)"
+  backgroundColor : "rgb(33, 33, 33)"
 };
 
 
@@ -872,7 +872,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -895,7 +895,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -918,7 +918,9 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{
+                        color: grey900
+                    }} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
@@ -927,7 +929,7 @@ class EventPageComponent extends Component {
                 <br></br>
                   <div>{this.MobiledateToggleSection(false)}</div>
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
                            message={this.getNotificationTitle()}
@@ -944,7 +946,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' hintText='Name' onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
@@ -953,7 +955,7 @@ class EventPageComponent extends Component {
                 <br></br>
                 <div>{this.MobiledateToggleSection(true)}</div>
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' backgroundColor={"rgb(67, 67, 67)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label='Update' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.checkNotificationFlag()}
                          message={this.getNotificationTitle()}
@@ -1028,13 +1030,12 @@ class EventPageComponent extends Component {
       return (
         <div>
           <div className='row center-xs'>
-            <span style={{'cursor':'pointer'}}>
+            <span className='col-xs-8' style={{'cursor':'pointer'}}>
             <a target="_blank" href={this.getGoogleMapsURL()} style={{'textDecoration':'none'}}>
-              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'18px','color':'#000'}}>location_on</FontIcon> {this.props.eventObj.location.locationName} </label>
+              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'13px','color':'#000'}}>location_on</FontIcon> <span style={{'fontSize':'13px'}}>{this.props.eventObj.location.locationName} </span></label>
             </a>
-            </span>
+          </span>
           </div>
-          <br />
           <br />
         </div>
       );
@@ -1080,7 +1081,7 @@ class EventPageComponent extends Component {
                 title={this.getNotificationTitle()}
                 actions={
                   <RaisedButton label='Ok'
-                   backgroundColor={"rgb(67, 67, 67)"}
+                   backgroundColor={"rgb(33, 33, 33)"}
                    labelColor={"white"}
                    style={buttonStyle}
                    disabled={false}
