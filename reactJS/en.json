@@ -12,7 +12,7 @@
   "calendarLabel": "Select the Dates for the Event",
   "geosuggestPlaceholder": "Enter the restaurant location here!",
   "register": "Register",
-  "shareLabel": "Share the Event Url with your friends, for choosing the best possible date",
+  "shareLabel": "Share the Event Url with your friends",
   "eventPageButton": "Event Page",
   "attendeeNameErrorLabel": "Name field is required!!",
   "attendeeNameErrorLabelDuplicate": "Name already exists!! Please enter another name",
