@@ -42,7 +42,7 @@ let styles = {
     },
     errorLabel: {
         text: 'bold',
-        fontSize: '22px',
+        fontSize: '16px',
         color: red500
     },
     chip: {
@@ -414,7 +414,7 @@ class RegisterComponent extends Component {
                             <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex} orientation="vertical">
                                     <Step>
-                                        <StepLabel>Enter your name and events name</StepLabel>
+                                        <StepLabel>Enter your name and event name</StepLabel>
                                         <StepContent>
 
                                             <div className='row'>
