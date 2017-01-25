@@ -93,7 +93,7 @@ iconElementRight={
                 <div className=" hidden-xs hidden-sm">
                     <header>
                       <AppBar className='headerBar' style={{backgroundColor: 'black'}} title={<a href='javascript:window.location.reload(true)'>
-        <center className='col-md-offset-1' style={{'marginLeft':'120px'}}> {this.props.languageJson.header} </center>
+        <center className='col-md-offset-1'> {this.props.languageJson.header} </center>
       </a>}
 showMenuIconButton={false}
 iconElementRight={
