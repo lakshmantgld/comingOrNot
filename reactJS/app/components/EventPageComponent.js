@@ -59,7 +59,7 @@ let styles = {
   formLabel2: {
     text: 'bold',
     fontSize: '21.5px',
-    color: blue500
+    color: '#000'
   },
   formLabel3: {
     text: 'bold',
@@ -78,9 +78,6 @@ let styles = {
   },
   paperStyle: {
     width: '50%'
-  },
-  icon: {
-    marginRight: 24
   },
   block: {
     maxWidth: 100,
@@ -776,30 +773,15 @@ class EventPageComponent extends Component {
 
             <RadioButton className='col-xs-4' style={{}} value='free' label='Free' checkedIcon={< FontIcon className = 'material-icons' color = {
                 green500
-            }
-            style = {
-                styles.icon
-            } > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                styles.icon
-            } > panorama_fish_eye < /FontIcon>}/>
+            } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
             <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' checkedIcon={< FontIcon className = 'material-icons' color = {
                 yellow800
-            }
-            style = {
-                styles.icon
-            } > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                styles.icon
-            } > change_history < /FontIcon>}/>
+            } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > change_history < /FontIcon>}/>
 
             <RadioButton className='col-xs-4' style={{}} value='busy' label='Busy' checkedIcon={< FontIcon className = 'material-icons' color = {
                 red500
-            }
-            style = {
-                styles.icon
-            } > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' style = {
-                styles.icon
-            } > clear < /FontIcon>}/>
+            } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
         </RadioButtonGroup>
       </div>
@@ -1070,6 +1052,7 @@ class EventPageComponent extends Component {
               </div>
               <br></br>
                 {this.renderLocation()}
+                <br></br>
               <div className='row center-xs'>
                   <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
                   <label style={styles.formLabel2}> {" "+this.props.eventObj.attendees.length} </label>
