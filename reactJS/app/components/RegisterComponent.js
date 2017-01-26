@@ -552,12 +552,12 @@ class RegisterComponent extends Component {
                                         <div className='col-xs-12' style={{
                                             marginTop: 12
                                         }}>
-                                            <FlatButton label="Back" disabled={this.props.stepIndex === 0} onTouchTap={this.stepDecrease} style={{
+                                            <FlatButton label={this.props.languageJson.back} disabled={this.props.stepIndex === 0} onTouchTap={this.stepDecrease} style={{
                                                 marginRight: 12
                                             }}/>
                                             <RaisedButton label={this.props.stepIndex === 2
-                                                ? 'Register'
-                                                : 'Next'} primary={true} onTouchTap={this.stepIncrease}/>
+                                                ? this.props.languageJson.register
+                                                : this.props.languageJson.next} primary={true} onTouchTap={this.stepIncrease}/>
                                         </div>
                                     </div>
 
