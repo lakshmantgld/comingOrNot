@@ -121,16 +121,6 @@ class RegisterComponent extends Component {
         (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
             ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
             : this.props.dispatch(popDateArray(date.format('ddd, MMM Do YYYY')));
-
-        // Limit the date selection as 6
-
-        // if (this.props.dateArray.length <= 5) {
-        //     (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
-        //         ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
-        //         : console.log("Duplicate date");
-        // } else {
-        //     this.props.dispatch(storeDateArrayErrorLabel(this.props.languageJson.dateArrayExcessErrorLabel));
-        // }
     }
 
     storeLocation(location) {
@@ -269,10 +259,10 @@ class RegisterComponent extends Component {
                 margin: '12px 16px',
                 marginTop: '25px'
             }}>
-            {step > 0 && (<FlatButton label="Back" disabled={stepIndex === 0} disableTouchRipple={true} disableFocusRipple={true} onTouchTap={this.stepDecrease}/>)}
+            {step > 0 && (<FlatButton label={this.props.languageJson.back} disabled={stepIndex === 0} disableTouchRipple={true} disableFocusRipple={true} onTouchTap={this.stepDecrease}/>)}
                 <RaisedButton label={stepIndex === 2
-                    ? 'Register'
-                    : 'Next'} disableTouchRipple={true} disableFocusRipple={true} primary={true} onTouchTap={this.stepIncrease} style={{
+                    ? this.props.languageJson.register
+                    : this.props.languageJson.next} disableTouchRipple={true} disableFocusRipple={true} primary={true} onTouchTap={this.stepIncrease} style={{
                     marginRight: 12
                 }}/>
             </div>

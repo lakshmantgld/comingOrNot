@@ -34,6 +34,11 @@ let styles = {
   m_style: {
 
   },
+  percentange_box: {
+  padding: "10px",
+  backgroundColor: "rgb(245, 245, 245)",
+  borderRadius: "10px"
+  },
   selected_circle: {
   textShadow: "rgb(59, 255, 59) 0px 0px 5px"
   },
@@ -373,8 +378,7 @@ class EventPageComponent extends Component {
       "44" : "wi wi-cloud",
       "45" : "wi wi-storm-showers",
       "46" : "wi wi-rain-mix",
-      "47" : "wi wi-storm-showers",
-      "3200" : "wi wi-na"
+      "47" : "wi wi-storm-showers"
     };
     if (this.props.weather.length === 0) {
     // when weather information from yahoo is not available. render dates alone.
@@ -757,15 +761,13 @@ class EventPageComponent extends Component {
 
     }
 
-
-      free_count=String((free_count*100)/total) + "%";
-      maybe_count=String((maybe_count*100)/total)+ "%";
-      busy_count=String((busy_count*100)/total)+ "%";
+      free_count=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
+      maybe_count=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
+      busy_count=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
 
       let weatherdates = this.renderWithOrWithoutWeather();
 
       return (
-
 
     <div className = 'row'>
     <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
@@ -780,10 +782,22 @@ class EventPageComponent extends Component {
           />
           <CardText expandable={true}>
 
-            <div className = 'row center-xs'>
-              <div className = 'col-xs-4'>Free: {free_count}</div>
-              <div className = 'col-xs-4'>Maybe: {maybe_count}</div>
-              <div className = 'col-xs-4'>Busy: {busy_count}</div>
+            <div className = 'row center-xs' style={styles.percentange_box}>
+              <div className = 'col-xs-4'>
+                <FontIcon className = 'material-icons' color = {green500} > panorama_fish_eye </FontIcon>
+                <br></br>
+                <span>{free_count}</span>
+              </div>
+              <div className = 'col-xs-4'>
+                <FontIcon className = 'material-icons' color = {yellow800}  > change_history </FontIcon>
+                <br></br>
+                <span>{maybe_count}</span>
+              </div>
+              <div className = 'col-xs-4'>
+                <FontIcon className = 'material-icons' color = {red500}  > clear </FontIcon>
+                <br></br>
+                <span>{busy_count}</span>
+              </div>
             </div>
             <br></br>
             <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
@@ -929,7 +943,7 @@ class EventPageComponent extends Component {
           {this.dateToggleSection(false)}
           <br />
           <div className='row center-xs'>
-            <RaisedButton label='Register' labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+            <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
           </div>
         </div>
       );

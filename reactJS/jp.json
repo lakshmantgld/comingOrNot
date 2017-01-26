@@ -1,3 +1,26 @@
 {
-  
+  "header": "Coming Or Not?",
+  "nameErrorLabel": "Only 40 characters permitted!!!",
+  "purposeErrorLabel": "Only 100 characters permitted!!!",
+  "dateArrayEmptyErrorLabel": "No dates selected!!",
+  "nameErrorLabelRequired": "あなたの名前が必要です",
+  "purposeErrorLabelRequired": "例：葬式",
+  "name": "主催者名 *",
+  "attendeeName": "名",
+  "purpose": "イベント名 *",
+  "calendarLabel": "Select the Dates for the Event",
+  "geosuggestPlaceholder": "Enter the restaurant location here!",
+  "register": "登録",
+  "next": "次へ",
+  "back": "戻る",
+  "shareLabel": "Share the Event Url with your friends",
+  "eventPageButton": "イベントページ",
+  "attendeeNameErrorLabel": "あなたの名前が必要です",
+  "attendeeNameErrorLabelDuplicate": "Name already exists!! Please enter another name",
+  "dateSelectionLabel": "Enter your convenient Dates",
+  "dateCastSelectionLabel": "Cast your attendance for the above days by pressing the button",
+  "eventInformationPartOne": " is organizing ",
+  "eventInformationPartTwo": ". Please cast your available Dates!!",
+  "eventTableLabel": "The Event Table",
+  "numberOfPeopleLabel": "No of people casted votes: "
 }
