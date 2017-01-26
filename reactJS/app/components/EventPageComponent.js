@@ -690,9 +690,18 @@ class EventPageComponent extends Component {
 
               switch(attendee.personalizedDateSelection[key])
               {
-                case "free": free_count++; freelist.push(attendee.attendeeName); break;
-                case "maybe": maybe_count++; maybelist.push(attendee.attendeeName); break;
-                case "busy": busy_count++; busylist.push(attendee.attendeeName); break;
+                case "free":
+                  free_count++;
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?freelist.push(this.props.attendeeName):freelist.push(attendee.attendeeName);
+                break;
+                case "maybe":
+                  maybe_count++;
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?maybelist.push(this.props.attendeeName):maybelist.push(attendee.attendeeName);
+                break;
+                case "busy":
+                  busy_count++;
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?busylist.push(this.props.attendeeName):busylist.push(attendee.attendeeName);
+                break;
               }
 
             }
@@ -711,9 +720,9 @@ class EventPageComponent extends Component {
          defaultBusy_check=0; // Check if User changed status from default busy
          switch(this.props.personalizedDateSelection[key])
          {
-           case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
-           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
-           case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "free": free_count++; freelist.push(this.props.attendeeName); break;
+           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
+           case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
          }
        }
      }
@@ -721,7 +730,7 @@ class EventPageComponent extends Component {
       //Increase busy count +1 if date is checked busy (default)
       if(defaultBusy_check==1) {
         busy_count++;
-        busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+        busylist.push(this.props.attendeeName);
       }
 
     }
@@ -737,20 +746,20 @@ class EventPageComponent extends Component {
                 for(let key in this.props.personalizedDateSelection){
                   if(date==key && this.props.personalizedDateSelection[key]!=status) // If user is changing his mind , then update graph
                   {
-                    // Increment his new decision
+                    // Increment his/her new decision
                     switch(this.props.personalizedDateSelection[key])
                     {
-                      case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
-                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
-                      case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "free": free_count++; freelist.push(this.props.attendeeName); break;
+                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
+                      case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
                     }
 
-                    // Decrement his old decision
+                    // Decrement his/her old decision
                     switch(status)
                     {
-                      case "free": free_count--; freelist=freelist.filter(e => e !== attendeeDetails.attendeeName); break;
-                      case "maybe": maybe_count--; maybelist=maybelist.filter(e => e !== attendeeDetails.attendeeName); break;
-                      case "busy": busy_count--; busylist=busylist.filter(e => e !== attendeeDetails.attendeeName); break;
+                      case "free": free_count--; freelist=freelist.filter(e => e !== this.props.attendeeName); break;
+                      case "maybe": maybe_count--; maybelist=maybelist.filter(e => e !== this.props.attendeeName); break;
+                      case "busy": busy_count--; busylist=busylist.filter(e => e !== this.props.attendeeName); break;
                     }
 
                   }
