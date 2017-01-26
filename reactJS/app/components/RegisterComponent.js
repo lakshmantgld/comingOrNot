@@ -307,7 +307,7 @@ class RegisterComponent extends Component {
                                     'input': {width: 'initial', textAlign: 'inherit'},
                                     'suggests': {},
                                     'suggestItem': {}
-                                }} queryDelay='0' placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+                                }} queryDelay={0} placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                             </div>
                         <br></br>
@@ -447,7 +447,7 @@ class RegisterComponent extends Component {
                                                         'input': {},
                                                         'suggests': {},
                                                         'suggestItem': {}
-                                                    }} queryDelay='0' placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
+                                                    }} queryDelay={0} placeholder='Event location' initialValue='' onSuggestSelect={this.suggestLocation} onChange={this.storeLocation}/>
 
                                                 </div>
                                             </div>
