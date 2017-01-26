@@ -678,44 +678,38 @@ class EventPageComponent extends Component {
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
     let free_count=0,maybe_count=0,busy_count=0,defaultBusy_check=1;
+    let total = attendees.length; // No. of attendees for the event as per DB
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
 
-              if (attendee.personalizedDateSelection[key] === 'free') {
-                free_count++;
-              freelist.push(attendee.attendeeName); // If attendee is free, push in freelist array
+              switch(attendee.personalizedDateSelection[key])
+              {
+                case "free": free_count++; freelist.push(attendee.attendeeName); break;
+                case "maybe": maybe_count++; maybelist.push(attendee.attendeeName); break;
+                case "busy": busy_count++; busylist.push(attendee.attendeeName); break;
               }
-              if (attendee.personalizedDateSelection[key] === 'maybe') {
-                maybe_count++;
-              maybelist.push(attendee.attendeeName);
-              }
-              if (attendee.personalizedDateSelection[key] === 'busy') {
-                busy_count++;
-              busylist.push(attendee.attendeeName);
-              }
+
             }
           }
         }
       });
 
-     //This loop is to check for current status selection
+     //This block of code is to check for current status selection and create realtime lightsaber graph
+
+     if(!cookie_available) // New User
+     {
+       total = total +1; // Increment by 1 coz we create graph including this new user
      for(let key in this.props.personalizedDateSelection){
        if(date==key)
        {
          defaultBusy_check=0; // Check if User changed status from default busy
-         if (this.props.personalizedDateSelection[key] === 'free') {
-           free_count++;
-           freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
-         }
-         if (this.props.personalizedDateSelection[key] === 'maybe') {
-           maybe_count++;
-           maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
-         }
-         if (this.props.personalizedDateSelection[key] === 'busy') {
-           busy_count++;
-           busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+         switch(this.props.personalizedDateSelection[key])
+         {
+           case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
          }
        }
      }
@@ -726,7 +720,44 @@ class EventPageComponent extends Component {
         busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
       }
 
-      let total = attendees.length+1;
+    }
+
+    else { // Old User
+
+      let attendeeDetails = this.getCookieAttendeeDetails();
+
+      for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+          if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+              if (attendeeDate === date) {
+                status = attendeeDetails.personalizedDateSelection[attendeeDate]; // Get his previous status which is stored in DB
+                for(let key in this.props.personalizedDateSelection){
+                  if(date==key && this.props.personalizedDateSelection[key]!=status) // If user is changing his mind , then update graph
+                  {
+                    // Increment his new decision
+                    switch(this.props.personalizedDateSelection[key])
+                    {
+                      case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                    }
+
+                    // Decrement his old decision
+                    switch(status)
+                    {
+                      case "free": free_count--; freelist=freelist.filter(e => e !== attendeeDetails.attendeeName); break;
+                      case "maybe": maybe_count--; maybelist=maybelist.filter(e => e !== attendeeDetails.attendeeName); break;
+                      case "busy": busy_count--; busylist=busylist.filter(e => e !== attendeeDetails.attendeeName); break;
+                    }
+
+                  }
+                }
+              }
+            }
+          }
+
+    }
+
+
       free_count=String((free_count*100)/total) + "%";
       maybe_count=String((maybe_count*100)/total)+ "%";
       busy_count=String((busy_count*100)/total)+ "%";
@@ -748,7 +779,15 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
-            <div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div>
+
+            <div className = 'row center-xs'>
+              <div className = 'col-xs-4'>Free: {free_count}</div>
+              <div className = 'col-xs-4'>Maybe: {maybe_count}</div>
+              <div className = 'col-xs-4'>Busy: {busy_count}</div>
+            </div>
+            <br></br>
+            <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
+
           </CardText>
         <CardActions>
           <div className='row '>
