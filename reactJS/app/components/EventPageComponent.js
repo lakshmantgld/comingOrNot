@@ -677,7 +677,7 @@ class EventPageComponent extends Component {
 
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
-    let free_count=0,maybe_count=0,busy_count=0;
+    let free_count=0,maybe_count=0,busy_count=0,defaultBusy_check=1;
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
@@ -700,7 +700,33 @@ class EventPageComponent extends Component {
         }
       });
 
-      let total = attendees.length;
+     //This loop is to check for current status selection
+     for(let key in this.props.personalizedDateSelection){
+       if(date==key)
+       {
+         defaultBusy_check=0; // Check if User changed status from default busy
+         if (this.props.personalizedDateSelection[key] === 'free') {
+           free_count++;
+           freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+         }
+         if (this.props.personalizedDateSelection[key] === 'maybe') {
+           maybe_count++;
+           maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+         }
+         if (this.props.personalizedDateSelection[key] === 'busy') {
+           busy_count++;
+           busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+         }
+       }
+     }
+
+      //Increase busy count +1 if date is checked busy (default)
+      if(defaultBusy_check==1) {
+        busy_count++;
+        busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+      }
+
+      let total = attendees.length+1;
       free_count=String((free_count*100)/total) + "%";
       maybe_count=String((maybe_count*100)/total)+ "%";
       busy_count=String((busy_count*100)/total)+ "%";
@@ -730,7 +756,7 @@ class EventPageComponent extends Component {
               <div className='col-xs-12'>
                <div style={{display:"flex"}}>
               <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
-              <div style={{backgroundColor: "#fac452",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px #fac452",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+              <div style={{backgroundColor: "rgb(253, 189, 55)",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px rgb(253, 189, 55)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
               <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
               </div>
               </div>
