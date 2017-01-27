@@ -290,7 +290,7 @@ class RegisterComponent extends Component {
                             <TextField id='purpose' floatingLabelText={this.props.languageJson.purpose} onChange={this.storePurpose} floatingLabelFocusStyle={{
                                 color: grey900
                             }} underlineFocusStyle={styles.underlineStyle} value={this.props.purpose}/>
-
+                            <br/>
                             <label style={styles.errorLabel}>
                                 {this.props.purposeErrorLabel}
                             </label>
