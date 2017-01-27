@@ -164,7 +164,7 @@ class RegisterComponent extends Component {
             sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
         }
 
-        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
+        this.props.dispatch(registerEvent(this.props.name.trim(), this.props.purpose.trim(), sortedDates, this.props.location));
     }
 
     validateRegisterEvent() {
@@ -199,9 +199,9 @@ class RegisterComponent extends Component {
     stepIncrease() {
         switch (this.props.stepIndex) {
             case 0:
-                if (this.props.name.length === 0) {
+                if (this.props.name.length === 0 || this.props.name.trim() == '') {
                     this.props.dispatch(storeNameErrorLabel(this.props.languageJson.nameErrorLabelRequired));
-                } else if (this.props.purpose.length === 0) {
+                } else if (this.props.purpose.length === 0 || this.props.purpose.trim() == '') {
                     this.props.dispatch(storePurposeErrorLabel(this.props.languageJson.purposeErrorLabelRequired));
                 } else {
                     this.props.dispatch(stepIncrease(this.props.stepIndex));
