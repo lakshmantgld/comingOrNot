@@ -164,7 +164,7 @@ class RegisterComponent extends Component {
             sortedDates[j] = formattedEnteredDates[intermediateSortedDates[j]];
         }
 
-        this.props.dispatch(registerEvent(this.props.name, this.props.purpose, sortedDates, this.props.location));
+        this.props.dispatch(registerEvent(this.props.name.trim(), this.props.purpose.trim(), sortedDates, this.props.location));
     }
 
     validateRegisterEvent() {
