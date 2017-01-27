@@ -687,20 +687,19 @@ class EventPageComponent extends Component {
         for (let key in attendee.personalizedDateSelection) {
           if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
             if (date === key) {
-
               switch(attendee.personalizedDateSelection[key])
               {
                 case "free":
                   free_count++;
-                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?freelist.push(this.props.attendeeName):freelist.push(attendee.attendeeName);
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?freelist.push(this.props.attendeeName):freelist.push(attendee.attendeeName);
                 break;
                 case "maybe":
                   maybe_count++;
-                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?maybelist.push(this.props.attendeeName):maybelist.push(attendee.attendeeName);
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?maybelist.push(this.props.attendeeName):maybelist.push(attendee.attendeeName);
                 break;
                 case "busy":
                   busy_count++;
-                  (cookie_available && this.getCookieAttendeeDetails().attendeeName == attendee.attendeeName)?busylist.push(this.props.attendeeName):busylist.push(attendee.attendeeName);
+                  (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?busylist.push(this.props.attendeeName):busylist.push(attendee.attendeeName);
                 break;
               }
 
