@@ -437,7 +437,7 @@ class RegisterComponent extends Component {
                                         </StepContent>
                                     </Step>
                                     <Step>
-                                        <StepLabel>Enter events location (OPTIONAL)</StepLabel>
+                                        <StepLabel><span>Enter event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>Optional</span></span></StepLabel>
 
                                         <StepContent>
                                             <div className='row'>
@@ -534,7 +534,7 @@ class RegisterComponent extends Component {
 
                                     </Step>
                                     <Step>
-                                        <StepLabel>Enter Event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}> (Optional)</span></StepLabel>
+                                        <StepLabel><span style={{'marginTop':'3px'}}>Enter Event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>Optional</span></span></StepLabel>
 
 
                                     </Step>
