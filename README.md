@@ -24,8 +24,11 @@ This web app is powered by the serverless service offered by AWS's Lambda and No
 ### Technical Architecture:
 ![Architecture diagram](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeFiles/architecture.png)
 
+### How it Looks
+
+
 ### Installation & Usage:
-Refer [Installation & Usage]() readme for steps for reproducing and in-depth understanding on directory structure.
+Refer [Installation & Usage](https://github.com/lakshmantgld/LetsMeetUp/blob/stable/readmeFiles/reproduce.md) readme for steps for reproducing and in-depth understanding on directory structure.
 
 
 ### Live web app:

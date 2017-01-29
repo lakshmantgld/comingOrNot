@@ -44,7 +44,7 @@ The **serverless** directory contains the serverless definition file, graphQL fi
 
 * Clone this repo.
 
-* Make sure AWS credentials are setup properly. Otherwise refer [this document](https://github.com/serverless/serverless/blob/master/docs/02-providers/aws/01-setup.md)
+* Make sure AWS credentials are setup properly. Otherwise refer [this document](https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md)
 
 * Install project dependencies. **cd ComingOrNot** and type,
 
