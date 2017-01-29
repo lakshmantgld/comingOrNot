@@ -3,8 +3,8 @@ ReactJS-Redux-Serverless-GraphQL event planner
 
 [![serverless](https://img.shields.io/badge/serverless-v1.5.1-yellow.svg)](http://www.serverless.com)
 [![react](https://img.shields.io/badge/react-v15.4.2-blue.svg)](https://github.com/facebook/react)
-[![redux](https://img.shields.io/badge/redux-v3.5.2-orange.svg)](https://http://redux.js.org/docs/introduction/)
-[![graphQL](https://img.shields.io/badge/graphQL-v0.7.2-red.svg)](https://http://redux.js.org/docs/introduction/)
+[![redux](https://img.shields.io/badge/redux-v3.5.2-orange.svg)](http://redux.js.org/docs/introduction/)
+[![graphQL](https://img.shields.io/badge/graphQL-v0.7.2-red.svg)](http://graphql.org/)
 
 [ComingOrNot](http://comingornot.com)
 
@@ -21,15 +21,11 @@ This web app is powered by the serverless service offered by AWS's Lambda and No
 [ComingOrNot](http://comingornot.com)
 
 ### Technical Architecture:
-![Architecture diagram](https://sd9.dcpfs.net/gitlab/applications/React-Authentication-Serverless-system/raw/master/readmeFiles/architecture.png)
+![Architecture diagram](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeImages/architecture.png)
 
-### Tasks for Stable release:
- - [x] Include weather Information
- - [x] Cookie based Updating
- - [x] Mobile UI in eventPage
- - [x] Mobile UI in eventRegistrationPage
- - [ ] Location
- - [ ] Mail Notification to Organizer
+### Installation & Usage:
+Refer [Installation & Usage]() readme for steps for reproducing and in-depth understanding on directory structure. 
+
 
 ### Live web app:
 [ComingOrNot](http://comingornot.com)
