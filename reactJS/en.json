@@ -4,7 +4,7 @@
   "purposeErrorLabel": "Only 100 characters permitted!!!",
   "dateArrayEmptyErrorLabel": "No dates selected!!",
   "nameErrorLabelRequired": "We need your name",
-  "purposeErrorLabelRequired": "Example: Funeral party",
+  "purposeErrorLabelRequired": "Invalid Event name",
   "name": "Organizer Name *",
   "attendeeName": "Name",
   "purpose": "Event Name *",
