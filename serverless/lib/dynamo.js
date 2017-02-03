@@ -10,6 +10,8 @@ AWS.config.update({
 });
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
+const sns = new AWS.SNS();
+const accountId = '381025746299';
 
 // gives a single event from eventId
 export function fetchEvent(eventId) {
@@ -47,13 +49,27 @@ export function createEvent(event) {
       Item: event
     };
 
+    const snsParams = {
+      Message: event.eventId,
+      TopicArn: `arn:aws:sns:ap-northeast-1:${accountId}:slackbot`
+    };
+
     dynamo.put(params, (err, data) => {
       if (err) {
         return reject(err);
       }
-      // so changing it again to [] for sending back to react App.
-      event.attendees = [];
-      return resolve(event);
+
+      sns.publish(snsParams, (error, result) => {
+        if (error) {
+          console.log(error);
+        }
+
+        console.log("priniting sns result");
+        console.log(result);
+        // so changing it again to [] for sending back to react App.
+        event.attendees = [];
+        return resolve(event);
+      });
     });
   });
 }

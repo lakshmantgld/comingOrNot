@@ -11,6 +11,10 @@ provider:
       Resource: "arn:aws:dynamodb:*:*:*"
       Action:
         - "dynamodb:*"
+    - Effect: "Allow"
+      Resource: "*"
+      Action:
+        - "sns:*"
 
 plugins:
   - serverless-webpack
@@ -36,6 +40,10 @@ functions:
           response:
             headers:
               Access-Control-Allow-Origin: "'*'"
+  secondLambda:
+    handler: handler.secondLambda
+    events:
+      - sns: slackbot
 
 resources:
   Resources:
