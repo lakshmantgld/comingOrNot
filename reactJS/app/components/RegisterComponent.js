@@ -557,7 +557,7 @@ class RegisterComponent extends Component {
                                             }}/>
                                             <RaisedButton label={this.props.stepIndex === 2
                                                 ? this.props.languageJson.register
-                                                : this.props.languageJson.next} primary={true} onTouchTap={this.stepIncrease}/>
+                                                : this.props.languageJson.next} primary={true} disabled={this.checkDisableFlag()} onTouchTap={this.stepIncrease}/>
                                         </div>
                                     </div>
 
