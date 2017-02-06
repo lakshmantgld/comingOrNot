@@ -564,6 +564,8 @@ class RegisterComponent extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className='bottom-div-bar'><div id='overlay'></div>
+                        </div>
 
                     </div>
                     {/*PC & Laptop code ends*/}
