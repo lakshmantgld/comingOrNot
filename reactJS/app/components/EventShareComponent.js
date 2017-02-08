@@ -42,7 +42,7 @@ class EventShareComponent extends Component {
 // starting point of this component.
   render() {
     let eventId = this.props.params.eventId;
-    let eventShareURL = window.location.origin + '/event/' + eventId;
+    let eventShareURL = window.location.origin + '/event/' + encodeURI(eventId);
 
     return (
       <div>
