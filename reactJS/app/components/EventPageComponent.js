@@ -174,6 +174,7 @@ class EventPageComponent extends Component {
   }
 
   updateAttendee() {
+    console.log("coming inside update attendee");
     if (this.props.attendeeName.length === 0) {
       this.props.dispatch(storeAttendeeNameErrorLabel(this.props.languageJson.attendeeNameErrorLabel));
       this.props.dispatch(updateNotificationFlag('attendeeNameEmpty')); //If name is empty, bring snackbar
@@ -220,10 +221,10 @@ class EventPageComponent extends Component {
   checkDisableUpdateFlag() {
     let cookieAttendee = cookie.load(encodeURI(this.props.params.eventId));
     if (this.props.disableFlag === 'updateAttendee') {
-      console.log("post update disable condition passes");
+      // console.log("post update disable condition passes");
       return true;
     } else if (this.props.attendeeName !== cookieAttendee || this.checkAttendeeDateSelectionWithPresentSelection()) {
-      console.log("pre update siable condition passes");
+      // console.log("pre update siable condition passes");
       return false;
     } else {
       return true;
@@ -246,7 +247,7 @@ class EventPageComponent extends Component {
       let attendeeDetails = this.getCookieAttendeeDetails();
 
       for (let j = 0; j < attendees.length; j++) {
-        if (this.props.attendeeName.toUpperCase() === attendees[j].attendeeName.toUpperCase() && (attendeeDetails._id !== attendees[j]._id) ) {
+        if (this.props.attendeeName.toUpperCase() === attendees[j].attendeeName.toUpperCase() && (attendeeDetails.attendeeId !== attendees[j].attendeeId) ) {
           return true;
         }
       }
@@ -383,7 +384,7 @@ class EventPageComponent extends Component {
     if (this.props.weather.length === 0) {
     // when weather information from yahoo is not available. render dates alone.
     datesInColumn = this.props.eventObj.dateArray;
-    console.log("no weather");
+    // console.log("no weather");
     } else {
     // After weather info from yahoo, add forecast images to date.
     // formats the (Sun, Oct 2nd 2016) to (Oct 2 2016) for date validation.
