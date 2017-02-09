@@ -46,7 +46,7 @@ new WebpackDevServer(webpack(config), {
     historyApiFallback: true
 }).listen(PORT, function(err, result) {
     if (err) console.log(err);
-    console.log('Listening at port '+ PORT);
+    console.log('Listening at port 8080');
 });
 
 app.listen(8080);
