@@ -117,7 +117,7 @@ class RegisterComponent extends Component {
     }
 
     // Stores the selected date in the state object.
-    storeDate(date,isSelected,selectedDates) {
+    storeDate(date, isSelected, selectedDates) {
         (this.props.dateArray.indexOf(date.format('ddd, MMM Do YYYY')) == -1)
             ? this.props.dispatch(storeDateArray(date.format('ddd, MMM Do YYYY')))
             : this.props.dispatch(popDateArray(date.format('ddd, MMM Do YYYY')));
@@ -329,20 +329,7 @@ class RegisterComponent extends Component {
                         <div className='row'>
 
                             <div className='col-xs-7'>
-                                <InfiniteCalendar theme={{
-                                    selectionColor: 'rgb(6, 5, 6)',
-                                    textColor: {
-                                        default: '#333',
-                                        active: '#FFF'
-                                    },
-                                    weekdayColor: 'rgb(6, 5, 6)',
-                                    headerColor: 'rgb(6, 5, 6)',
-                                    floatingNav: {
-                                        background: 'rgb(6, 5, 6)',
-                                        color: '#FFF',
-                                        chevron: '#FFA726'
-                                    }
-                                }} layout='landscape' width={'100%'} height={270} rowHeight={55} onSelect={this.storeDate/* selectedDates={[]/*this.convertStringToDate(this.props.dateArray)}*/}/>
+                            {this.renderCalendar('landscape', 270)}
                             </div>
                             <div className="col-xs-5" >
                                 <div className="row center-xs" style={{maxHeight: '320px',overflowY: 'scroll'}}>
@@ -384,9 +371,27 @@ class RegisterComponent extends Component {
         }
     }
 
+    renderCalendar(layout, height) {
+      return (
+        <InfiniteCalendar theme={{
+            selectionColor: 'rgb(6, 5, 6)',
+            textColor: {
+                default: '#333',
+                active: '#FFF'
+            },
+            weekdayColor: 'rgb(49, 44, 49)',
+            headerColor: 'rgb(6, 5, 6)',
+            floatingNav: {
+                background: 'rgb(6, 5, 6)',
+                color: '#FFF',
+                chevron: '#FFA726'
+            }
+        }} layout={layout} width={'100%'} height={height} rowHeight={55} selectedDates={[new Date()]} onSelect={this.storeDate} keyboardSupport={true}/>
+      );
+    }
+
     render() {
 
-        let today = new Date(); // Get today's date to give minimum limit to the calendar
         let dateArray = this.props.dateArray.map(this.renderChip, this);
         const contentStyle = {
             margin: '0 16px'
@@ -472,20 +477,7 @@ class RegisterComponent extends Component {
 
                                                 <div className='col-xs-12'>
                                                   <br></br>
-                                                    <InfiniteCalendar theme={{
-                                                        selectionColor: 'rgb(6, 5, 6)',
-                                                        textColor: {
-                                                            default: '#333',
-                                                            active: '#FFF'
-                                                        },
-                                                        weekdayColor: 'rgb(49, 44, 49)',
-                                                        headerColor: 'rgb(6, 5, 6)',
-                                                        floatingNav: {
-                                                            background: 'rgb(6, 5, 6)',
-                                                            color: '#FFF',
-                                                            chevron: '#FFA726'
-                                                        }
-                                                    }} layout='portrait' width={'100%'} height={300} rowHeight={55} min={today} onSelect={this.storeDate} keyboardSupport={true}/>
+                                                  {this.renderCalendar('potrait', 300)}
                                                 </div>
                                             </div>
                                             <div className="row">
