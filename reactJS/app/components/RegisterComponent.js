@@ -222,7 +222,7 @@ class RegisterComponent extends Component {
         this.props.dispatch(stepDecrease(this.props.stepIndex));
     }
 
-    /**convertStringToDate(dateArray) {
+    convertStringToDate(dateArray) {
       console.log("convertStringToDate");
       console.log(dateArray);
       let formattedEnteredDates = [];
@@ -249,7 +249,7 @@ class RegisterComponent extends Component {
         }
         console.log(convertedDatearray);
         return convertedDatearray;
-    }*/
+    }
 
     renderStepActions(step) {
         const stepIndex = this.props.stepIndex;
@@ -386,7 +386,7 @@ class RegisterComponent extends Component {
                 color: '#FFF',
                 chevron: '#FFA726'
             }
-        }} layout={layout} width={'100%'} height={height} rowHeight={55} selectedDates={[new Date()]} onSelect={this.storeDate} keyboardSupport={true}/>
+        }} layout={layout} width={'100%'} height={height} rowHeight={55} selectedDates={this.convertStringToDate(this.props.dateArray)} onSelect={this.storeDate} keyboardSupport={true}/>
       );
     }
 
