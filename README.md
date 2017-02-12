@@ -24,7 +24,7 @@ This web app is powered by the serverless service offered by AWS's Lambda and No
 ### Technical Architecture:
 ![Architecture diagram](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeFiles/architecture.png)
 
-### How it Looks
+### How it Looks in Mobile:
 ![UI](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeFiles/comingornot.png)
 
 ### Installation & Usage:
