@@ -442,7 +442,7 @@ class RegisterComponent extends Component {
                                         </StepContent>
                                     </Step>
                                     <Step>
-                                        <StepLabel><span>Enter event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>Optional</span></span></StepLabel>
+                                        <StepLabel><span>{this.props.languageJson.stepper2Label}<br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>{this.props.languageJson.optional}</span></span></StepLabel>
 
                                         <StepContent>
                                             <div className='row'>
