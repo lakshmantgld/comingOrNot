@@ -409,7 +409,7 @@ class RegisterComponent extends Component {
                             <div className='col-sm-offset-2 col-sm-8 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex} orientation="vertical">
                                     <Step>
-                                        <StepLabel>Enter your name and event name</StepLabel>
+                                        <StepLabel>{this.props.languageJson.stepper1Label}</StepLabel>
                                         <StepContent>
 
                                             <div className='row'>
@@ -522,11 +522,11 @@ class RegisterComponent extends Component {
                             <div className='col-md-offset-1 col-md-10 col-sm-12 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex}>
                                     <Step>
-                                        <StepLabel>Enter your name and events name</StepLabel>
+                                        <StepLabel>{this.props.languageJson.stepper1Label}</StepLabel>
 
                                     </Step>
                                     <Step>
-                                        <StepLabel><span style={{'marginTop':'3px'}}>Enter Event location <br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>Optional</span></span></StepLabel>
+                                        <StepLabel><span style={{'marginTop':'3px'}}>{this.props.languageJson.stepper2Label}<br></br><span style={{'color':'rgba(0, 0, 0, 0.258824)'}}>{this.props.languageJson.optional}</span></span></StepLabel>
 
 
                                     </Step>
