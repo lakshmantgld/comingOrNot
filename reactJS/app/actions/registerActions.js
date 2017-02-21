@@ -90,7 +90,7 @@ function storeEventId(json) {
   console.log("store event ID: "+JSON.stringify(json));
   const eventId = json.data.createEvent['eventId'];
 
-  return browserHistory.push('/eventCreated/' + eventId);
+  return browserHistory.push('/event/' + encodeURI(eventId));
 }
 
 export function registerEvent(name, purpose, dateArray, location) {
