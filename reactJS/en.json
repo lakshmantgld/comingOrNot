@@ -1,5 +1,8 @@
 {
   "header": "Coming Or Not?",
+  "stepper1Label": "Enter your name and events name",
+  "stepper2Label": "Enter Event location",
+  "optional": "optional",
   "nameErrorLabel": "Only 40 characters permitted!!!",
   "purposeErrorLabel": "Only 100 characters permitted!!!",
   "dateArrayEmptyErrorLabel": "No dates selected!!",
