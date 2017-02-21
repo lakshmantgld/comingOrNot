@@ -13,6 +13,8 @@ import {Table, Column, Cell} from 'fixed-data-table-2';
 import MediaQuery from 'react-responsive';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import IconButton from 'material-ui/IconButton';
 
 import { fetchEvent, storePersonalizedDateSelection, storeAttendeeName, storeAttendeeNameErrorLabel,
          registerAttendee, updateNotificationFlag, emptyPersonalizedDateSelection,
@@ -1111,6 +1113,43 @@ class EventPageComponent extends Component {
     }
   }
 
+  renderShareCard() {
+    let eventId = this.props.params.eventId;
+    let eventShareURL = window.location.origin + '/event/' + encodeURI(eventId);
+      return (
+        <div>
+          <div className='row center-xs'>
+            <span className='col-lg-4 col-md-4 col-sm-8 col-xs-10' >
+              <Card>
+                <div className="row" style={{"paddingLeft":"1rem","paddingTop":"10px"}}>
+
+                 Copy link to share
+                </div>
+                <div className="row">
+                <div className="col-xs-10" style={{"paddingRight":"0px"}}>
+                  <TextField
+                  id='shareUrl'
+                  underlineShow={false}
+                  value={eventShareURL}
+                  fullWidth={true}
+                  inputStyle={{"backgroundColor":"rgb(234, 234, 234)","marginTop":"10px","height":"55%"}}
+                /></div>
+              <div className="col-xs-2" style={{"paddingLeft":"0px"}}>
+
+                  <IconButton tooltip="Copy URL" iconStyle={{"color":"#000"}} style={{"width":"20px","height":"20px","padding": "initial","paddingTop": "11px","paddingLeft": "5px"}}>
+                    <FontIcon className="material-icons">content_copy</FontIcon>
+                  </IconButton>
+
+              </div>
+
+                </div>
+              </Card>
+          </span>
+          </div>
+        </div>
+      );
+  }
+
 // Render the whole EventPage App. Starting point of this component.
   render() {
 
@@ -1140,6 +1179,8 @@ class EventPageComponent extends Component {
               </div>
               <br></br>
                 {this.renderLocation()}
+                <br></br>
+                {this.renderShareCard()}
                 <br></br>
               <div className='row center-xs'>
                   <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
@@ -1198,7 +1239,8 @@ class EventPageComponent extends Component {
 
               {this.renderLocation()}
 
-
+              <br></br>
+              {this.renderShareCard()}
               <div>
 
                 {this.toggleMobileCastAttendance()}
