@@ -1140,10 +1140,12 @@ class EventPageComponent extends Component {
                   inputStyle={{"backgroundColor":"rgb(234, 234, 234)","marginTop":"10px","height":"55%"}}
                 /></div>
               <div className="col-xs-2" style={{"paddingLeft":"0px"}}>
+                <CopyToClipboard text={eventShareURL}>
 
                   <IconButton tooltip="Copy URL" iconStyle={{"color":"#000"}} style={{"width":"20px","height":"20px","padding": "initial","paddingTop": "11px","paddingLeft": "5px"}}>
                     <FontIcon className="material-icons">content_copy</FontIcon>
                   </IconButton>
+                </CopyToClipboard>
 
               </div>
 
