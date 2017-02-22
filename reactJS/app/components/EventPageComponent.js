@@ -53,6 +53,11 @@ let styles = {
     fontSize: '25px',
     color: '#000'
   },
+  organizerNameLabel: {
+    text: 'bold',
+    fontSize: '16px',
+    color: '#000'
+  },
   LocationLabel: {
     fontSize: '18px',
     color: '#000',
@@ -1194,7 +1199,9 @@ class EventPageComponent extends Component {
               <div className='row center-xs'>
                 <label style={styles.formLabel}> {this.props.eventObj.purpose} </label>
               </div>
-
+              <div className='row center-xs'>
+              <label style={styles.organizerNameLabel}>{"by "+this.props.eventObj.name}</label>
+              </div>
 
               {this.renderLocation()}
 
