@@ -6,7 +6,7 @@ ReactJS-Redux-Serverless-GraphQL event planner
 [![redux](https://img.shields.io/badge/redux-v3.5.2-orange.svg)](http://redux.js.org/docs/introduction/)
 [![graphQL](https://img.shields.io/badge/graphQL-v0.7.2-red.svg)](http://graphql.org/)
 
-[ComingOrNot](http://comingornot.com)
+[ComingOrNot](http://comingornot.com){:target="_blank"}
 
 <!-- This project is an attempt to resolve the problems encountered during scheduling of various events like meetups, office party, etc., -->
 
