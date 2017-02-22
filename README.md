@@ -19,7 +19,7 @@ As the name suggests, It's an event planner app that strives to ease the work of
 This web app is powered by the serverless service offered by AWS's Lambda and NoSQL storage dynamoDB.
 
 ### Live web app:
-[ComingOrNot](http://comingornot.com)
+<a href="http://comingornot.com" target="_blank">ComingOrNot</a>
 
 ### Technical Architecture:
 ![Architecture diagram](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeFiles/architecture.png)
