@@ -6,7 +6,7 @@ ReactJS-Redux-Serverless-GraphQL event planner
 [![redux](https://img.shields.io/badge/redux-v3.5.2-orange.svg)](http://redux.js.org/docs/introduction/)
 [![graphQL](https://img.shields.io/badge/graphQL-v0.7.2-red.svg)](http://graphql.org/)
 
-[ComingOrNot](http://comingornot.com){:target="_blank"}
+[ComingOrNot](http://comingornot.com)
 
 <!-- This project is an attempt to resolve the problems encountered during scheduling of various events like meetups, office party, etc., -->
 
@@ -19,7 +19,7 @@ As the name suggests, It's an event planner app that strives to ease the work of
 This web app is powered by the serverless service offered by AWS's Lambda and NoSQL storage dynamoDB.
 
 ### Live web app:
-<a href="http://comingornot.com" target="_blank">ComingOrNot</a>
+[ComingOrNot](http://comingornot.com)
 
 ### Technical Architecture:
 ![Architecture diagram](https://raw.githubusercontent.com/lakshmantgld/LetsMeetUp/stable/readmeFiles/architecture.png)
