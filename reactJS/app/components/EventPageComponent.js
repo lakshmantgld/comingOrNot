@@ -28,13 +28,11 @@ let styles = {
     fontSize: '10px',
     color: 'rgb(173, 173, 173)',
     position: 'absolute',
-    marginTop: '20px'
+    marginTop: '20px',
+    width:'66%'
   },
   tab_label: {
    marginLeft: "-12px"
-  },
-  m_style: {
-
   },
   percentange_box: {
   padding: "10px",
@@ -657,20 +655,20 @@ class EventPageComponent extends Component {
                 </RadioButtonGroup>
             </MediaQuery>
 
-            <MediaQuery maxDeviceWidth={339}>
+            <MediaQuery maxDeviceWidth={339} style={{"paddingLeft":"7px"}}>
                 {/** Small screen Smartphones */}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-offset-1 col-xs-3' value='free' label='Free' style={{}} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
                     } style={styles.selected_circle}
                      > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > panorama_fish_eye < /FontIcon>}/>
 
-                   <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                   <RadioButton className='col-xs-3' value='maybe' label='Maybe' style={{}} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
                     } style={styles.selected_triangle} > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                  <RadioButton className='col-xs-3' value='busy' label="Busy" style={styles.m_style} iconStyle={styles.m_icon} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                  <RadioButton className='col-xs-3' value='busy' label="Busy" style={{}} labelStyle={styles.m_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
                     } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> clear < /FontIcon>}/>
 
@@ -679,6 +677,16 @@ class EventPageComponent extends Component {
         </div>
       );
 
+  }
+
+  renderLightSaberGraph(free_count,maybe_count,busy_count){
+    return(
+           <div style={{display:"flex"}}>
+          <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          <div style={{backgroundColor: "rgb(253, 189, 55)",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px rgb(253, 189, 55)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          </div>
+    );
   }
 
 // Generate Date toggle based on cookie
@@ -819,28 +827,24 @@ class EventPageComponent extends Component {
             <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
 
           </CardText>
+          <MediaQuery minDeviceWidth={339}>
+            <div className ="row">
+              <div className="col-xs-12">
         <CardActions>
-          <div className='row '>
-
-              <div className='col-xs-12'>
-               <div style={{display:"flex"}}>
-              <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
-              <div style={{backgroundColor: "rgb(253, 189, 55)",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px rgb(253, 189, 55)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
-              <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
-              </div>
-              </div>
-
-          </div>
-  <br></br>
-            <div className='row '>
-
-                <div className='col-xs-12'>
-
+             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+                <br></br>
                 {this.MobileToggleButtons(date,cookie_available)}
-
-                </div>
-            </div>
         </CardActions>
+        </div>
+      </div>
+      </MediaQuery>
+      <MediaQuery maxDeviceWidth={339}>
+        <CardText style={{"paddingBottom":"20px"}}>
+             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+                <br></br>
+                {this.MobileToggleButtons(date,cookie_available)}
+        </CardText>
+      </MediaQuery>
     </Card>
     <br></br>
     </div>
