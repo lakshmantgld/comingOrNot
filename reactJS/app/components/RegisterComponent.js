@@ -16,6 +16,9 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
 import moment from 'moment';
+import $ from 'jquery';
+import fetch from 'isomorphic-fetch';
+
 
 import {
     storeName,
@@ -86,8 +89,30 @@ class RegisterComponent extends Component {
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+      // console.log("did mount");
+      $.get("https://ipinfo.io", function(response) {
+        const city = response.city;
+        const region = response.region;
+        const country = response.country;
 
+        fetch('https://hooks.slack.com/services/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', {
+        credentials: 'omit',
+        method: 'POST',
+        body: JSON.stringify({'text' : 'Cheers ! someone viewed our App from city: ' + city + ' region: ' + region + ' country: ' + country})})
+         .then(res => {
+           if (res.status !== 200) {
+             let status = res.status;
+             console.log('error in posting event');
+           }
+          //  console.log("succesfully saved");
+           return res;
+         })
+         .then(json =>{
+          //  console.log(json);
+         })
+      }, "jsonp")
+   }
     // method is invoked when you delete a selected date, it in turn deletes from the state object.
     handleRequestDelete(label) {
         this.props.dispatch(popDateArray(label))
@@ -223,8 +248,8 @@ class RegisterComponent extends Component {
     }
 
     convertStringToDate(dateArray) {
-      console.log("convertStringToDate");
-      console.log(dateArray);
+      // console.log("convertStringToDate");
+      // console.log(dateArray);
       let formattedEnteredDates = [];
       for (let i = 0; i < dateArray.length; i++) {
           let date = dateArray[i];
@@ -247,7 +272,7 @@ class RegisterComponent extends Component {
         {
           convertedDatearray.push(moment(new Date(date)));
         }
-        console.log(convertedDatearray);
+        // console.log(convertedDatearray);
         return convertedDatearray;
     }
 
