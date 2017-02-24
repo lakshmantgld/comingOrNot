@@ -110,6 +110,11 @@ let styles = {
  highlightchip: {
    margin: 4,
    boxShadow: "0px 0px 12px #848484"
+ },
+ person: {
+   color:"#828282",
+   marginTop: "8px",
+   fontSize: "15px"
  }
 };
 
@@ -835,21 +840,28 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
+              <div className = 'row center-xs' style={styles.percentange_box}>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(0, 189, 0)","fontSize":"20px"}}>{free_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(0, 189, 0)","fontSize":"14px"}}>{free_count}</span>
 
-            <div className = 'row center-xs' style={styles.percentange_box}>
-              <div className = 'col-xs-4'>
-                <span style={{"color":"rgb(0, 189, 0)","fontSize":"20px"}}>{free_percent}</span>
+                </div>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(226, 159, 18)","fontSize":"20px"}}>{maybe_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(226, 159, 18)","fontSize":"14px"}}>{maybe_count}</span>
+
+                </div>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(216, 51, 38)","fontSize":"20px"}}>{busy_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(216, 51, 38)","fontSize":"14px"}}>{busy_count}</span>
+
+                </div>
               </div>
-              <div className = 'col-xs-4'>
-                <span style={{"color":"rgb(226, 159, 18)","fontSize":"20px"}}>{maybe_percent}</span>
-              </div>
-              <div className = 'col-xs-4'>
-                <span style={{"color":"rgb(216, 51, 38)","fontSize":"20px"}}>{busy_percent}</span>
-              </div>
-            </div>
             <br></br>
             <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
-
           </CardText>
           <MediaQuery minDeviceWidth={339}>
             <div className ="row">
@@ -977,7 +989,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -1000,7 +1012,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -1023,7 +1035,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{
+                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{
                         color: grey900
                     }} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
@@ -1051,7 +1063,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
