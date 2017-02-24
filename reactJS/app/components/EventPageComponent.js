@@ -106,6 +106,10 @@ let styles = {
   chipwrapper: {
    display: 'flex',
    flexWrap: 'wrap',
+ },
+ highlightchip: {
+   margin: 4,
+   boxShadow: "0px 0px 12px #848484"
  }
 };
 
@@ -594,23 +598,48 @@ class EventPageComponent extends Component {
    switch (status) {
     case "free":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={green200} style={styles.highlightchip}><Avatar backgroundColor={green500} icon={< FontIcon className = "material-icons" > panorama_fish_eye < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else
+          {
             return (
                 <Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={< FontIcon className = "material-icons" > panorama_fish_eye < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
     case "maybe":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={yellow200} style={styles.highlightchip}><Avatar backgroundColor={yellow800} icon={< FontIcon className = "material-icons" > change_history < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else {
             return (
                 <Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={< FontIcon className = "material-icons" > change_history < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
     case "busy":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={red200} style={styles.highlightchip}><Avatar backgroundColor={red500} icon={< FontIcon className = "material-icons" > clear < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else {
             return (
                 <Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={< FontIcon className = "material-icons" > clear < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
    }
@@ -735,9 +764,9 @@ class EventPageComponent extends Component {
          defaultBusy_check=0; // Check if User changed status from default busy
          switch(this.props.personalizedDateSelection[key])
          {
-           case "free": free_count++; freelist.push(this.props.attendeeName); break;
-           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
-           case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
+           case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
          }
        }
      }
@@ -745,7 +774,7 @@ class EventPageComponent extends Component {
       //Increase busy count +1 if date is checked busy (default)
       if(defaultBusy_check==1) {
         busy_count++;
-        busylist.push(this.props.attendeeName);
+        busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
       }
 
     }
@@ -764,9 +793,9 @@ class EventPageComponent extends Component {
                     // Increment his/her new decision
                     switch(this.props.personalizedDateSelection[key])
                     {
-                      case "free": free_count++; freelist.push(this.props.attendeeName); break;
-                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
-                      case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
+                      case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
                     }
 
                     // Decrement his/her old decision
