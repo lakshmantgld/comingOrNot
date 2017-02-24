@@ -106,6 +106,15 @@ let styles = {
   chipwrapper: {
    display: 'flex',
    flexWrap: 'wrap',
+ },
+ highlightchip: {
+   margin: 4,
+   boxShadow: "0px 0px 12px #848484"
+ },
+ person: {
+   color:"#828282",
+   marginTop: "8px",
+   fontSize: "15px"
  }
 };
 
@@ -594,23 +603,48 @@ class EventPageComponent extends Component {
    switch (status) {
     case "free":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={green200} style={styles.highlightchip}><Avatar backgroundColor={green500} icon={< FontIcon className = "material-icons" > panorama_fish_eye < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else
+          {
             return (
                 <Chip backgroundColor={green200} style={styles.chip}><Avatar backgroundColor={green500} icon={< FontIcon className = "material-icons" > panorama_fish_eye < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
     case "maybe":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={yellow200} style={styles.highlightchip}><Avatar backgroundColor={yellow800} icon={< FontIcon className = "material-icons" > change_history < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else {
             return (
                 <Chip backgroundColor={yellow200} style={styles.chip}><Avatar backgroundColor={yellow800} icon={< FontIcon className = "material-icons" > change_history < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
     case "busy":
         return list.map((name, k) => {
+          if(name==this.props.attendeeName || name=="You")
+          {
+            return (
+                <Chip backgroundColor={red200} style={styles.highlightchip}><Avatar backgroundColor={red500} icon={< FontIcon className = "material-icons" > clear < /FontIcon>}/>{name}</Chip>
+            );
+          }
+          else {
             return (
                 <Chip backgroundColor={red200} style={styles.chip}><Avatar backgroundColor={red500} icon={< FontIcon className = "material-icons" > clear < /FontIcon>}/>{name}</Chip>
             );
+          }
         });
         break;
    }
@@ -698,6 +732,7 @@ class EventPageComponent extends Component {
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
     let free_count=0,maybe_count=0,busy_count=0,defaultBusy_check=1;
+    let free_percent=0,maybe_percent=0,busy_percent=0
     let total = attendees.length; // No. of attendees for the event as per DB
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
@@ -735,9 +770,9 @@ class EventPageComponent extends Component {
          defaultBusy_check=0; // Check if User changed status from default busy
          switch(this.props.personalizedDateSelection[key])
          {
-           case "free": free_count++; freelist.push(this.props.attendeeName); break;
-           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
-           case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
+           case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
          }
        }
      }
@@ -745,7 +780,7 @@ class EventPageComponent extends Component {
       //Increase busy count +1 if date is checked busy (default)
       if(defaultBusy_check==1) {
         busy_count++;
-        busylist.push(this.props.attendeeName);
+        busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
       }
 
     }
@@ -764,9 +799,9 @@ class EventPageComponent extends Component {
                     // Increment his/her new decision
                     switch(this.props.personalizedDateSelection[key])
                     {
-                      case "free": free_count++; freelist.push(this.props.attendeeName); break;
-                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName); break;
-                      case "busy": busy_count++; busylist.push(this.props.attendeeName); break;
+                      case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
                     }
 
                     // Decrement his/her old decision
@@ -785,9 +820,9 @@ class EventPageComponent extends Component {
 
     }
 
-      free_count=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
-      maybe_count=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
-      busy_count=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
+      free_percent=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
+      maybe_percent=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
+      busy_percent=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
 
       let weatherdates = this.renderWithOrWithoutWeather();
 
@@ -805,33 +840,34 @@ class EventPageComponent extends Component {
           showExpandableButton={true}
           />
           <CardText expandable={true}>
+              <div className = 'row center-xs' style={styles.percentange_box}>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(0, 189, 0)","fontSize":"20px"}}>{free_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(0, 189, 0)","fontSize":"14px"}}>{free_count}</span>
 
-            <div className = 'row center-xs' style={styles.percentange_box}>
-              <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {green500} > panorama_fish_eye </FontIcon>
-                <br></br>
-                <span>{free_count}</span>
+                </div>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(226, 159, 18)","fontSize":"20px"}}>{maybe_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(226, 159, 18)","fontSize":"14px"}}>{maybe_count}</span>
+
+                </div>
+                <div className = 'col-xs-4'>
+                  <span style={{"color":"rgb(216, 51, 38)","fontSize":"20px"}}>{busy_percent}</span>
+                  <br></br>
+                  <span style={{"color":"rgb(216, 51, 38)","fontSize":"14px"}}>{busy_count}</span>
+
+                </div>
               </div>
-              <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {yellow800}  > change_history </FontIcon>
-                <br></br>
-                <span>{maybe_count}</span>
-              </div>
-              <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {red500}  > clear </FontIcon>
-                <br></br>
-                <span>{busy_count}</span>
-              </div>
-            </div>
             <br></br>
             <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
-
           </CardText>
           <MediaQuery minDeviceWidth={339}>
             <div className ="row">
               <div className="col-xs-12">
         <CardActions>
-             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+             {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                 <br></br>
                 {this.MobileToggleButtons(date,cookie_available)}
         </CardActions>
@@ -840,7 +876,7 @@ class EventPageComponent extends Component {
       </MediaQuery>
       <MediaQuery maxDeviceWidth={339}>
         <CardText style={{"paddingBottom":"20px"}}>
-             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+             {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                 <br></br>
                 {this.MobileToggleButtons(date,cookie_available)}
         </CardText>
@@ -953,7 +989,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -976,7 +1012,7 @@ class EventPageComponent extends Component {
           </div>
           <div className='row center-xs'>
             <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
+              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
               <br />
               <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
             </div>
@@ -999,7 +1035,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{
+                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{
                         color: grey900
                     }} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
@@ -1027,7 +1063,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name" floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>
