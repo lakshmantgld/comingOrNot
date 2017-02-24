@@ -727,6 +727,7 @@ class EventPageComponent extends Component {
     return dateArray.map((date, i) =>{ // for each date create a card
     let freelist = [], maybelist = [], busylist = [];
     let free_count=0,maybe_count=0,busy_count=0,defaultBusy_check=1;
+    let free_percent=0,maybe_percent=0,busy_percent=0
     let total = attendees.length; // No. of attendees for the event as per DB
       attendees.map((attendee, j) => { // for each attendee check status for the given date
         for (let key in attendee.personalizedDateSelection) {
@@ -814,9 +815,9 @@ class EventPageComponent extends Component {
 
     }
 
-      free_count=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
-      maybe_count=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
-      busy_count=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
+      free_percent=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
+      maybe_percent=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
+      busy_percent=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
 
       let weatherdates = this.renderWithOrWithoutWeather();
 
@@ -837,19 +838,13 @@ class EventPageComponent extends Component {
 
             <div className = 'row center-xs' style={styles.percentange_box}>
               <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {green500} > panorama_fish_eye </FontIcon>
-                <br></br>
-                <span>{free_count}</span>
+                <span style={{"color":"rgb(0, 189, 0)","fontSize":"20px"}}>{free_percent}</span>
               </div>
               <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {yellow800}  > change_history </FontIcon>
-                <br></br>
-                <span>{maybe_count}</span>
+                <span style={{"color":"rgb(226, 159, 18)","fontSize":"20px"}}>{maybe_percent}</span>
               </div>
               <div className = 'col-xs-4'>
-                <FontIcon className = 'material-icons' color = {red500}  > clear </FontIcon>
-                <br></br>
-                <span>{busy_count}</span>
+                <span style={{"color":"rgb(216, 51, 38)","fontSize":"20px"}}>{busy_percent}</span>
               </div>
             </div>
             <br></br>
@@ -860,7 +855,7 @@ class EventPageComponent extends Component {
             <div className ="row">
               <div className="col-xs-12">
         <CardActions>
-             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+             {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                 <br></br>
                 {this.MobileToggleButtons(date,cookie_available)}
         </CardActions>
@@ -869,7 +864,7 @@ class EventPageComponent extends Component {
       </MediaQuery>
       <MediaQuery maxDeviceWidth={339}>
         <CardText style={{"paddingBottom":"20px"}}>
-             {this.renderLightSaberGraph(free_count,maybe_count,busy_count)}
+             {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                 <br></br>
                 {this.MobileToggleButtons(date,cookie_available)}
         </CardText>
