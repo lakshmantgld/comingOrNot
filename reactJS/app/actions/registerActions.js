@@ -22,12 +22,22 @@ export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
 export const CHECK_DISABLE_FLAG = 'CHECK_DISABLE_FLAG';
+export const OPEN_VALUE = 'OPEN_VALUE';
 
 export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
       name: name
+    });
+  };
+}
+
+export function openValue(open) {
+  return dispatch => {
+    return dispatch({
+      type: OPEN_VALUE,
+      open: open
     });
   };
 }

@@ -24,8 +24,9 @@
     "gulp-sequence": "0.4.6",
     "i": "0.3.5",
     "opn": "^4.0.2",
-    "webpack": "1.14.0",
-    "serverless": "^1.0.2"
+    "react-slick": "^0.14.7",
+    "serverless": "^1.0.2",
+    "webpack": "1.14.0"
   },
   "scripts": {
     "preinstall": "cd reactJS && npm install",

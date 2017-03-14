@@ -25,6 +25,11 @@ body {
           border-radius: 12px;
 
 }
+.img_modal{
+  height: 402px;
+  display: block;
+  margin: 0 auto;
+}
 
 @media only screen and (min-width: 48em) {
   .headerMenu {
