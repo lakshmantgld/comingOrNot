@@ -35,7 +35,7 @@ import {
     changelanguage,
     storeDisableFlag,
     updateNotificationFlag,
-    openValue
+    toggleIntroductionDialog
 } from './../actions/registerActions';
 
 let styles = {
@@ -88,8 +88,8 @@ class RegisterComponent extends Component {
         this.stepDecrease = this.stepDecrease.bind(this);
         this.checkDisableFlag = this.checkDisableFlag.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleOpenOfIntroductionDialog = this.handleOpenOfIntroductionDialog.bind(this);
+        this.handleCloseOfIntroductionDialog = this.handleCloseOfIntroductionDialog.bind(this);
     }
 
     componentDidMount() {
@@ -124,12 +124,14 @@ class RegisterComponent extends Component {
         }
     }
 
-    handleOpen(){
-     this.props.dispatch(openValue(true));
+    // this toggles On the Introduction dialog explaining about ComingOrNot
+    handleOpenOfIntroductionDialog(){
+     this.props.dispatch(toggleIntroductionDialog(true));
     }
 
-    handleClose(){
-     this.props.dispatch(openValue(false));
+    // this closes the introduction dialog
+    handleCloseOfIntroductionDialog(){
+     this.props.dispatch(toggleIntroductionDialog(false));
     }
 
     // stores the name of the event creator.
@@ -431,8 +433,8 @@ class RegisterComponent extends Component {
         <FlatButton
           label="Skip"
           primary={true}
-          onTouchTap={this.handleClose}
-        />,
+          onTouchTap={this.handleCloseOfIntroductionDialog}
+        />
       ];
       let settings = {
         dots: true,
@@ -607,24 +609,24 @@ class RegisterComponent extends Component {
                             </div>
                         </div>
 
+                        {/*Slicker inside material-ui simple dialog*/}
                         <Dialog
-                      title="Create event in 4 simple steps ! "
-                      actions={actions}
-                      modal={false}
-                      open={this.props.open}
-                      onRequestClose={this.handleClose}
-                      autoScrollBodyContent={true}
-                    >
-                    <div>
-                      <Slider {...settings}>
-                          <div><img src={require('./../../public/images/1.png')} className='img_modal'/></div>
-                          <div><img src={require('./../../public/images/2.png')} className='img_modal'/></div>
-                          <div><img src={require('./../../public/images/3.png')} className='img_modal'/></div>
-                          <div><img src={require('./../../public/images/4.png')} className='img_modal'/></div>
-                        </Slider>
-
-                    </div>
-                    </Dialog>
+                          title="Create Event in 4 simple steps ! "
+                          actions={actions}
+                          modal={false}
+                          open={this.props.introductionDialog}
+                          onRequestClose={this.handleCloseOfIntroductionDialog}
+                          autoScrollBodyContent={true}
+                        >
+                          <div>
+                            <Slider {...settings}>
+                              <div><img src={require('./../../public/images/1.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/2.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/3.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/4.png')} className='img_modal'/></div>
+                            </Slider>
+                          </div>
+                        </Dialog>
 
                     </div>
                     {/*PC & Laptop code ends*/}
@@ -646,7 +648,7 @@ RegisterComponent.propTypes = {
     languageJson: PropTypes.object.isRequired,
     disableFlag: PropTypes.string.isRequired,
     notificationFlag: PropTypes.string.isRequired,
-    open: PropTypes.bool
+    introductionDialog: PropTypes.bool
 };
 
 export default connect(state => ({
@@ -661,5 +663,5 @@ export default connect(state => ({
     languageJson: state.languageJson,
     disableFlag: state.disableFlag,
     notificationFlag: state.notificationFlag,
-    open: state.open
+    introductionDialog: state.introductionDialog
 }))(RegisterComponent);

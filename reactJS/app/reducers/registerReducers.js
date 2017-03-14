@@ -2,7 +2,7 @@ import { STORE_NAME, STORE_PURPOSE, STORE_SOURCE_LABEL, STORE_DESTINATION_LABEL,
          STORE_DATE_ARRAY_ERROR_LABEL, POP_DATE_ARRAY, STORE_NAME_ERROR_LABEL, STORE_PURPOSE_ERROR_LABEL,
          STORE_EVENT, STEPPER_INCREASE, STEPPER_DECREASE, STORE_PERSONALIZED_DATE_SELECTION, ATTENDEE_NAME, STORE_ATTENDEE_NAME_ERROR_LABEL,
          UPDATE_NOTIFICATION_FLAG, STORE_LOCATION, STORE_UPDATE_ATTENDEE_DATE, RENDER_LANGUAGE,
-         FETCH_AND_STORE_WEATHER, CHECK_DISABLE_FLAG, OPEN_VALUE} from './../actions/registerActions';
+         FETCH_AND_STORE_WEATHER, CHECK_DISABLE_FLAG, TOGGLE_INTRODUCTION_DIALOG} from './../actions/registerActions';
 
 export function name(state = '', action) {
   switch(action.type) {
@@ -13,10 +13,10 @@ export function name(state = '', action) {
   }
 }
 
-export function open(state = true, action) {
+export function introductionDialog(state = true, action) {
   switch(action.type) {
-    case OPEN_VALUE:
-      return action.open;
+    case TOGGLE_INTRODUCTION_DIALOG:
+      return action.toggleValue;
     default:
       return state;
   }

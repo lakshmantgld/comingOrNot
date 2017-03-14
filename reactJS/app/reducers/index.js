@@ -4,7 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import { name, purpose, latlngs, sourceLabel, destinationLabel, dateArray, dateArrayErrorLabel,
         nameErrorLabel, purposeErrorLabel, eventObj, personalizedDateSelection, attendeeName,
         attendeeNameErrorLabel, location, languageJson, notificationFlag, stepIndex,
-        weather, disableFlag, open } from './registerReducers';
+        weather, disableFlag, introductionDialog } from './registerReducers';
 
 const reducers = combineReducers({
   name,
@@ -23,7 +23,7 @@ const reducers = combineReducers({
   languageJson,
   weather,
   disableFlag,
-  open,
+  introductionDialog,
   routing: routerReducer
 });
 
