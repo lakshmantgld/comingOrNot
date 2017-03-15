@@ -18,7 +18,7 @@ import Snackbar from 'material-ui/Snackbar';
 import moment from 'moment';
 import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
-
+import Slider from 'react-slick';
 
 import {
     storeName,
@@ -34,7 +34,8 @@ import {
     storeLocation,
     changelanguage,
     storeDisableFlag,
-    updateNotificationFlag
+    updateNotificationFlag,
+    toggleIntroductionDialog
 } from './../actions/registerActions';
 
 let styles = {
@@ -87,6 +88,8 @@ class RegisterComponent extends Component {
         this.stepDecrease = this.stepDecrease.bind(this);
         this.checkDisableFlag = this.checkDisableFlag.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
+        this.handleOpenOfIntroductionDialog = this.handleOpenOfIntroductionDialog.bind(this);
+        this.handleCloseOfIntroductionDialog = this.handleCloseOfIntroductionDialog.bind(this);
     }
 
     componentDidMount() {
@@ -119,6 +122,16 @@ class RegisterComponent extends Component {
         if (this.props.dateArray.length <= 5) {
             this.props.dispatch(storeDateArrayErrorLabel(''));
         }
+    }
+
+    // this toggles On the Introduction dialog explaining about ComingOrNot
+    handleOpenOfIntroductionDialog(){
+     this.props.dispatch(toggleIntroductionDialog(true));
+    }
+
+    // this closes the introduction dialog
+    handleCloseOfIntroductionDialog(){
+     this.props.dispatch(toggleIntroductionDialog(false));
     }
 
     // stores the name of the event creator.
@@ -416,6 +429,20 @@ class RegisterComponent extends Component {
     }
 
     render() {
+      const actions = [
+        <FlatButton
+          label="Skip"
+          primary={true}
+          onTouchTap={this.handleCloseOfIntroductionDialog}
+        />
+      ];
+      let settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      };
 
         let dateArray = this.props.dateArray.map(this.renderChip, this);
         const contentStyle = {
@@ -582,6 +609,25 @@ class RegisterComponent extends Component {
                             </div>
                         </div>
 
+                        {/*Slicker inside material-ui simple dialog*/}
+                        <Dialog
+                          title="Create Event in 4 simple steps ! "
+                          actions={actions}
+                          modal={false}
+                          open={this.props.introductionDialog}
+                          onRequestClose={this.handleCloseOfIntroductionDialog}
+                          autoScrollBodyContent={true}
+                        >
+                          <div>
+                            <Slider {...settings}>
+                              <div><img src={require('./../../public/images/1.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/2.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/3.png')} className='img_modal'/></div>
+                              <div><img src={require('./../../public/images/4.png')} className='img_modal'/></div>
+                            </Slider>
+                          </div>
+                        </Dialog>
+
                     </div>
                     {/*PC & Laptop code ends*/}
 
@@ -601,7 +647,8 @@ RegisterComponent.propTypes = {
     location: PropTypes.object.isRequired,
     languageJson: PropTypes.object.isRequired,
     disableFlag: PropTypes.string.isRequired,
-    notificationFlag: PropTypes.string.isRequired
+    notificationFlag: PropTypes.string.isRequired,
+    introductionDialog: PropTypes.bool
 };
 
 export default connect(state => ({
@@ -615,5 +662,6 @@ export default connect(state => ({
     location: state.location,
     languageJson: state.languageJson,
     disableFlag: state.disableFlag,
-    notificationFlag: state.notificationFlag
+    notificationFlag: state.notificationFlag,
+    introductionDialog: state.introductionDialog
 }))(RegisterComponent);

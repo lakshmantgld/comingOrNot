@@ -22,12 +22,22 @@ export const UPDATE_ATTENDEE = 'UPDATE_ATTENDEE';
 export const RENDER_LANGUAGE = 'RENDER_LANGUAGE';
 export const FETCH_AND_STORE_WEATHER = 'FETCH_AND_STORE_WEATHER';
 export const CHECK_DISABLE_FLAG = 'CHECK_DISABLE_FLAG';
+export const TOGGLE_INTRODUCTION_DIALOG = 'TOGGLE_INTRODUCTION_DIALOG';
 
 export function storeName(name) {
   return dispatch => {
     return dispatch({
       type: STORE_NAME,
       name: name
+    });
+  };
+}
+
+export function toggleIntroductionDialog(toggleValue) {
+  return dispatch => {
+    return dispatch({
+      type: TOGGLE_INTRODUCTION_DIALOG,
+      toggleValue: toggleValue
     });
   };
 }

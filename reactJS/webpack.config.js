@@ -29,6 +29,10 @@ var config = {
       {
         test: /\.json$/,
         loader: "json-loader"
+      },
+      {
+         test: /\.png$/,
+         loader: "url-loader?limit=100000"
       }
     ]
   },
