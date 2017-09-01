@@ -9,5 +9,7 @@
 
   "api": {
     "baseURL": "https://s2tthl2hj6.execute-api.ap-northeast-1.amazonaws.com/development"
-  }
+  },
+
+  "googleAnalytics": "UA-105751321-1"
 }

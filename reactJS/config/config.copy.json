@@ -1,0 +1,15 @@
+{
+  "mongodb": {
+    "uristring": "",
+    "protocol": "",
+    "hostname": "",
+    "port": "",
+    "path": ""
+  },
+
+  "api": {
+    "baseURL": ""
+  },
+
+  "googleAnalytics": ""
+}
