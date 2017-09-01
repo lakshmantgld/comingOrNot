@@ -16,3 +16,4 @@ reactJS/webpack.copy.config.js
 reactJS/dist
 deployment-config.json
 reactJS/resume.json
+reactJS/config/config.json
