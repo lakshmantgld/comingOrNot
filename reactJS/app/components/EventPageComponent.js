@@ -109,7 +109,7 @@ let styles = {
  },
  highlightchip: {
    margin: 4,
-   boxShadow: "0px 0px 12px #848484"
+   boxShadow: "0px 1px 5px #b7b6b6"
  },
  person: {
    color:"#828282",

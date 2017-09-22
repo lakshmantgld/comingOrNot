@@ -8,19 +8,19 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 
-import config from '../config/config.json';
+// import config from '../config/config.json';
 import reducers from './reducers';
 import App from './components/App';
 import RegisterComponent from './components/RegisterComponent';
 import EventShareComponent from './components/EventShareComponent';
 import EventPageComponent from './components/EventPageComponent';
 
-ReactGA.initialize(config.googleAnalytics, {
-  debug: true,
-  titleCase: false,
-});
+// ReactGA.initialize(config.googleAnalytics, {
+//   debug: true,
+//   titleCase: false,
+// });
 
 window.React = React;
 
@@ -39,26 +39,26 @@ browserHistory.listen(location => {
    }
  });
 
-const trackIndexPage = () => {
-  console.log("trackIndexPage");
-  console.log(config.googleAnalytics);
-  ReactGA.set({ page: '/' });
-  ReactGA.pageview('/');
-}
+// const trackIndexPage = () => {
+//   console.log("trackIndexPage");
+//   // console.log(config.googleAnalytics);
+//   // ReactGA.set({ page: '/' });
+//   // ReactGA.pageview('/');
+// }
 
-const trackEventPage = () => {
-  console.log("trackEventPage");
-  ReactGA.set({ page: '/event' });
-  ReactGA.pageview('/event');
-}
+// const trackEventPage = () => {
+//   console.log("trackEventPage");
+//   // ReactGA.set({ page: '/event' });
+//   // ReactGA.pageview('/event');
+// }
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path='/' component={App}>
-        <IndexRoute onEnter={trackIndexPage} component={RegisterComponent} />
+        <IndexRoute component={RegisterComponent} />
         <Route path='event/' component={EventPageComponent}>
-          <Route path=':eventId' onEnter={trackEventPage} component={EventPageComponent}>
+          <Route path=':eventId' component={EventPageComponent}>
           </Route>
         </Route>
       </Route>
