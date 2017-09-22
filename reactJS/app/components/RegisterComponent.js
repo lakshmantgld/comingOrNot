@@ -63,6 +63,11 @@ let styles = {
     },
     cal: {
         backgroundColor: 'rgba(78, 74, 74, 0.05)'
+    },
+    ContentStyle: {
+      marginBottom: '0px',
+      padding: '10px',
+      textAlign: 'center'
     }
 };
 let buttonStyle = {
@@ -617,6 +622,7 @@ class RegisterComponent extends Component {
                           open={this.props.introductionDialog}
                           onRequestClose={this.handleCloseOfIntroductionDialog}
                           autoScrollBodyContent={true}
+                          titleStyle={styles.ContentStyle}
                         >
                           <div>
                             <Slider {...settings}>
