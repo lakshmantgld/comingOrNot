@@ -55,6 +55,8 @@ var config = {
 1. remove entry array and have just **entry: APP_DIR + '/main.js'**
 2. remove devtool: 'inline-source-map'
 3. Add the commented plugin to the plugin in webpack.config.
+4. Change the config.publicpath to http://comingornot.com/dist/
+5. Type webpack -p inside reactjs
 */
 
 module.exports = config;
