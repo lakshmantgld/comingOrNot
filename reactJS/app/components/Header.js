@@ -12,9 +12,17 @@ import japaneseJson from '../../jp.json';
 import {changelanguage} from './../actions/registerActions';
 
 let styles = {
-    icon2: {
+    icon2mobile: {
         marginRight: 10,
-        marginTop: 14
+        marginTop: 14,
+        cursor: "pointer"
+    },
+    icon2desktop: {
+        marginRight: 10,
+        marginTop: 25,
+        fontSize: 45,
+        color: "black",
+        cursor: "pointer"
     }
 }
 
@@ -66,7 +74,7 @@ class Header extends Component {
                             <IconMenu
 
                               iconButtonElement={
-                                  <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
+                                  <FontIcon className='material-icons' color={grey50} style={styles.icon2mobile}>language</FontIcon>
                               }
                               targetOrigin={{horizontal: 'right', vertical: 'top'}}
                               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -86,28 +94,27 @@ class Header extends Component {
                 {/**PC & Laptop code starts*/}
                 <div className=" hidden-xs hidden-sm">
                     <header>
-                      <AppBar
-                        className='headerBar'
-                        style={{backgroundColor: 'black'}}
-                        title={<a href='javascript:window.location.reload(true)'>
-                        <center className='col-md-offset-1'> {this.props.languageJson.header} </center>
-                          </a>}
-                        showMenuIconButton={false}
-                        iconElementRight={
+
+                      <div className="row" style={{"marginTop":"70px"}}>
+                        <div className="col-md-offset-1 col-md-8">
+                          <div className="box" >
+                            <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline"}}>{this.props.languageJson.header}</h1>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <h2 style={{"font-size":"40px","display":"inline"}}>Pick a date for your event with family and friends</h2>
+                          </div>
+                        </div>
+                        <div className="col-md-2 end-md" >
+                          <div className="box">
                           <div>
-                            <IconMenu
-                              iconButtonElement={
-                                   <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="75px" height="20px"style={{'border':'none'}}></iframe>
-
-                              }
-                              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                            >
-                            </IconMenu>
+                          <a href="https://github.com/lakshmantgld/comingOrNot">
+                             <img src={require('./../../public/images/gitcat_black.png')} style={{"width": "41px", "marginBottom": "4px", "marginRight": "30px" }}/>
+                          </a>
 
                             <IconMenu
                               iconButtonElement={
-                                  <FontIcon className='material-icons' color={grey50} style={styles.icon2}>language</FontIcon>
+                                  <FontIcon className='material-icons' style={styles.icon2desktop}>language</FontIcon>
                               }
                               targetOrigin={{horizontal: 'right', vertical: 'top'}}
                               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -116,8 +123,14 @@ class Header extends Component {
                               <MenuItem primaryText="English" onTouchTap={this.renderEnglish} />
                             </IconMenu>
                           </div>
-                        }
-                      />
+                          </div>
+                        </div>
+                      </div>
+                      <br/>
+                      <br/>
+                      <br/>
+
+
                     </header>
                 </div>
                 {/**PC & Laptop code ends*/}

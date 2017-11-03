@@ -575,7 +575,7 @@ class RegisterComponent extends Component {
                         <br></br>
                         <br></br>
 
-                        <div className='row'>
+                        <div className='row' style={{"paddingBottom":"170px"}}>
                             <div className='col-md-offset-1 col-md-10 col-sm-12 col-xs-12'>
                                 <Stepper activeStep={this.props.stepIndex}>
                                     <Step>
@@ -612,6 +612,9 @@ class RegisterComponent extends Component {
 
                                 </div>
                             </div>
+                            <br/>
+                            <br/>
+                            <br/>
                         </div>
 
                         {/*Slicker inside material-ui simple dialog*/}
