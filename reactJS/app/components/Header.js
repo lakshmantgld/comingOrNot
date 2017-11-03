@@ -58,14 +58,10 @@ class Header extends Component {
                         showMenuIconButton={false}
                         iconElementRight={
                           <div>
-                            <IconMenu
-                              iconButtonElement={
-                                   <iframe src="https://ghbtns.com/github-btn.html?user=Lakshman-LD&repo=LetsMeetUp&type=star&count=false" frameBorder="0" scrolling="0" width="75px" height="20px"style={{'border':'none'}}></iframe>
-                              }
-                              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                            >
-                            </IconMenu>
+
+                            <a href="https://github.com/lakshmantgld/comingOrNot">
+                               <img src={require('./../../public/images/gitcat.png')} style={{"width": "23px", "marginBottom": "2px", "margin-right": "20px"}}/>
+                            </a>
 
                             <IconMenu
 
