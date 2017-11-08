@@ -124,10 +124,6 @@ class Header extends Component {
                           </div>
                         </div>
                       </div>
-                      <br/>
-                      <br/>
-                      <br/>
-
 
                     </header>
                 </div>

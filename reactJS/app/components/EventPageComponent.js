@@ -53,6 +53,17 @@ let styles = {
     fontSize: '25px',
     color: '#000'
   },
+  EventName: {
+    text: 'bold',
+    fontSize: '45px',
+    color: '#000'
+  },
+  EventOrganizerName: {
+    text: 'bold',
+    fontSize: '35px',
+    color: '#000',
+    marginTop: '5px'
+  },
   organizerNameLabel: {
     text: 'bold',
     fontSize: '16px',
@@ -1145,17 +1156,56 @@ class EventPageComponent extends Component {
   renderLocation() {
     if ((this.props.eventObj.location.locationName !== null)) {
       return (
-        <div>
-          <div className='row center-xs'>
-            <span className='col-xs-8' style={{'cursor':'pointer'}}>
             <a target="_blank" href={this.getGoogleMapsURL()} style={{'textDecoration':'none'}}>
               <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'13px','color':'#000'}}>location_on</FontIcon> <span style={{'fontSize':'13px'}}>{this.props.eventObj.location.locationName} </span></label>
             </a>
-          </span>
-          </div>
-        </div>
       );
     }
+  }
+
+  renderLocationforDesktop() {
+    if ((this.props.eventObj.location.locationName !== null)) {
+      return (
+            <a target="_blank" href={this.getGoogleMapsURL()} style={{'textDecoration':'none'}}>
+              <label style={styles.LocationLabel}> <FontIcon className='material-icons'  style={{'fontSize':'16px','color':'#000'}}>location_on</FontIcon> <span style={{'fontSize':'16px'}}>{this.props.eventObj.location.locationName} </span></label>
+            </a>
+      );
+    }
+  }
+
+  renderShareCardforDesktop() {
+    let eventId = this.props.params.eventId;
+    let eventShareURL = window.location.origin + '/event/' + encodeURI(eventId);
+      return (
+        <div>
+              <Card style ={{"padding": "5px", "borderRadius": "18px"}}>
+                <div className="row" style={{"paddingLeft":"1rem","paddingTop":"10px", "fontSize":"24px"}}>
+
+                 Copy link to share
+                </div>
+                <div className="row">
+                <div className="col-xs-10" style={{"paddingRight":"0px"}}>
+                  <TextField
+                  id='shareUrl'
+                  underlineShow={false}
+                  value={eventShareURL}
+                  fullWidth={true}
+                  inputStyle={{"backgroundColor":"rgb(234, 234, 234)","marginTop":"10px","height":"55%"}}
+                /></div>
+              <div className="col-xs-2" style={{"paddingLeft":"0px"}}>
+                <CopyToClipboard text={eventShareURL}>
+
+                  <IconButton tooltip="Copy URL" iconStyle={{"color":"#000"}} style={{"width":"20px","height":"20px","padding": "initial","paddingTop": "11px","paddingLeft": "10px"}}>
+                    <FontIcon className="material-icons">content_copy</FontIcon>
+                  </IconButton>
+                </CopyToClipboard>
+
+              </div>
+
+                </div>
+              </Card>
+        </div>
+      );
   }
 
   renderShareCard() {
@@ -1219,16 +1269,24 @@ class EventPageComponent extends Component {
 
             {/**PC and Desktop code starts */}
           <div className="visible-md visible-lg hidden-xs hidden-sm">
-
-              <br />
-              <div className='row center-xs'>
-                <label style={styles.formLabel}> {this.getEventInformation()} </label>
+          <br/>
+          <br/>
+              <div className='row'>
+                <div className="col-md-offset-1 col-md-7 start-md">
+                    <label style={styles.EventName}> {this.props.eventObj.purpose} </label>
+                    <br/>
+                    <div style={styles.EventOrganizerName}>  {"By " + this.props.eventObj.name} </div>
+                    <div style={{"marginTop":"7px"}}>
+                    {this.renderLocationforDesktop()}
+                    </div>
+                </div>
+                <div className="col-md-3" style={{"marginTop":"45px"}}>
+                  {this.renderShareCardforDesktop()}
+                </div>
               </div>
               <br></br>
-                {this.renderLocation()}
-                <br></br>
-                {this.renderShareCard()}
-                <br></br>
+              <br></br>
+              <br></br>
               <div className='row center-xs'>
                   <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
                   <label style={styles.formLabel2}> {" "+this.props.eventObj.attendees.length} </label>
@@ -1285,8 +1343,13 @@ class EventPageComponent extends Component {
               <div className='row center-xs'>
               <label style={styles.organizerNameLabel}>{"by "+this.props.eventObj.name}</label>
               </div>
-
-              {this.renderLocation()}
+              <div>
+                <div className='row center-xs'>
+                    <span className='col-xs-8' style={{'cursor':'pointer'}}>
+                        {this.renderLocation()}
+                    </span>
+                </div>
+              </div>
 
               <br></br>
               {this.renderShareCard()}
