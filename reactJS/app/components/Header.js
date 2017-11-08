@@ -99,10 +99,6 @@ class Header extends Component {
                         <div className="col-md-offset-1 col-md-8">
                           <div className="box" >
                             <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline"}}>{this.props.languageJson.header}</h1>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <h2 style={{"font-size":"40px","display":"inline"}}>Pick a date for your event with family and friends</h2>
                           </div>
                         </div>
                         <div className="col-md-2 end-md" >

@@ -572,8 +572,16 @@ class RegisterComponent extends Component {
 
                     {/*PC & Laptop code starts*/}
                     <div className="visible-md visible-lg hidden-xs hidden-sm">
-                        <br></br>
-                        <br></br>
+                      <div className='row'>
+                        <div className='col-md-offset-1 col-md-8' style={{"marginTop":"-25px"}}>
+                          <h2 style={{"font-size":"40px","display":"inline"}}>Pick a date for your event with family and friends</h2>
+                        </div>
+                      </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
 
                         <div className='row' style={{"paddingBottom":"170px"}}>
                             <div className='col-md-offset-1 col-md-10 col-sm-12 col-xs-12'>
