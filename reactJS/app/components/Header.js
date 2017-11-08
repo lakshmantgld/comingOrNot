@@ -98,7 +98,9 @@ class Header extends Component {
                       <div className="row" style={{"marginTop":"40px"}}>
                         <div className="col-md-offset-1 col-md-8">
                           <div className="box" >
-                            <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline"}}>{this.props.languageJson.header}</h1>
+                            <a style={{"text-decoration":"none"}} href='javascript:window.location.reload(true)'>
+                            <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline", "cursor":"pointer", "color":"black"}}>{this.props.languageJson.header}</h1>
+                            </a>
                           </div>
                         </div>
                         <div className="col-md-2 end-md" >
