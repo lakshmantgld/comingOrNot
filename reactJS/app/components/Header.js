@@ -95,7 +95,7 @@ class Header extends Component {
                 <div className=" hidden-xs hidden-sm">
                     <header>
 
-                      <div className="row" style={{"marginTop":"70px"}}>
+                      <div className="row" style={{"marginTop":"40px"}}>
                         <div className="col-md-offset-1 col-md-8">
                           <div className="box" >
                             <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline"}}>{this.props.languageJson.header}</h1>
