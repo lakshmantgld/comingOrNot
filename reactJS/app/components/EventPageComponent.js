@@ -77,16 +77,25 @@ let styles = {
   underlineStyle: {
     borderColor: grey900,
   },
-  formLabel2: {
-    text: 'bold',
-    fontSize: '21.5px',
-    color: '#000'
+  underlineStyleforDesktop: {
+    bottom: "-7px",
+    borderBottom: "3px",
+    borderBottomColor: "##d2d2d2",
+    borderBottomStyle: "solid"
+  },
+  underlineFocussedStyleforDesktop: {
+    bottom: "-7px",
+    borderBottom: "3px",
+    borderBottomColor: "black",
+    borderBottomStyle: "solid"
   },
   formLabel3: {
     text: 'bold',
-    fontSize: '21.5px',
+    fontSize: '25px',
     marginRight: '5px',
-    color: '#000'
+    color: '#000',
+    float: 'right',
+    marginTop: '50px'
   },
   dateLabel: {
     text: 'bold',
@@ -95,6 +104,11 @@ let styles = {
   },
   errorLabel: {
     fontSize: '15px',
+    color: 'rgba(244, 67, 54, 0.79)'
+  },
+  DesktoperrorLabel: {
+    fontSize: '30px',
+    marginTop: '10px',
     color: 'rgba(244, 67, 54, 0.79)'
   },
   paperStyle: {
@@ -989,55 +1003,94 @@ class EventPageComponent extends Component {
   }
   }
 
-  attendeeSubmissionSection() {
-    if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) == -1) {
-      // cookie not there, render empty name field and default busy states to dates.
-      return (
-        <div>
-          <br></br>
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
-          </div>
-          <div className='row center-xs'>
-            <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
-              <br />
-              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-            </div>
-          </div>
-          <br />
-          <br />
-          {this.dateToggleSection(false)}
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label={this.props.languageJson.register} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
-          </div>
-        </div>
-      );
-    } else {
-      // cookie found, render name and selected dates.
-      return (
-        <div>
-          <div className='row center-xs'>
-            <label style={styles.formLabel}> {this.props.languageJson.dateSelectionLabel} </label>
-          </div>
-          <div className='row center-xs'>
-            <div className='col-xs-12'>
-              <TextField id='name' floatingLabelText={"Your Name *"} onChange={this.storeAttendeeName} floatingLabelFocusStyle={{color : grey900}} underlineFocusStyle={styles.underlineStyle} value={this.props.attendeeName} />{/** First time event page visitor - Name Input box */}
-              <br />
-              <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
-            </div>
-          </div>
-          <br />
-          <br />
-          {this.dateToggleSection(true)}
-          <br />
-          <div className='row center-xs'>
-            <RaisedButton label='Update' disabled={this.checkDisableUpdateFlag()} labelColor={grey50} style={buttonStyle} backgroundColor={grey900} onTouchTap={this.updateAttendee} />
-          </div>
-        </div>
-      );
-    }
+  toggleDesktopCastAttendance() {
+      if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) == -1) { //Cookie not found? display virgin page
+          return (
+              <div>
+                <div className='row'>
+                  <div className="col-md-offset-1 col-md-6 start-md">
+
+                    <TextField id='name'
+                    floatingLabelText="Your Name *"
+                    floatingLabelStyle={{"fontSize":"50px", "color": "#949494"}}
+                    style={{"fontSize":"50px","width":"350px"}}
+                    floatingLabelShrinkStyle={{"fontSize":"20px", "color":"black","top":"25px"}}
+                    floatingLabelFocusStyle={{color: grey900}}
+                    underlineStyle={styles.underlineStyleforDesktop}
+                    underlineFocusStyle={styles.underlineFocussedStyleforDesktop}
+                    onChange={this.storeAttendeeName}
+                    value={this.props.attendeeName} />
+                    <br />
+
+                    <div style={styles.DesktoperrorLabel}> {this.props.attendeeNameErrorLabel} </div>
+
+                  </div>
+                <div className="col-md-4">
+                    <div style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel + " " + this.props.eventObj.attendees.length} </div>
+                </div>
+
+                </div>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                  <div>{this.MobiledateToggleSection(false)}</div>
+                    <div className='row center-xs'>
+                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+                        <Snackbar
+                           open={this.checkNotificationFlag()}
+                           message={this.getNotificationTitle()}
+                           autoHideDuration={3000}
+                           onRequestClose={this.handleRequestClose}
+                        />
+                    </div>
+              </div>
+
+          );
+      } else { // Cookie found? fill page with cookie data
+
+          return (
+              <div>
+                <div className='row'>
+                  <div className="col-md-offset-1 col-md-6 start-md">
+
+                    <TextField id='name'
+                    floatingLabelText="Your Name *"
+                    floatingLabelStyle={{"fontSize":"50px", "color": "red"}}
+                    style={{"fontSize":"50px","width":"350px"}}
+                    floatingLabelShrinkStyle={{"fontSize":"20px", "color":"black","top":"25px"}}
+                    floatingLabelFocusStyle={{color: grey900}}
+                    underlineStyle={styles.underlineStyleforDesktop}
+                    underlineFocusStyle={styles.underlineFocussedStyleforDesktop}
+                    onChange={this.storeAttendeeName}
+                    value={this.props.attendeeName} />
+                    <br />
+
+                    <div style={styles.DesktoperrorLabel}> {this.props.attendeeNameErrorLabel} </div>
+
+                  </div>
+                <div className="col-md-4">
+                    <div style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel + " " + this.props.eventObj.attendees.length} </div>
+                </div>
+
+                </div>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <div>{this.MobiledateToggleSection(true)}</div>
+                  <div className='row center-xs'>
+                    <RaisedButton label='Update' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
+                      <Snackbar
+                         open={this.checkNotificationFlag()}
+                         message={this.getNotificationTitle()}
+                         autoHideDuration={3000}
+                         onRequestClose={this.handleRequestClose}
+                      />
+                  </div>
+              </div>
+          );
+      }
   }
 
   toggleMobileCastAttendance() {
@@ -1280,18 +1333,10 @@ class EventPageComponent extends Component {
                     {this.renderLocationforDesktop()}
                     </div>
                 </div>
-                <div className="col-md-3" style={{"marginTop":"45px"}}>
+                <div className="col-md-3" style={{"marginTop":"30px"}}>
                   {this.renderShareCardforDesktop()}
                 </div>
               </div>
-              <br></br>
-              <br></br>
-              <br></br>
-              <div className='row center-xs'>
-                  <label style={styles.formLabel3}> {this.props.languageJson.numberOfPeopleLabel} </label>
-                  <label style={styles.formLabel2}> {" "+this.props.eventObj.attendees.length} </label>
-              </div>
-              <br />
               <div className='row center-xs'>
               <Dialog
                 title={this.getNotificationTitle()}
@@ -1309,23 +1354,11 @@ class EventPageComponent extends Component {
               >
               </Dialog>
 
-                <Table
-                  rowsCount={dateArray.length}
-                  width={800}
-                  rowHeight={35}
-                  height={35 * (dateArray.length + 2)}
-                  headerHeight={50}
-                >
-                  {this.fillDatesInColumn()}
-                  {this.fillFreeStatus()}
-                  {this.fillMaybeStatus()}
-                  {this.fillBusyStatus()}
-                  {this.fillAttendeeDetails()}
-                </Table>
-
               </div>
               <br />
-              {this.attendeeSubmissionSection()}
+              <br />
+              <br />
+              {this.toggleDesktopCastAttendance()}
 
           </div>
           {/**PC and Desktop code ends */}
