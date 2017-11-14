@@ -676,6 +676,81 @@ class EventPageComponent extends Component {
 
   }
 
+  // Generate Desktop toggle buttons
+  DesktopToggleButtons(date,cookie_available){
+      let status='busy'
+      if(cookie_available && this.getCookieAttendeeDetails())
+      {
+        let attendeeDetails = this.getCookieAttendeeDetails();
+
+        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+            if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+                if (attendeeDate === date) {
+                  status = attendeeDetails.personalizedDateSelection[attendeeDate];
+                }
+              }
+            }
+      }
+
+        return ( //Cookie available (respective status based on attendee)
+          <div>
+                  <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
+
+                      <RadioButton
+                      className='col-xs-4'
+                      style={{}}
+                      value='free'
+                      checkedIcon={
+                          <div>
+                              < FontIcon
+                                className = 'material-icons'
+                                color = {green500}
+                                style={styles.selected_circle} >
+                                panorama_fish_eye
+                              < /FontIcon>
+                              <span style={{"fontSize":"20px"}}>Free</span>
+                            </div>
+                          }
+                      uncheckedIcon={
+                        <div>
+                        < FontIcon
+                            className = 'material-icons'>
+                            panorama_fish_eye
+                            < /FontIcon> Free
+                            </div>
+                          }
+                      />
+
+                      <RadioButton
+                      className='col-xs-4'
+                      style={{}}
+                      value='maybe'
+                      label='Maybe'
+                      labelStyle={styles.tab_label}
+                      checkedIcon={< FontIcon className = 'material-icons' color = {
+                          yellow800
+                      } style={styles.selected_triangle}
+                       > change_history < /FontIcon>}
+                       uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}
+                       />
+
+                      <RadioButton
+                      className='col-xs-4'
+                      value='busy'
+                      label='Busy'
+                      labelStyle={styles.tab_label}
+                      checkedIcon={< FontIcon className = 'material-icons' color = {
+                          red500
+                      } style={styles.selected_cross} > clear < /FontIcon>}
+                      uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}
+                      />
+
+                  </RadioButtonGroup>
+          </div>
+        );
+
+    }
+
 // Generate mobile toggle buttons
   MobileToggleButtons(date,cookie_available){
     let status='busy'
@@ -747,6 +822,169 @@ class EventPageComponent extends Component {
           </div>
     );
   }
+
+  // Generate Date toggle based on cookie
+  DesktopdateToggleSection(cookie_available) {
+      let dateArray = this.props.eventObj.dateArray; //  Get date list
+      let attendees = this.props.eventObj.attendees; //  Get attendees list
+
+
+      return dateArray.map((date, i) =>{ // for each date create a card
+      let freelist = [], maybelist = [], busylist = [];
+      let free_count=0,maybe_count=0,busy_count=0,defaultBusy_check=1;
+      let free_percent=0,maybe_percent=0,busy_percent=0
+      let total = attendees.length; // No. of attendees for the event as per DB
+        attendees.map((attendee, j) => { // for each attendee check status for the given date
+          for (let key in attendee.personalizedDateSelection) {
+            if (attendee.personalizedDateSelection.hasOwnProperty(key)) {
+              if (date === key) {
+                switch(attendee.personalizedDateSelection[key])
+                {
+                  case "free":
+                    free_count++;
+                    (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?freelist.push(this.props.attendeeName):freelist.push(attendee.attendeeName);
+                  break;
+                  case "maybe":
+                    maybe_count++;
+                    (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?maybelist.push(this.props.attendeeName):maybelist.push(attendee.attendeeName);
+                  break;
+                  case "busy":
+                    busy_count++;
+                    (cookie_available && this.getCookieAttendeeDetails().attendeeId == attendee.attendeeId)?busylist.push(this.props.attendeeName):busylist.push(attendee.attendeeName);
+                  break;
+                }
+
+              }
+            }
+          }
+        });
+
+       //This block of code is to check for current status selection and create realtime lightsaber graph
+
+       if(!cookie_available) // New User
+       {
+         total = total +1; // Increment by 1 coz we create graph including this new user
+       for(let key in this.props.personalizedDateSelection){
+         if(date==key)
+         {
+           defaultBusy_check=0; // Check if User changed status from default busy
+           switch(this.props.personalizedDateSelection[key])
+           {
+             case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+             case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+             case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+           }
+         }
+       }
+
+        //Increase busy count +1 if date is checked busy (default)
+        if(defaultBusy_check==1) {
+          busy_count++;
+          busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName);
+        }
+
+      }
+
+      else { // Old User
+
+        let attendeeDetails = this.getCookieAttendeeDetails();
+
+        for (let attendeeDate in attendeeDetails.personalizedDateSelection) {
+            if (attendeeDetails.personalizedDateSelection.hasOwnProperty(attendeeDate)) {
+                if (attendeeDate === date) {
+                  status = attendeeDetails.personalizedDateSelection[attendeeDate]; // Get his previous status which is stored in DB
+                  for(let key in this.props.personalizedDateSelection){
+                    if(date==key && this.props.personalizedDateSelection[key]!=status) // If user is changing his mind , then update graph
+                    {
+                      // Increment his/her new decision
+                      switch(this.props.personalizedDateSelection[key])
+                      {
+                        case "free": free_count++; freelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                        case "maybe": maybe_count++; maybelist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                        case "busy": busy_count++; busylist.push(this.props.attendeeName.length==0?"You":this.props.attendeeName); break;
+                      }
+
+                      // Decrement his/her old decision
+                      switch(status)
+                      {
+                        case "free": free_count--; freelist=freelist.filter(e => e !== this.props.attendeeName); break;
+                        case "maybe": maybe_count--; maybelist=maybelist.filter(e => e !== this.props.attendeeName); break;
+                        case "busy": busy_count--; busylist=busylist.filter(e => e !== this.props.attendeeName); break;
+                      }
+
+                    }
+                  }
+                }
+              }
+            }
+
+      }
+
+        free_percent=parseFloat(((free_count*100)/total).toFixed(1)).toString() + "%";
+        maybe_percent=parseFloat(((maybe_count*100)/total).toFixed(1)).toString() + "%";
+        busy_percent=parseFloat(((busy_count*100)/total).toFixed(1)).toString() + "%";
+
+        let weatherdates = this.renderWithOrWithoutWeather();
+
+        return (
+
+      <div className = 'row'>
+      <div className='col-sm-offset-1 col-md-10'>
+      <Card expandable={true}>
+
+      <CardHeader
+      showExpandableButton={true} >
+      <div className ="row">
+        <div className="col-xs-5" style={{"fontSize":"35px"}}>
+          {weatherdates[i]}
+        </div>
+        <div className="col-xs-7">
+          {this.DesktopToggleButtons(date,cookie_available)}
+        </div>
+        </div>
+      </CardHeader>
+
+
+            <CardText expandable={true}>
+                <div className = 'row center-xs' style={styles.percentange_box}>
+                  <div className = 'col-xs-4'>
+                    <span style={{"color":"rgb(0, 189, 0)","fontSize":"20px"}}>{free_percent}</span>
+                    <br></br>
+                    <span style={{"color":"rgb(0, 189, 0)","fontSize":"14px"}}>{free_count}</span>
+
+                  </div>
+                  <div className = 'col-xs-4'>
+                    <span style={{"color":"rgb(226, 159, 18)","fontSize":"20px"}}>{maybe_percent}</span>
+                    <br></br>
+                    <span style={{"color":"rgb(226, 159, 18)","fontSize":"14px"}}>{maybe_count}</span>
+
+                  </div>
+                  <div className = 'col-xs-4'>
+                    <span style={{"color":"rgb(216, 51, 38)","fontSize":"20px"}}>{busy_percent}</span>
+                    <br></br>
+                    <span style={{"color":"rgb(216, 51, 38)","fontSize":"14px"}}>{busy_count}</span>
+
+                  </div>
+                </div>
+              <br></br>
+              <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
+            </CardText>
+
+              <div className ="row">
+                <div className="col-xs-12">
+                  {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
+               </div>
+               <br></br>
+             </div>
+
+      </Card>
+      <br></br>
+      </div>
+      </div>
+
+        );
+      });
+    }
 
 // Generate Date toggle based on cookie
   MobiledateToggleSection(cookie_available) {
@@ -1034,7 +1272,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                 <br></br>
-                  <div>{this.MobiledateToggleSection(false)}</div>
+                  <div>{this.DesktopdateToggleSection(false)}</div>
+                  <br/>
                     <div className='row center-xs'>
                       <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
@@ -1078,7 +1317,8 @@ class EventPageComponent extends Component {
                 <br></br>
                 <br></br>
                 <br></br>
-                <div>{this.MobiledateToggleSection(true)}</div>
+                <div>{this.DesktopdateToggleSection(true)}</div>
+                <br/>
                   <div className='row center-xs'>
                     <RaisedButton label='Update' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
