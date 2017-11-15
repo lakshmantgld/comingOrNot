@@ -1,5 +1,6 @@
 {
   "header": "Coming or not?",
+  "siteDescription": "家族や友人とイベントの日付を選ぶ",
   "stepper1Label": "あなたの名前とイベント名を入力してください",
   "stepper2Label": "イベントの場所を入力",
   "optional": "任意",
@@ -14,6 +15,7 @@
   "calendarLabel": "イベントの日付を選択",
   "geosuggestPlaceholder": "ここにレストランの場所を入力してください！",
   "register": "登録",
+  "update": "アップデイト",
   "next": "次へ",
   "back": "戻る",
   "shareLabel": "友達とイベント URL を共有する",
@@ -25,5 +27,5 @@
   "eventInformationPartOne": "組織している",
   "eventInformationPartTwo": "。 ご利用可能な日付をキャストしてください！",
   "eventTableLabel": "イベント テーブル",
-  "numberOfPeopleLabel": "人々の投票はキャストされていません："
+  "numberOfPeopleLabel": "キャストされた人の投票数："
 }

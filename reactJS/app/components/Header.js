@@ -79,7 +79,7 @@ class Header extends Component {
                               targetOrigin={{horizontal: 'right', vertical: 'top'}}
                               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                             >
-                              <MenuItem primaryText="Japanese" onTouchTap={this.renderJapanese} />
+                              <MenuItem primaryText="日本語" onTouchTap={this.renderJapanese} />
                               <MenuItem primaryText="English" onTouchTap={this.renderEnglish} />
                             </IconMenu>
                           </div>

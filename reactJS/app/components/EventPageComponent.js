@@ -140,7 +140,73 @@ let styles = {
    color:"#828282",
    marginTop: "8px",
    fontSize: "15px"
+ },
+ uncheckedRectangle : {
+   borderColor: "#828282",
+   borderRadius: "50px",
+   borderStyle: "solid",
+   color: "#828282",
+   paddingLeft: "10px",
+   paddingRight: "10px"
+ },
+ checkedFreeRectangle : {
+   borderColor: "#1bbb00",
+   borderStyle: "solid",
+   backgroundColor:"#1bbb00",
+   boxShadow: "0 1px 7px 0 #1bbb00",
+   borderRadius: "50px",
+   color: "#fff",
+   paddingLeft: "10px",
+   paddingRight: "10px",
+   display: "inline-flex",
+   verticalAlign: "middle",
+   alignItems: "center"
+ },
+ checkedMaybeRectangle : {
+   borderColor: "#FFBC00",
+   borderStyle: "solid",
+   backgroundColor:"#FFBC00",
+   boxShadow: "0 1px 7px 0 #FFBC00",
+   borderRadius: "50px",
+   color: "#fff",
+   paddingLeft: "10px",
+   paddingRight: "10px",
+   display: "inline-flex",
+   verticalAlign: "middle",
+   alignItems: "center"
+ },
+ checkedBusyRectangle : {
+   borderColor: "#FF4848",
+   borderStyle: "solid",
+   backgroundColor:"#FF4848",
+   boxShadow: "0 1px 7px 0 #FF4848",
+   borderRadius: "50px",
+   color: "#fff",
+   paddingLeft: "10px",
+   paddingRight: "10px",
+   display: "inline-flex",
+   verticalAlign: "middle",
+   alignItems: "center"
+ },
+ checkedSymbol : {
+  fontWeight: "bolder"
+ },
+ uncheckedSymbol : {
+   fontWeight: "bolder"
+ },
+ checkedText : {
+   color: "#fff",
+   fontSize : "30px",
+   paddingLeft: "8px",
+   userSelect: "none"
+ },
+ uncheckedText : {
+   color: "#828282",
+   fontSize : "30px",
+   paddingLeft: "8px",
+   userSelect: "none"
  }
+
 };
 
 let buttonStyle = {
@@ -168,6 +234,8 @@ class EventPageComponent extends Component {
 
 // The below method gets executed after all the components have been successfully rendered on the screen.
   componentDidMount() {
+    RadioButton.defaultProps.disableTouchRipple = true;
+    RadioButton.defaultProps.disableFocusRipple = true
     this.props.dispatch(fetchEvent(this.props.params.eventId));
     if (document.cookie.indexOf(encodeURI(this.props.params.eventId)) > -1) //If cookie got current event ID.. Directly add his name as update attendee name
     {
@@ -698,51 +766,86 @@ class EventPageComponent extends Component {
 
                       <RadioButton
                       className='col-xs-4'
-                      style={{}}
                       value='free'
+                      style={{"height":"40px"}}
                       checkedIcon={
-                          <div>
+                          <div style={styles.checkedFreeRectangle}>
                               < FontIcon
                                 className = 'material-icons'
-                                color = {green500}
-                                style={styles.selected_circle} >
+                                color = {"white"}
+                                style={styles.checkedSymbol}>
                                 panorama_fish_eye
                               < /FontIcon>
-                              <span style={{"fontSize":"20px"}}>Free</span>
+                              <span style={styles.checkedText}>Free</span>
                             </div>
                           }
                       uncheckedIcon={
-                        <div>
-                        < FontIcon
-                            className = 'material-icons'>
-                            panorama_fish_eye
-                            < /FontIcon> Free
-                            </div>
+                        <div style={styles.uncheckedRectangle}>
+                            < FontIcon
+                              className = 'material-icons'
+                              color = {"grey"}
+                              style={styles.uncheckedSymbol}>
+                              panorama_fish_eye
+                            < /FontIcon>
+                            <span style={styles.uncheckedText}>Free</span>
+                          </div>
                           }
                       />
 
                       <RadioButton
                       className='col-xs-4'
-                      style={{}}
+                      style={{"height":"40px"}}
                       value='maybe'
-                      label='Maybe'
-                      labelStyle={styles.tab_label}
-                      checkedIcon={< FontIcon className = 'material-icons' color = {
-                          yellow800
-                      } style={styles.selected_triangle}
-                       > change_history < /FontIcon>}
-                       uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}
-                       />
+                      checkedIcon={
+                          <div style={styles.checkedMaybeRectangle}>
+                              < FontIcon
+                                className = 'material-icons'
+                                color = {"white"}
+                                style={styles.checkedSymbol}>
+                                change_history
+                              < /FontIcon>
+                              <span style={styles.checkedText}>Maybe</span>
+                            </div>
+                          }
+                      uncheckedIcon={
+                        <div style={styles.uncheckedRectangle}>
+                            < FontIcon
+                              className = 'material-icons'
+                              color = {"grey"}
+                              style={styles.uncheckedSymbol}>
+                              change_history
+                            < /FontIcon>
+                            <span style={styles.uncheckedText}>Maybe</span>
+                          </div>
+                          }
+                      />
 
                       <RadioButton
                       className='col-xs-4'
+                      style={{"height":"40px"}}
                       value='busy'
-                      label='Busy'
-                      labelStyle={styles.tab_label}
-                      checkedIcon={< FontIcon className = 'material-icons' color = {
-                          red500
-                      } style={styles.selected_cross} > clear < /FontIcon>}
-                      uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}
+                      checkedIcon={
+                          <div style={styles.checkedBusyRectangle}>
+                              < FontIcon
+                                className = 'material-icons'
+                                color = {"white"}
+                                style={styles.checkedSymbol}>
+                                clear
+                              < /FontIcon>
+                              <span style={styles.checkedText}>Busy</span>
+                            </div>
+                          }
+                      uncheckedIcon={
+                        <div style={styles.uncheckedRectangle}>
+                            < FontIcon
+                              className = 'material-icons'
+                              color = {"grey"}
+                              style={styles.uncheckedSymbol}>
+                              clear
+                            < /FontIcon>
+                            <span style={styles.uncheckedText}>Busy</span>
+                          </div>
+                          }
                       />
 
                   </RadioButtonGroup>
@@ -816,7 +919,7 @@ class EventPageComponent extends Component {
   renderLightSaberGraph(free_count,maybe_count,busy_count){
     return(
            <div style={{display:"flex"}}>
-          <div style={{backgroundColor: "rgb(59, 255, 59)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          <div style={{backgroundColor: "rgb(44, 212, 44)",height: "2px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
           <div style={{backgroundColor: "rgb(253, 189, 55)",height: "2px",width: maybe_count,boxShadow: "0px 0px 4px rgb(253, 189, 55)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
           <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "2px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
           </div>
@@ -934,7 +1037,7 @@ class EventPageComponent extends Component {
 
       <CardHeader
       showExpandableButton={true} >
-      <div className ="row">
+      <div className ="row" style={{"marginBottom":"17px"}}>
         <div className="col-xs-5" style={{"fontSize":"35px"}}>
           {weatherdates[i]}
         </div>
@@ -967,10 +1070,16 @@ class EventPageComponent extends Component {
                   </div>
                 </div>
               <br></br>
-              <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
+              <div className = 'row center-xs'>
+                <div style={{"display": "flex","flexWrap": "wrap","paddingTop":"20px","paddingBottom":"20px"}}>
+                  {this.MobileAttendeeChips("free",freelist)}
+                  {this.MobileAttendeeChips("maybe",maybelist)}
+                  {this.MobileAttendeeChips("busy",busylist)}
+                </div>
+              </div>
             </CardText>
 
-              <div className ="row">
+              <div className ="row" style={{"marginTop":"-10px"}}>
                 <div className="col-xs-12">
                   {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                </div>
@@ -978,6 +1087,7 @@ class EventPageComponent extends Component {
              </div>
 
       </Card>
+      <br></br>
       <br></br>
       </div>
       </div>
@@ -1275,7 +1385,7 @@ class EventPageComponent extends Component {
                   <div>{this.DesktopdateToggleSection(false)}</div>
                   <br/>
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} labelStyle={{"fontSize":"30px","paddingLeft":"40px","paddingRight":"40px"}} buttonStyle={{"height":"56px"}} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
                            message={this.getNotificationTitle()}
@@ -1283,6 +1393,10 @@ class EventPageComponent extends Component {
                            onRequestClose={this.handleRequestClose}
                         />
                     </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
               </div>
 
           );
@@ -1320,7 +1434,7 @@ class EventPageComponent extends Component {
                 <div>{this.DesktopdateToggleSection(true)}</div>
                 <br/>
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label={this.props.languageJson.update} backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} labelStyle={{"fontSize":"30px","paddingLeft":"40px","paddingRight":"40px"}} buttonStyle={{"height":"56px"}} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.checkNotificationFlag()}
                          message={this.getNotificationTitle()}
@@ -1328,6 +1442,10 @@ class EventPageComponent extends Component {
                          onRequestClose={this.handleRequestClose}
                       />
                   </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
               </div>
           );
       }

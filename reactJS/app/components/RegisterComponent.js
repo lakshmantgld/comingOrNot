@@ -574,7 +574,7 @@ class RegisterComponent extends Component {
                     <div className="visible-md visible-lg hidden-xs hidden-sm">
                       <div className='row'>
                         <div className='col-md-offset-1 col-md-8' style={{"marginTop":"25px"}}>
-                          <h2 style={{"font-size":"38px","display":"inline"}}>Pick a date for your event with family and friends</h2>
+                          <h2 style={{"font-size":"38px","display":"inline"}}>{this.props.languageJson.siteDescription}</h2>
                         </div>
                       </div>
                         <br/>

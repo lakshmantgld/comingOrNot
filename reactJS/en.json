@@ -1,5 +1,6 @@
 {
   "header": "Coming or not?",
+  "siteDescription": "Pick a date for your event with family and friends",
   "stepper1Label": "Enter your name and event's name",
   "stepper2Label": "Enter event location",
   "optional": "optional",
@@ -14,6 +15,7 @@
   "calendarLabel": "Select the dates for your event",
   "geosuggestPlaceholder": "Enter the restaurant location here!",
   "register": "Register",
+  "update": "Update",
   "next": "Next",
   "back": "Back",
   "shareLabel": "Share the event URL with your friends",
