@@ -16,6 +16,7 @@ import App from './components/App';
 import RegisterComponent from './components/RegisterComponent';
 import EventShareComponent from './components/EventShareComponent';
 import EventPageComponent from './components/EventPageComponent';
+import Privacy from './components/Privacy';
 
 ReactGA.initialize(config.googleAnalytics, {
   debug: true,
@@ -61,6 +62,8 @@ ReactDOM.render(
           <Route path=':eventId' onEnter={trackEventPage} component={EventPageComponent}>
           </Route>
         </Route>
+      </Route>
+      <Route path='/privacypolicy' component={Privacy}>
       </Route>
     </Router>
   </Provider>,

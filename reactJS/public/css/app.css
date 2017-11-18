@@ -2,6 +2,7 @@
 @font-face { font-family: roboto; src: url('../fonts/Roboto/Roboto-Regular.ttf'); }
 body {
   margin: 0;
+  min-height: 100%
 }
 .fullPage{
   font-family: 'roboto';
@@ -34,6 +35,21 @@ body {
 @media only screen and (min-width: 48em) {
   .headerMenu {
     margin-top: 8px;
+  }
+}
+@media only screen and (max-width: 990px) {
+  body .footer-row {
+    position: relative;
+    bottom: 0;
+    margin-top: 100px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  body .ft-left {
+    margin-left: 0;
+  }
+  body .ft-right {
+    text-align: left;
   }
 }
 #regButton{
@@ -155,4 +171,39 @@ a.accountListItem, a.playbookListItem {
 .geosuggest-item--active:hover,
 .geosuggest-item--active:focus {
   background: #ccc;
+}
+.footer-row {
+  position: relative;
+  bottom: 0;
+  height: 100px;
+  color: grey;
+}
+.footer-row a {
+  text-decoration: none;
+}
+.ft-left {
+  margin-left: 5em;
+}
+.ft-right {
+  text-align: right;
+}
+#ppBody
+{
+    font-size:11pt;
+    width:100%;
+    margin:0 auto;
+    text-align:justify;
+}
+
+#ppHeader
+{
+    font-family:verdana;
+    font-size:21pt;
+    width:100%;
+    margin:0 auto;
+}
+
+.ppConsistencies
+{
+    display:none;
 }
