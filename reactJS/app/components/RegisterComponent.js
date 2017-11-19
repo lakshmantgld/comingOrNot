@@ -627,7 +627,7 @@ class RegisterComponent extends Component {
 
                         {/*Slicker inside material-ui simple dialog*/}
                         <Dialog
-                          title="Create Event in 4 simple steps ! "
+                          title="Organize event in 4 simple steps ! "
                           actions={actions}
                           modal={false}
                           open={this.props.introductionDialog}
