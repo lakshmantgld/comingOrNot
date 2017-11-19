@@ -147,7 +147,10 @@ let styles = {
    borderStyle: "solid",
    color: "#828282",
    paddingLeft: "10px",
-   paddingRight: "10px"
+   paddingRight: "10px",
+   display: "inline-flex",
+   verticalAlign: "middle",
+   alignItems: "center"
  },
  checkedFreeRectangle : {
    borderColor: "#1bbb00",
@@ -765,7 +768,7 @@ class EventPageComponent extends Component {
                   <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
                       <RadioButton
-                      className='col-xs-4'
+                      className='col-xs-4 end-xs'
                       value='free'
                       style={{"height":"40px"}}
                       checkedIcon={
