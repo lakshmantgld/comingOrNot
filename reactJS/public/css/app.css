@@ -175,17 +175,11 @@ a.accountListItem, a.playbookListItem {
 .footer-row {
   position: relative;
   bottom: 0;
-  height: 100px;
+  height: 50px;
   color: grey;
 }
 .footer-row a {
   text-decoration: none;
-}
-.ft-left {
-  margin-left: 5em;
-}
-.ft-right {
-  text-align: right;
 }
 #ppBody
 {
