@@ -929,6 +929,16 @@ class EventPageComponent extends Component {
     );
   }
 
+  renderDesktopLightSaberGraph(free_count,maybe_count,busy_count){
+    return(
+           <div style={{display:"flex"}}>
+          <div style={{backgroundColor: "rgb(44, 212, 44)",height: "4px",width: free_count,boxShadow: "0px 0px 4px rgb(59, 255, 59)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          <div style={{backgroundColor: "rgb(253, 189, 55)",height: "4px",width: maybe_count,boxShadow: "0px 0px 4px rgb(253, 189, 55)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          <div style={{backgroundColor: "rgba(244, 67, 54, 0.79)",height: "4px",width: busy_count,boxShadow: "0px 0px 4px rgba(244, 67, 54, 0.79)",WebkitTransition: "width 2s ease-in-out",MozTransition: "width 2s ease-in-out",OTransition: "width 2s ease-in-out",transition: "width 2s ease-in-out"}}></div>
+          </div>
+    );
+  }
+
   // Generate Date toggle based on cookie
   DesktopdateToggleSection(cookie_available) {
       let dateArray = this.props.eventObj.dateArray; //  Get date list
@@ -1084,7 +1094,7 @@ class EventPageComponent extends Component {
 
               <div className ="row" style={{"marginTop":"-10px"}}>
                 <div className="col-xs-12">
-                  {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
+                  {this.renderDesktopLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                </div>
                <br></br>
              </div>
