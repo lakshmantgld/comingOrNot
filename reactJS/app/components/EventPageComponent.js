@@ -1046,7 +1046,7 @@ class EventPageComponent extends Component {
 
       <div className = 'row'>
       <div className='col-sm-offset-1 col-md-10'>
-      <Card expandable={true}>
+      <Card expandable={true} style={{"boxShadow":"rgba(0, 0, 0, 0.43) 0px 1px 6px, rgba(0, 0, 0, 0.17) 0px 1px 4px"}}>
 
       <CardHeader
       showExpandableButton={true} >
