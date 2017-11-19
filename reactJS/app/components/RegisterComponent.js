@@ -458,7 +458,7 @@ class RegisterComponent extends Component {
             <div>
 
                     {/**Mobile & Tablet code starts*/}
-                    <div className="visible-xs visible-sm hidden-md hidden-lg">
+                    <div className="visible-xs visible-sm hidden-md hidden-lg" style={{"paddingBottom":"140px"}}>
                         <br></br>
                         <br></br>
 
