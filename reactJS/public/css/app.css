@@ -175,7 +175,7 @@ a.accountListItem, a.playbookListItem {
 .footer-row {
   position: relative;
   bottom: 0;
-  height: 25px;
+  height: 40px;
   color: grey;
 }
 .footer-row a {
