@@ -1398,7 +1398,7 @@ class EventPageComponent extends Component {
                   <div>{this.DesktopdateToggleSection(false)}</div>
                   <br/>
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} labelStyle={{"fontSize":"30px","paddingLeft":"40px","paddingRight":"40px"}} buttonStyle={{"height":"56px"}} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label={this.props.languageJson.register} backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} labelStyle={{"fontSize":"30px","paddingLeft":"40px","paddingRight":"40px"}} buttonStyle={{"height":"56px"}} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
                            message={this.getNotificationTitle()}
@@ -1481,7 +1481,7 @@ class EventPageComponent extends Component {
                 <br></br>
                   <div>{this.MobiledateToggleSection(false)}</div>
                     <div className='row center-xs'>
-                      <RaisedButton label='Register' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
+                      <RaisedButton label={this.props.languageJson.register} backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableFlag()} onTouchTap={this.registerAttendee} />
                         <Snackbar
                            open={this.checkNotificationFlag()}
                            message={this.getNotificationTitle()}
@@ -1507,7 +1507,7 @@ class EventPageComponent extends Component {
                 <br></br>
                 <div>{this.MobiledateToggleSection(true)}</div>
                   <div className='row center-xs'>
-                    <RaisedButton label='Update' backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
+                    <RaisedButton label={this.props.languageJson.update} backgroundColor={"rgb(33, 33, 33)"} labelColor={"white"} style={buttonStyle} disabled={this.checkDisableUpdateFlag()} onTouchTap={this.updateAttendee} />
                       <Snackbar
                          open={this.checkNotificationFlag()}
                          message={this.getNotificationTitle()}
