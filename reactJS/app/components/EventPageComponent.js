@@ -142,10 +142,10 @@ let styles = {
    fontSize: "15px"
  },
  uncheckedRectangle : {
-   borderColor: "#828282",
+   borderColor: "#A1A1A1",
    borderRadius: "50px",
    borderStyle: "solid",
-   color: "#828282",
+   color: "#A1A1A1",
    paddingLeft: "10px",
    paddingRight: "10px",
    display: "inline-flex",
@@ -204,7 +204,7 @@ let styles = {
    userSelect: "none"
  },
  uncheckedText : {
-   color: "#828282",
+   color: "#A1A1A1",
    fontSize : "30px",
    paddingLeft: "8px",
    userSelect: "none"
@@ -786,7 +786,7 @@ class EventPageComponent extends Component {
                         <div style={styles.uncheckedRectangle}>
                             < FontIcon
                               className = 'material-icons'
-                              color = {"grey"}
+                              color = {"#A1A1A1"}
                               style={styles.uncheckedSymbol}>
                               panorama_fish_eye
                             < /FontIcon>
@@ -814,7 +814,7 @@ class EventPageComponent extends Component {
                         <div style={styles.uncheckedRectangle}>
                             < FontIcon
                               className = 'material-icons'
-                              color = {"grey"}
+                              color = {"#A1A1A1"}
                               style={styles.uncheckedSymbol}>
                               change_history
                             < /FontIcon>
@@ -842,7 +842,7 @@ class EventPageComponent extends Component {
                         <div style={styles.uncheckedRectangle}>
                             < FontIcon
                               className = 'material-icons'
-                              color = {"grey"}
+                              color = {"#A1A1A1"}
                               style={styles.uncheckedSymbol}>
                               clear
                             < /FontIcon>
