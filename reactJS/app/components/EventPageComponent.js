@@ -770,7 +770,7 @@ class EventPageComponent extends Component {
                       <RadioButton
                       className='col-xs-4 end-xs'
                       value='free'
-                      style={{"height":"40px"}}
+                      style={{"height":"40px","width":"30%"}}
                       checkedIcon={
                           <div style={styles.checkedFreeRectangle}>
                               < FontIcon
@@ -797,7 +797,7 @@ class EventPageComponent extends Component {
 
                       <RadioButton
                       className='col-xs-4'
-                      style={{"height":"40px"}}
+                      style={{"height":"40px","width":"30%"}}
                       value='maybe'
                       checkedIcon={
                           <div style={styles.checkedMaybeRectangle}>
@@ -825,7 +825,7 @@ class EventPageComponent extends Component {
 
                       <RadioButton
                       className='col-xs-4'
-                      style={{"height":"40px"}}
+                      style={{"height":"40px","width":"25%"}}
                       value='busy'
                       checkedIcon={
                           <div style={styles.checkedBusyRectangle}>
