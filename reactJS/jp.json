@@ -10,7 +10,7 @@
   "nameErrorLabelRequired": "あなたの名前が必要です",
   "purposeErrorLabelRequired": "例：葬式",
   "name": "主催者名 *",
-  "attendeeName": "名",
+  "attendeeName": "名前 *",
   "purpose": "イベント名 *",
   "calendarLabel": "イベントの日付を選択",
   "geosuggestPlaceholder": "ここにレストランの場所を入力してください！",

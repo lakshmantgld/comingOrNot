@@ -1372,7 +1372,7 @@ class EventPageComponent extends Component {
                   <div className="col-md-offset-1 col-md-6 start-md">
 
                     <TextField id='name'
-                    floatingLabelText="Your Name *"
+                    floatingLabelText={this.props.languageJson.attendeeName}
                     floatingLabelStyle={{"fontSize":"50px", "color": "#949494"}}
                     style={{"fontSize":"50px","width":"350px"}}
                     floatingLabelShrinkStyle={{"fontSize":"20px", "color":"black","top":"25px"}}
@@ -1421,7 +1421,7 @@ class EventPageComponent extends Component {
                   <div className="col-md-offset-1 col-md-6 start-md">
 
                     <TextField id='name'
-                    floatingLabelText="Your Name *"
+                    floatingLabelText={this.props.languageJson.attendeeName}
                     floatingLabelStyle={{"fontSize":"50px", "color": "red"}}
                     style={{"fontSize":"50px","width":"350px"}}
                     floatingLabelShrinkStyle={{"fontSize":"20px", "color":"black","top":"25px"}}
@@ -1470,7 +1470,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{
+                    <TextField id='name' floatingLabelText={this.props.languageJson.attendeeName} floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{
                         color: grey900
                     }} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
@@ -1498,7 +1498,7 @@ class EventPageComponent extends Component {
               <div>
                 <div className='row center-xs'>
                   <div className='col-xs-10'>
-                    <TextField id='name' floatingLabelText="Your Name *" floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
+                    <TextField id='name' floatingLabelText={this.props.languageJson.attendeeName} floatingLabelStyle={{"fontSize":"30px"}} style={{"fontSize":"20px"}} floatingLabelShrinkStyle={{"fontSize":"15px"}} floatingLabelFocusStyle={{color: grey900}} underlineFocusStyle={styles.underlineStyle} onChange={this.storeAttendeeName} value={this.props.attendeeName} />
                     <br />
                     <label style={styles.errorLabel}> {this.props.attendeeNameErrorLabel} </label>
                   </div>

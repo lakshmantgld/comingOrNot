@@ -10,7 +10,7 @@
   "nameErrorLabelRequired": "We need your name",
   "purposeErrorLabelRequired": "Invalid Event name",
   "name": "Organizer Name *",
-  "attendeeName": "Name",
+  "attendeeName": "Your Name *",
   "purpose": "Event Name *",
   "calendarLabel": "Select the dates for your event",
   "geosuggestPlaceholder": "Enter the restaurant location here!",
