@@ -14,7 +14,6 @@ import config from '../config/config.json';
 import reducers from './reducers';
 import App from './components/App';
 import RegisterComponent from './components/RegisterComponent';
-import EventShareComponent from './components/EventShareComponent';
 import EventPageComponent from './components/EventPageComponent';
 import Privacy from './components/Privacy';
 
