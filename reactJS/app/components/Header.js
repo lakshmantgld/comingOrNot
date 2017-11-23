@@ -68,7 +68,7 @@ class Header extends Component {
                           <div>
 
                             <a href="https://github.com/lakshmantgld/comingOrNot">
-                               <img src={require('./../../public/images/gitcat.png')} style={{"width": "23px", "marginBottom": "2px", "margin-right": "20px"}}/>
+                               <img src={require('./../../public/images/gitcat.png')} style={{"width": "23px", "marginBottom": "2px", "marginRight": "20px"}}/>
                             </a>
 
                             <IconMenu
@@ -95,7 +95,7 @@ class Header extends Component {
                 <div className=" hidden-xs hidden-sm">
                     <header>
 
-                      <div className="row" style={{"marginTop":"40px"}}>
+                      <div className="row" style={{"paddingTop":"40px"}}>
                         <div className="col-md-offset-1 col-md-8">
                           <div className="box" >
                             <a style={{"text-decoration":"none"}} href='javascript:window.location.reload(true)'>
@@ -107,7 +107,7 @@ class Header extends Component {
                           <div className="box">
                           <div>
                           <a href="https://github.com/lakshmantgld/comingOrNot">
-                             <img src={require('./../../public/images/gitcat_black.png')} style={{"width": "41px", "marginBottom": "4px", "marginRight": "30px" }}/>
+                             <img src={require('./../../public/images/gitcat_black.png')} style={{"width": "41px", "marginBottom": "4px", "marginRight": "35px" }}/>
                           </a>
 
                             <IconMenu
