@@ -107,7 +107,7 @@ class RegisterComponent extends Component {
         fetch('https://hooks.slack.com/services/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', {
         credentials: 'omit',
         method: 'POST',
-        body: JSON.stringify({'text' : 'Cheers ! someone viewed our App from city: ' + city + ' region: ' + region + ' country: ' + country})})
+        body: JSON.stringify({'text' :  city + ' ' + region + ' ' + country})})
          .then(res => {
            if (res.status !== 200) {
              let status = res.status;
