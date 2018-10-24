@@ -21,12 +21,12 @@ class BottomNavigationExampleSimple extends Component {
   render() {
     return (
       <div className='row footer-row'>
-        <div className='col-sm-offset-1 col-md-5 col-sm-5 col-xs-6'>
+        {/* <div className='col-sm-offset-1 col-md-5 col-sm-5 col-xs-6'>
           <a href='/privacypolicy' style={{'color': 'grey'}}><span>Privacy Policy</span></a>
         </div>
         <div className='col-md-5 col-sm-5 col-xs-6 end-xs'>
           <span>Copyright ©2017 Comingornot</span>
-        </div>
+        </div> */}
       </div>
     );
   }
