@@ -32,7 +32,7 @@ let styles = {
     width:'66%'
   },
   tab_label: {
-   marginLeft: "-12px"
+   marginLeft: "-11px"
   },
   percentange_box: {
   padding: "10px",
@@ -879,16 +879,16 @@ class EventPageComponent extends Component {
                 {/** Tablets and phablets: display label for radio buttons*/}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
-                    <RadioButton className='col-xs-4' style={{}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{paddingRight:0}} value='free' label='Free' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         green500
                     } style={styles.selected_circle} > panorama_fish_eye < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> panorama_fish_eye < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' style={{}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{paddingRight:0}} value='maybe' label='Maybe' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         yellow800
                     } style={styles.selected_triangle}
                      > change_history < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons'> change_history < /FontIcon>}/>
 
-                    <RadioButton className='col-xs-4' value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
+                    <RadioButton className='col-xs-4' style={{paddingRight:0}} value='busy' label='Busy' labelStyle={styles.tab_label} checkedIcon={< FontIcon className = 'material-icons' color = {
                         red500
                     } style={styles.selected_cross} > clear < /FontIcon>} uncheckedIcon={< FontIcon className = 'material-icons' > clear < /FontIcon>}/>
 
