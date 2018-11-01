@@ -875,7 +875,7 @@ class EventPageComponent extends Component {
 
       return ( //Cookie available (respective status based on attendee)
         <div>
-            <MediaQuery minDeviceWidth={339}>
+            <MediaQuery minDeviceWidth={367}>
                 {/** Tablets and phablets: display label for radio buttons*/}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
@@ -895,7 +895,7 @@ class EventPageComponent extends Component {
                 </RadioButtonGroup>
             </MediaQuery>
 
-            <MediaQuery maxDeviceWidth={339} style={{"paddingLeft":"7px"}}>
+            <MediaQuery maxDeviceWidth={366} style={{"paddingLeft":"7px"}}>
                 {/** Small screen Smartphones */}
                 <RadioButtonGroup name='shipSpeed' className='row' onChange={this.handleDateToogle.bind(this, date)} defaultSelected={status}>
 
@@ -1249,7 +1249,7 @@ class EventPageComponent extends Component {
             <br></br>
             <div className = 'row'><div style={styles.chipwrapper}>{this.MobileAttendeeChips("free",freelist)}{this.MobileAttendeeChips("maybe",maybelist)}{this.MobileAttendeeChips("busy",busylist)}</div></div>
           </CardText>
-          <MediaQuery minDeviceWidth={339}>
+          <MediaQuery minDeviceWidth={367}>
             <div className ="row">
               <div className="col-xs-12">
         <CardActions>
@@ -1260,7 +1260,7 @@ class EventPageComponent extends Component {
         </div>
       </div>
       </MediaQuery>
-      <MediaQuery maxDeviceWidth={339}>
+      <MediaQuery maxDeviceWidth={366}>
         <CardText style={{"paddingBottom":"20px"}}>
              {this.renderLightSaberGraph(free_percent,maybe_percent,busy_percent)}
                 <br></br>
