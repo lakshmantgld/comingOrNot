@@ -67,8 +67,8 @@ class Header extends Component {
                         iconElementRight={
                           <div>
 
-                            <a href="https://github.com/lakshmantgld/comingOrNot">
-                               <img src={require('./../../public/images/gitcat.png')} style={{"width": "23px", "marginBottom": "2px", "marginRight": "20px"}}/>
+                            <a href="https://chirosushi.com/">
+                               <img src={require('./../../public/images/ChiroSushi.png')} style={{"width": "65px", "marginBottom": "-2px", "marginRight": "15px", "filter": "invert(100%)"}}/>
                             </a>
 
                             <IconMenu
@@ -96,18 +96,18 @@ class Header extends Component {
                     <header>
 
                       <div className="row" style={{"paddingTop":"40px"}}>
-                        <div className="col-md-offset-1 col-md-8">
+                        <div className="col-md-offset-1 col-md-6">
                           <div className="box" >
                             <a style={{"text-decoration":"none"}} href='javascript:window.location.reload(true)'>
                             <h1 style={{"font-size":"80px","font-weight":"bolder","display":"inline", "cursor":"pointer", "color":"black"}}>{this.props.languageJson.header}</h1>
                             </a>
                           </div>
                         </div>
-                        <div className="col-md-2 end-md" >
+                        <div className="col-md-4 end-md" >
                           <div className="box">
                           <div>
-                          <a href="https://github.com/lakshmantgld/comingOrNot">
-                             <img src={require('./../../public/images/gitcat_black.png')} style={{"width": "41px", "marginBottom": "4px", "marginRight": "35px" }}/>
+                          <a href="https://chirosushi.com/">
+                             <img src={require('./../../public/images/ChiroSushi.png')} style={{"width": "30%", "marginBottom": "-5px", "marginRight": "35px" }}/>
                           </a>
 
                             <IconMenu
