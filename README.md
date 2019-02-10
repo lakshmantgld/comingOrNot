@@ -30,5 +30,13 @@ This web app is powered by the serverless service offered by AWS's Lambda and No
 ### Installation & Usage:
 Refer [Installation & Usage](https://github.com/lakshmantgld/LetsMeetUp/blob/stable/readmeFiles/reproduce.md) readme for steps for reproducing and in-depth understanding on directory structure.
 
+### Deployment:
+- Add images using the FQDN.
+
+#### AWS Deployment
+1. Run `webpack -p` after editing the `webpack.config.js` file.
+2. Log in to the AWS console, navigate to **S3** and upload the `dist/app.js` file to the appropriate directory. 
+
+
 ### Inspired from:
 [Chouseisan](https://chouseisan.com/)
