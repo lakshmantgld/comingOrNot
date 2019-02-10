@@ -637,10 +637,10 @@ class RegisterComponent extends Component {
                         >
                           <div>
                             <Slider {...settings}>
-                              <div><img src={require('./../../public/images/1.png')} className='img_modal'/></div>
-                              <div><img src={require('./../../public/images/2.png')} className='img_modal'/></div>
-                              <div><img src={require('./../../public/images/3.png')} className='img_modal'/></div>
-                              <div><img src={require('./../../public/images/4.png')} className='img_modal'/></div>
+                              <div><img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/d2e3a7a40b14e895769155f52799d05d.png" className='img_modal'/></div>
+                              <div><img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/fec51d4f26af089a6898bb217fbe26cb.png" className='img_modal'/></div>
+                              <div><img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/8ed08c3e9b3ddd5ed2e5614df8d61404.png" className='img_modal'/></div>
+                              <div><img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/ade0f39806ddc67c6dac74c691f4d7bb.png" className='img_modal'/></div>
                             </Slider>
                           </div>
                         </Dialog>

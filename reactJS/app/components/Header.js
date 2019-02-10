@@ -68,7 +68,7 @@ class Header extends Component {
                           <div>
 
                             <a href="https://chirosushi.com/">
-                               <img src={require('./../../public/images/ChiroSushi.png')} style={{"width": "65px", "marginBottom": "-2px", "marginRight": "15px", "filter": "invert(100%)"}}/>
+                               <img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/ChiroSushi.png" style={{"width": "65px", "marginBottom": "-2px", "marginRight": "15px", "filter": "invert(100%)"}}/>
                             </a>
 
                             <IconMenu
@@ -107,7 +107,7 @@ class Header extends Component {
                           <div className="box">
                           <div>
                           <a href="https://chirosushi.com/">
-                             <img src={require('./../../public/images/ChiroSushi.png')} style={{"width": "30%", "marginBottom": "-5px", "marginRight": "35px" }}/>
+                             <img src="https://s3-ap-northeast-1.amazonaws.com/comingornot.com/dist/ChiroSushi.png" style={{"width": "30%", "marginBottom": "-5px", "marginRight": "35px" }}/>
                           </a>
 
                             <IconMenu
